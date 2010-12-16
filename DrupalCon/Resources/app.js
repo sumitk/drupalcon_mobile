@@ -9,14 +9,14 @@ var tabGroup = Titanium.UI.createTabGroup();
 //
 // create base UI tab and root window
 //
-var win1 = Titanium.UI.createWindow({
+var mainWindow = Titanium.UI.createWindow({
     title:'Tab 1',
     backgroundColor:'#fff'
 });
 var tab1 = Titanium.UI.createTab({
     icon:'KS_nav_views.png',
     title:'Tab 1',
-    window:win1
+    window:mainWindow
 });
 
 var label1 = Titanium.UI.createLabel({
@@ -27,7 +27,7 @@ var label1 = Titanium.UI.createLabel({
 	width:'auto'
 });
 
-win1.add(label1);
+mainWindow.add(label1);
 
 //
 // create controls tab and root window
@@ -66,10 +66,10 @@ tabGroup.open();
 
 */
 
-var win1 = Titanium.UI.createWindow({
-  title:'Tab 1',
-  backgroundColor:'#000',
-  fullscreen: true
+var mainWindow = Titanium.UI.createWindow({
+  title: 'Home',
+  backgroundColor: '#000',
+  fullscreen: true // Menus don't work without this for some reason.
 });
 
 var label1 = Titanium.UI.createLabel({
@@ -79,16 +79,24 @@ var label1 = Titanium.UI.createLabel({
   textAlign:'center',
   width:'auto'
 });
-win1.add(label1);
+mainWindow.add(label1);
 
-win1.activity.onCreateOptionsMenu = function(e) {
-  var menu = e.menu;
+// Menu and settings handling is totally different between Android and iOS,
+// so we have to fork the logic.  Bah.  Possibly clean this up later.
+if (Titanium.Platform.osname == 'android') {
+  mainWindow.activity.onCreateOptionsMenu = function(e) {
+    var menu = e.menu;
 
-  var m1 = menu.add({ title : 'Settings' });
-  m1.addEventListener('click', function(e) {
-    Titanium.UI.Android.openPreferences();
-    // Open the settings page, once we figure out how to define settings pages...
-  });
-};
+    var m1 = menu.add({ title : 'Settings' });
+    m1.addEventListener('click', function(e) {
+      Titanium.UI.Android.openPreferences();
+    });
+  };
+}
+else if (Titanium.Platform.name == 'iPhone OS') {
 
-win1.open({animated: true});
+}
+
+
+mainWindow.open();
+
