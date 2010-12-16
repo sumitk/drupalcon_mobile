@@ -68,12 +68,8 @@ tabGroup.open();
 
 var win1 = Titanium.UI.createWindow({
   title:'Tab 1',
-  backgroundColor:'#000'
-});
-var tab1 = Titanium.UI.createTab({
-  icon:'KS_nav_views.png',
-  title:'Tab 1',
-  window:win1
+  backgroundColor:'#000',
+  fullscreen: true
 });
 
 var label1 = Titanium.UI.createLabel({
@@ -83,5 +79,16 @@ var label1 = Titanium.UI.createLabel({
   textAlign:'center',
   width:'auto'
 });
+win1.add(label1);
 
-win1.open(label1);
+win1.activity.onCreateOptionsMenu = function(e) {
+  var menu = e.menu;
+
+  var m1 = menu.add({ title : 'Settings' });
+  m1.addEventListener('click', function(e) {
+    Titanium.UI.Android.openPreferences();
+    // Open the settings page, once we figure out how to define settings pages...
+  });
+};
+
+win1.open({animated: true});
