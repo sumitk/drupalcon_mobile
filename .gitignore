@@ -1,1 +1,4 @@
-DrupalCon/build/
+# We need to keep the build directories themselves, but ignore
+# Any compiled files inside them. Everyone builds their own.
+#DrupalCon/build/iphone/*
+#DrupalCon/build/android/*
