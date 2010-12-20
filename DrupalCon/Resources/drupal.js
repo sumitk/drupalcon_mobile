@@ -35,6 +35,7 @@ function DrupalService(settings) {
   this.settings = Drupal.setDefaults(settings, defaults);
   Ti.API.info(this.settings);
   this.loadHandler = this.defaultLoadHandler;
+  this.errorHandler = this.defaultErrorHandler;
 }
 
 DrupalService.prototype.defaultErrorHandler = function(e) {
