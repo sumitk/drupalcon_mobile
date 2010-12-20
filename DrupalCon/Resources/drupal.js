@@ -2,7 +2,7 @@
 var Drupal = {
   setDefaults: function(settings, defaults) {
     for (var key in defaults) {
-      if (defaults.hasOwnProperty(key) && typeof settings[key] === 'undefined') {
+      if (defaults.hasOwnProperty(key) && settings[key] == undefined) {
         settings[key] = defaults[key];
       }
     }
