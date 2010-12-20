@@ -17,9 +17,7 @@ var Drupal = {
       };
 
     this.setDefaults(settings, defaults);
-    Ti.API.info("Creating service object.");
     var service = new DrupalService(settings);
-    Ti.API.info("Returning service object.");
     return service;
   }
 
@@ -33,7 +31,6 @@ function DrupalService(settings) {
   };
 
   this.settings = Drupal.setDefaults(settings, defaults);
-  Ti.API.info(this.settings);
   this.loadHandler = this.defaultLoadHandler;
   this.errorHandler = this.defaultErrorHandler;
 }
@@ -47,6 +44,7 @@ DrupalService.prototype.defaultLoadHandler = function(e) {
   // This is a do nothing function. It's mostly here just so that there is always
   // a function defined somewhere.
   Ti.API.info("Data was loaded");
+  //Ti.API.info(this.responseText);
 };
 
 DrupalService.prototype.request = function(options) {
@@ -59,15 +57,13 @@ DrupalService.prototype.request = function(options) {
   };
 
   Drupal.setDefaults(options, defaults);
-  Ti.API.info(options);
-  Ti.API.info("Creating http client.");
+
   var xhr = Titanium.Network.createHTTPClient();
   xhr.onerror = options.errorHandler;
   xhr.onload = options.loadHandler;
 
   //open the client and encode our URL
   var url = this.settings.endpointUrl + '/' + options.query + '.' + options.format;
-  Ti.API.info("Opening connection.");
   xhr.open(options.method,url);
 
   // base64 encode our Authorization header
