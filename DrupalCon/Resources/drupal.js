@@ -33,6 +33,7 @@ function DrupalService(settings) {
   };
 
   this.settings = Drupal.setDefaults(settings, defaults);
+  Ti.API.info(this.settings);
   this.loadHandler = this.defaultLoadHandler;
 }
 
@@ -50,20 +51,20 @@ DrupalService.prototype.defaultLoadHandler = function(e) {
 DrupalService.prototype.request = function(options) {
 
   var defaults = {
-    errorHandler: DrupalService.defaultErrorHandler,
-    loadHandler: DrupalService.loadHandler,
+    errorHandler: DrupalService.prototype.defaultErrorHandler,
+    loadHandler: DrupalService.prototype.defaultLoadHandler,
     method: 'GET',
     format: 'json'
   };
 
   Drupal.setDefaults(options, defaults);
-
+  Ti.API.info(options);
   Ti.API.info("Creating http client.");
   var xhr = Titanium.Network.createHTTPClient();
   Ti.API.info("Http client created.");
-  xhr.onerror = options.errorHandler;
-  xhr.onerror = options.loadHandler;
-
+  xhr.onerror = defaults.errorHandler;
+  xhr.onload = defaults.loadHandler;
+  
   //open the client and encode our URL
   var url = this.settings.endpointUrl + '/' + options.query + '.' + options.format;
   Ti.API.info("Opening connection.");
@@ -74,6 +75,7 @@ DrupalService.prototype.request = function(options) {
 
   //send the data
   Ti.API.info("Sending request.");
+
   xhr.send();
 };
 
