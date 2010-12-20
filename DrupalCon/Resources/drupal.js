@@ -52,8 +52,8 @@ DrupalService.prototype.defaultLoadHandler = function(e) {
 DrupalService.prototype.request = function(options) {
 
   var defaults = {
-    errorHandler: DrupalService.prototype.defaultErrorHandler,
-    loadHandler: DrupalService.prototype.defaultLoadHandler,
+    errorHandler: this.errorHandler,
+    loadHandler: this.loadHandler,
     method: 'GET',
     format: 'json'
   };
@@ -62,10 +62,9 @@ DrupalService.prototype.request = function(options) {
   Ti.API.info(options);
   Ti.API.info("Creating http client.");
   var xhr = Titanium.Network.createHTTPClient();
-  Ti.API.info("Http client created.");
-  xhr.onerror = defaults.errorHandler;
-  xhr.onload = defaults.loadHandler;
-  
+  xhr.onerror = options.errorHandler;
+  xhr.onload = options.loadHandler;
+
   //open the client and encode our URL
   var url = this.settings.endpointUrl + '/' + options.query + '.' + options.format;
   Ti.API.info("Opening connection.");
