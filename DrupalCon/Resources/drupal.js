@@ -1,5 +1,8 @@
 
 var Drupal = {
+
+  connections: {},
+
   setDefaults: function(settings, defaults) {
     for (var key in defaults) {
       if (defaults.hasOwnProperty(key) && settings[key] == undefined) {
@@ -9,16 +12,30 @@ var Drupal = {
     return settings;
   },
 
-  createConnection: function(settings) {
+  addConnectionInfo: function(key, info) {
     var defaults = {
-        endpointUrl: '',
-        user: '',
-        pass: ''
-      };
+      endpointUrl: '',
+      user: '',
+      pass: ''
+    };
 
-    this.setDefaults(settings, defaults);
-    var service = new DrupalService(settings);
-    return service;
+    if (this.connections[key] == undefined) {
+      Drupal.setDefaults(info, defaults);
+      this.connections[key] = info;
+    }
+  },
+
+  createConnection: function(key) {
+    if (key == undefined) {
+      key = 'default';
+    }
+
+    if (this.connections[key]) {
+      var service = new DrupalService(this.connections[key]);
+      return service;
+    }
+
+    throw new Error('No Drupal Service connection key defined: ' + key);
   }
 
 };

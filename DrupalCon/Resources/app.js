@@ -3,6 +3,12 @@ Titanium.UI.setBackgroundColor('#000');
 
 Ti.include("drupal.js");
 
+Drupal.addConnectionInfo('default', {
+  endpointUrl: 'http://chicago2011.garfield.sandbox/mobile/test',
+  user: '',
+  pass: ''
+});
+
 var mainWindow = Titanium.UI.createWindow({
   title: 'Home',
   backgroundColor: '#000',
@@ -30,8 +36,7 @@ if (Titanium.Platform.osname == 'android') {
     });
     var m2 = menu.add({ title : 'Update sessions' });
     m2.addEventListener('click', function(e) {
-      // Do stuff here to test downloading sessions.
-      var service = Drupal.createConnection({endpointUrl: 'http://chicago2011.garfield.sandbox/mobile/test'});
+      var service = Drupal.createConnection();
       service.loadHandler = function() {
         Ti.API.info("Data was loaded, called from custom handler.");
         Ti.API.info(this.responseText);
