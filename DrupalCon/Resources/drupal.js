@@ -1,8 +1,37 @@
 
+/**
+ * Main Drupal factory.
+ *
+ * This object serves as a central router for Drupal integration.
+ */
 var Drupal = {
 
+  /**
+   * List of known connections.
+   *
+   * Each connection is identified by a key that maps to a bare object (a la
+   * associative arrays in PHP).  The connection information is three properties:
+   * - endpointUrl: The URL of the Services endpoint on the remote server.
+   * - user: The username of the Drupal user on that site to authenticate against.
+   * - pass: The password of the Drupal user ont hat site to authenticate against.
+   */
   connections: {},
 
+  /**
+   * Sets default values for an object.
+   *
+   * This is similar to jQuery.extend() or PHP's += for arrays, and can be
+   * used for much the same purpose.
+   *
+   * @param settings
+   *   The object on which to set default values.  Note that this object will
+   *   be modified directly.
+   * @param defaults
+   *   The default values to use for each key if the settings object does not
+   *   yet have a value for that key.
+   * @returns
+   *   The settings object.
+   */
   setDefaults: function(settings, defaults) {
     for (var key in defaults) {
       if (defaults.hasOwnProperty(key) && settings[key] == undefined) {
@@ -12,6 +41,18 @@ var Drupal = {
     return settings;
   },
 
+  /**
+   * Defines a new Drupal Services connection.
+   *
+   * Note that if a connection with this key name has already been defined the
+   * new definition will be ignored.
+   *
+   * @param key
+   *   The string name by which to identify this connection.
+   * @param info
+   *   The connection information to the server.  See the documentation for
+   *   Drupal.connections for structure.
+   */
   addConnectionInfo: function(key, info) {
     var defaults = {
       endpointUrl: '',
@@ -25,10 +66,22 @@ var Drupal = {
     }
   },
 
+  /**
+   * Creates a new DrupalService connection object.
+   *
+   * @param key
+   *   The connection key for which we want a new connection. If not specified,
+   *   'default' is used.
+   * @returns {DrupalService}
+   *   The newly created connection object. A new connection object is created
+   *   each time this method is called.
+   */
   createConnection: function(key) {
     if (key == undefined) {
       key = 'default';
     }
+
+    // @todo Handle authentication.
 
     if (this.connections[key]) {
       var service = new DrupalService(this.connections[key]);
@@ -40,6 +93,17 @@ var Drupal = {
 
 };
 
+/**
+ * Creates a Drupal connection object.
+ *
+ * Note that this object does not automatically open an XHR request to the server.
+ * It is a manager for issuing multiple XHR requests using the same information
+ * and credentials.
+ *
+ * @param settings
+ *   The connection information for this server.
+ * @returns {DrupalService}
+ */
 function DrupalService(settings) {
   var defaults = {
     endpointUrl: '',
@@ -52,11 +116,23 @@ function DrupalService(settings) {
   this.errorHandler = this.defaultErrorHandler;
 }
 
+/**
+ * Default error handler for a Service request.
+ *
+ * This will often be overridden by a particular implementation.
+ */
 DrupalService.prototype.defaultErrorHandler = function(e) {
   Ti.API.info("ERROR " + e.error);
   alert(e.error);
 };
 
+/**
+ * Default load handler for a Service request.
+ *
+ * This will almost always be overridden by a particular use case, either for
+ * the connection object itself or for a particular request.  It is provided
+ * simply to ensure that there is always a load handler defined somewhere.
+ */
 DrupalService.prototype.defaultLoadHandler = function(e) {
   // This is a do nothing function. It's mostly here just so that there is always
   // a function defined somewhere.
@@ -64,6 +140,17 @@ DrupalService.prototype.defaultLoadHandler = function(e) {
   //Ti.API.info(this.responseText);
 };
 
+/**
+ * Issues a request against this Drupal server.
+ *
+ * @param options
+ *   The details of the request to issue.  Possible keys include:
+ *   - errorHandler: A callback function for responding to errors on the request.
+ *   - loadHandler: A callback function for handling a successful response.
+ *   - method: The HTTP method to use. Defaults to GET.
+ *   - format: The format in which we want data returned from the Drupal server.
+ *             Defaults to 'json'.
+ */
 DrupalService.prototype.request = function(options) {
 
   var defaults = {

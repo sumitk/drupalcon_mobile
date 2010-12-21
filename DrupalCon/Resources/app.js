@@ -1,8 +1,11 @@
 // this sets the background color of the master UIView (when there are no windows/tab groups on it)
 Titanium.UI.setBackgroundColor('#000');
 
+// Include the Drupal connection libraries.
 Ti.include("drupal.js");
 
+// Define our connection information.  This is very similar to the DB layer's
+// $databases array in settings.php.
 Drupal.addConnectionInfo('default', {
   endpointUrl: 'http://chicago2011.garfield.sandbox/mobile/test',
   user: '',
@@ -30,10 +33,15 @@ if (Titanium.Platform.osname == 'android') {
   mainWindow.activity.onCreateOptionsMenu = function(e) {
     var menu = e.menu;
 
+    // @todo Switch this to the generic Titanium properties API, with a custom
+    // UI: http://developer.appcelerator.com/apidoc/mobile/latest/Titanium.App.Properties-module
     var m1 = menu.add({ title : 'Settings' });
     m1.addEventListener('click', function(e) {
       Titanium.UI.Android.openPreferences();
     });
+
+    // This is a placeholder for testing.  It will eventually get moved to a
+    // more appropriate location within the App.
     var m2 = menu.add({ title : 'Update sessions' });
     m2.addEventListener('click', function(e) {
       var service = Drupal.createConnection();
