@@ -2,11 +2,12 @@
 Titanium.UI.setBackgroundColor('#000');
 
 // Include the Drupal connection libraries.
-Ti.include("drupal.js");
+Ti.include("drupal/drupal.js");
+Ti.include("drupal/services.js");
 
 // Define our connection information.  This is very similar to the DB layer's
 // $databases array in settings.php.
-Drupal.addConnectionInfo('default', {
+Drupal.services.addConnectionInfo('default', {
   endpointUrl: 'http://chicago2011.garfield.sandbox/mobile/test',
   user: '',
   pass: ''
@@ -44,7 +45,7 @@ if (Titanium.Platform.osname == 'android') {
     // more appropriate location within the App.
     var m2 = menu.add({ title : 'Update sessions' });
     m2.addEventListener('click', function(e) {
-      var service = Drupal.createConnection();
+      var service = Drupal.services.createConnection();
       service.loadHandler = function() {
         Ti.API.info("Data was loaded, called from custom handler.");
         Ti.API.info(this.responseText);
