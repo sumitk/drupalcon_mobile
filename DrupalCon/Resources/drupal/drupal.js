@@ -6,7 +6,6 @@
  */
 var Drupal = {
 
-
   /**
    * Sets default values for an object.
    *

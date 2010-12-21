@@ -3,6 +3,9 @@ if (!Drupal) {
   Ti.include("drupal.js");
 }
 
+/**
+ * Define a new library for Drupal Services integration.
+ */
 Drupal.services = {
 
   /**
@@ -15,7 +18,6 @@ Drupal.services = {
    * - pass: The password of the Drupal user ont hat site to authenticate against.
    */
   connections: {},
-
 
   /**
    * Defines a new Drupal Services connection.
