@@ -19,6 +19,10 @@ Drupal.entity = {
    * to specify it again here because we may not be dealing with Drupal 7 on
    * the other end.
    *
+   * We're using lower_case variables here instead of camelCase so that they
+   * exactly match the PHP variables.  That will make dynamic definition easier
+   * later.
+   *
    * @todo Make it possible to override this data with a direct pull of
    *       hook_entity_info() from a connected server.
    */
@@ -35,9 +39,8 @@ Drupal.entity = {
     user: {
       label: Ti.Locale.getString('User'),
       entity_keys: {
-        id: 'nid',
-        revision: 'vid',
-        bundle: 'type',
+        id: 'uid',
+        bundle: null,
         label: 'name'
       }
     }
@@ -51,34 +54,76 @@ Drupal.entity = {
    */
   storage: TiStorage(),
 
-  db: function(key) {
+  db: function(database, entityType) {
 
-    return new Drupal.entity.Datastore(key);
+    var collection = this.storage.use(database).collection(entityType);
+
+    return new Drupal.entity.Datastore(collection, entityType);
   },
 
-  entityInfo: function(entity_type) {
-    if (this.types[entity_type] != undefined) {
-      return this.types[entity_type];
+  entityInfo: function(entityType) {
+    if (this.types[entityType] != undefined) {
+      return this.types[entityType];
     }
-    Ti.API.info('No such entity type defined: ' + entity_type);
+    Ti.API.info('No such entity type defined: ' + entityType);
   }
-
 };
 
-Drupal.entity.Datastore = function(key) {
+Drupal.entity.Datastore = function(collection, entityType) {
 
-  var conn = Drupal.entity.storage;
-  this.db = conn.use(key);
+  this.collection = collection;
+  this.entityType = entityType;
 
   return this;
 };
 
-Drupal.entity.Datastore.prototype.save = function(entity_type, id) {
-  var collection = this.db.collection(entity_type);
+Drupal.entity.Datastore.prototype.getIdField = function() {
+  var idField = Drupal.entity.types[this.entityType].entity_keys.id;
+
+  return idField;
+};
+
+Drupal.entity.Datastore.prototype.save = function(entity) {
+
+  var idField = this.getIdField();
+  var idObject = {};
+  idObject[idField] = entity[idField];
+
+  if (this.collection.exists(idObject)) {
+    this.collection.update(idObject, entity);
+  }
+  else {
+    this.collection.create(entity);
+  }
 
 };
 
-Drupal.entity.Datastore.prototype.load = function(entity_type, id) {
+Drupal.entity.Datastore.prototype.load = function(id) {
+
+  var idField = this.getIdField();
+  var idObject = {};
+  idObject[idField] = id;
+
+  var entities = this.collection.findOne(idObject);
+
+  return entities;
+};
+
+/**
+ * Remove an entity from the collection.
+ *
+ * This would be called delete(), but that's a reserved word in Javascript.
+ *
+ * @param entityType
+ * @param id
+ */
+Drupal.entity.Datastore.prototype.remove = function(id) {
+
+  var idField = this.getIdField();
+  var idObject = {};
+  idObject[idField] = id;
+
+  this.collection.remove(idObject);
 
 };
 
@@ -93,7 +138,8 @@ store.save('node', node);
 
 // These kinda sorta serve as a unit test, ish, maybe, for now.
 
-var store = Drupal.entity.db('site');
+var store = Drupal.entity.db('default', 'node');
+
 
 var node1 = {
   nid: 1,
@@ -101,7 +147,19 @@ var node1 = {
   title: 'Hello world'
 };
 
-store.save('node', node1);
+Ti.API.info('About to save this node.');
+Ti.API.info(node1);
 
-store.load('node', 1);
+Ti.API.info('Saving node.');
+store.save(node1);
+
+Ti.API.info(node1);
+
+Ti.API.info('Loading node again.');
+var node1b = store.load(1);
+
+Ti.API.info('Showing loaded node.');
+Ti.API.info(node1b);
+
+store.remove(1);
 
