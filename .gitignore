@@ -2,3 +2,4 @@
 # Any compiled files inside them. Everyone builds their own.
 #DrupalCon/build/iphone/*
 #DrupalCon/build/android/*
+DrupalCon/Resources/trace
