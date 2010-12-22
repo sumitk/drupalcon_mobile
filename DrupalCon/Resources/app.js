@@ -5,6 +5,8 @@ Titanium.UI.setBackgroundColor('#000');
 Ti.include("drupal/drupal.js");
 Ti.include("drupal/services.js");
 
+Ti.include("drupal/entity.js");
+
 // Define our connection information.  This is very similar to the DB layer's
 // $databases array in settings.php.
 Drupal.services.addConnectionInfo('default', {
