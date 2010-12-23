@@ -89,10 +89,17 @@ Drupal.entity.Datastore.prototype.save = function(entity) {
   var idObject = {};
   idObject[idField] = entity[idField];
 
+  Ti.API.info(idObject);
+
+  trc.Debug(entity);
+
+  Ti.API.info('Checking for existing object.');
   if (this.collection.exists(idObject)) {
+    Ti.API.info('Object already exists.');
     this.collection.update(idObject, entity);
   }
   else {
+    Ti.API.info('Object did not exist.');
     this.collection.create(entity);
   }
 
@@ -138,28 +145,38 @@ store.save('node', node);
 
 // These kinda sorta serve as a unit test, ish, maybe, for now.
 
-var store = Drupal.entity.db('default', 'node');
+try {
+  trc.Begin('app.js');
 
 
-var node1 = {
-  nid: 1,
-  type: 'page',
-  title: 'Hello world'
-};
+  var store = Drupal.entity.db('default', 'node');
 
-Ti.API.info('About to save this node.');
-Ti.API.info(node1);
+  var node1 = {
+    nid: 1,
+    type: 'page',
+    title: 'Hello world'
+  };
 
-Ti.API.info('Saving node.');
-store.save(node1);
+  Ti.API.info('About to save this node.');
+  Ti.API.info(node1);
 
-Ti.API.info(node1);
+  Ti.API.info('Saving node.');
+  store.save(node1);
 
-Ti.API.info('Loading node again.');
-var node1b = store.load(1);
+  Ti.API.info(node1);
 
-Ti.API.info('Showing loaded node.');
-Ti.API.info(node1b);
+  Ti.API.info('Loading node again.');
+  var node1b = store.load(1);
 
-store.remove(1);
+  Ti.API.info('Showing loaded node.');
+  Ti.API.info(node1b);
 
+  store.remove(1);
+}
+catch(e) {
+    trc.SetMessage(e.name, e.message, trc);
+}
+
+if (trc.IsError()) {
+    trc.Show();
+}

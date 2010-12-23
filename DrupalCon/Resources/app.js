@@ -1,6 +1,11 @@
 // this sets the background color of the master UIView (when there are no windows/tab groups on it)
 Titanium.UI.setBackgroundColor('#000');
 
+// Helper code for debug traces.  Don't release this. :-)
+Ti.include('trace/Trace.js');
+Ti.include('trace/TraceSettings.js');
+var trc = new Trace(TraceMode, TraceActive);
+
 
 Ti.include("tistorage/TiStorage.js");
 
