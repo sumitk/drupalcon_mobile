@@ -148,15 +148,34 @@ store.save('node', node);
 try {
   trc.Begin('app.js');
 
+  var conn = TiStorage();
+  var db = conn.use('default');
+  var store = db.collection('node');
 
-  var store = Drupal.entity.db('default', 'node');
+  //var store = Drupal.entity.db('default', 'node');
+
+  store.clear();
 
   var node1 = {
+    id: 1,
     nid: 1,
     type: 'page',
     title: 'Hello world'
   };
 
+  Ti.API.info('Inserting node.');
+  store.create(node1);
+
+  Ti.API.info('Checking for record.');
+  if (store.exists({id: 1})) {
+    Ti.API.info('Record exists.');
+  }
+  else {
+    Ti.API.info('Record does not exist.');
+  }
+
+
+  /*
   Ti.API.info('About to save this node.');
   Ti.API.info(node1);
 
@@ -170,8 +189,10 @@ try {
 
   Ti.API.info('Showing loaded node.');
   Ti.API.info(node1b);
+*/
 
   store.remove(1);
+
 }
 catch(e) {
     trc.SetMessage(e.name, e.message, trc);
