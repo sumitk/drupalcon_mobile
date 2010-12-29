@@ -46,34 +46,28 @@ Drupal.entity = {
     }
   },
 
-  /**
-   * A TiStorage object.
-   *
-   * Because creating the storage object involves deserialization, we'll do it
-   * once and then never try to do it again.  At least for this library.
-   */
-  storage: TiStorage(),
-
   db: function(database, entityType) {
 
-    var collection = this.storage.use(database).collection(entityType);
+    var conn = Ti.Database.open(database);
 
-    return new Drupal.entity.Datastore(collection, entityType);
+    return new Drupal.entity.Datastore(conn, entityType);
   },
 
   entityInfo: function(entityType) {
-    if (this.types[entityType] != undefined) {
+    if (this.types[entityType] !== undefined) {
       return this.types[entityType];
     }
     Ti.API.info('No such entity type defined: ' + entityType);
   }
 };
 
-Drupal.entity.Datastore = function(collection, entityType) {
+Drupal.entity.Datastore = function(connection, entityType) {
 
-  this.collection = collection;
+  this.connection = connection;
   this.entityType = entityType;
 
+  this.idField = this.getIdField();
+  
   return this;
 };
 
@@ -84,36 +78,48 @@ Drupal.entity.Datastore.prototype.getIdField = function() {
 };
 
 Drupal.entity.Datastore.prototype.save = function(entity) {
-
-  var idField = this.getIdField();
-  var idObject = {};
-  idObject[idField] = entity[idField];
-
-  Ti.API.info(idObject);
-
   trc.Debug(entity);
 
   Ti.API.info('Checking for existing object.');
-  if (this.collection.exists(idObject)) {
+  if (this.exists(entity[this.idField])) {
     Ti.API.info('Object already exists.');
-    this.collection.update(idObject, entity);
+    this.update(entity);
+    //this.connection.update(idObject, entity);
   }
   else {
     Ti.API.info('Object did not exist.');
-    this.collection.create(entity);
+    this.create(entity);
   }
+};
 
+Drupal.entity.Datastore.prototype.create = function(entity) {
+  Ti.API.info('Inserting new object.');
+
+  var data = Ti.JSON.stringify(entity);
+
+  this.connection.execute("INSERT INTO " + this.entityType + " (nid, type, title, data) VALUES (?, ?, ?, ?)", [entity[this.idField], entity.type, entity.title, data]);
+};
+
+
+Drupal.entity.Datastore.prototype.update = function(entity) {
+  Ti.API.info('Updating existing object.');
+
+  var data = Ti.JSON.stringify(entity);
+
+  this.connection.execute("UPDATE " + this.entityType + " SET type=?, title=?, data=? WHERE nid=?", [entity.type, entity.title, data, entity[this.idField]]);
+};
+
+Drupal.entity.Datastore.prototype.exists = function(id) {
+  Ti.API.info('Checking for object existence...');
+  var exists = this.connection.execute("SELECT 1 FROM " + this.entityType + " WHERE " + this.idField + " = ?", [id]).rowCount;
+  
+  Ti.API.info("Exists value: " + exists);
+  
+  return exists;
 };
 
 Drupal.entity.Datastore.prototype.load = function(id) {
 
-  var idField = this.getIdField();
-  var idObject = {};
-  idObject[idField] = id;
-
-  var entities = this.collection.findOne(idObject);
-
-  return entities;
 };
 
 /**
@@ -121,7 +127,6 @@ Drupal.entity.Datastore.prototype.load = function(id) {
  *
  * This would be called delete(), but that's a reserved word in Javascript.
  *
- * @param entityType
  * @param id
  */
 Drupal.entity.Datastore.prototype.remove = function(id) {
@@ -130,11 +135,106 @@ Drupal.entity.Datastore.prototype.remove = function(id) {
   var idObject = {};
   idObject[idField] = id;
 
-  this.collection.remove(idObject);
+  //this.collection.remove(idObject);
 
 };
 
 
+function resetTest() {
+  var conn = Ti.Database.open('default');
+
+  //Reset for testing.
+  conn.remove();
+  
+  var conn2 = Ti.Database.open('default');
+  
+  conn2.execute("CREATE TABLE IF NOT EXISTS node " +
+   "nid int(10) unsigned NOT NULL AUTO_INCREMENT," +
+   "vid int(10) unsigned NOT NULL DEFAULT '0'," +
+   "type varchar(32) NOT NULL DEFAULT ''," +
+   "title varchar(255) NOT NULL DEFAULT ''," +
+   "`created` int(11) NOT NULL DEFAULT '0'," +
+   "`changed` int(11) NOT NULL DEFAULT '0'," +
+   "data BLOB" +
+   "PRIMARY KEY (`nid`)," +
+   "UNIQUE KEY `vid` (`vid`)");
+  
+}
+
+
+resetTest();
+
+var node1 = {
+    nid: 1,
+    type: 'page',
+    title: 'Hello world'
+  };
+
+Drupal.entity.db('default', 'node');
+
+/*
+// Insert
+try {
+  Ti.API.info('Inserting node.');
+
+  var data = Ti.JSON.stringify(node1);
+  
+  // Check if the node exists already.
+  var exists = conn.execute("SELECT nid FROM node WHERE nid = ?", [node1.nid]).rowCount;
+  
+  if (exists) {
+    conn.execute("UPDATE node SET type=?, title=?, data=? WHERE nid=?", [node1.type, node1.title, data, node1.nid]);
+  }
+  else {
+    conn.execute("INSERT INTO node (nid, type, title, data) VALUES (?, ?, ?, ?)", [node1.nid, node1.type, node1.title, data]);
+  }
+}
+catch (e) {
+  
+}
+
+
+// Check to see if it was created.
+var rows = conn.execute("SELECT nid FROM node WHERE nid = ?", [node1.nid]);
+Ti.API.info(rows);
+
+
+if (exists) {
+  Ti.API.info('Record exists.');
+}
+else {
+  Ti.API.info('Record does not exist.');
+}
+
+// load
+try {
+  
+  var rows = conn.execute('SELECT data FROM node WHERE nid=?', 1);
+  
+  if (rows.isValidRow()) {
+    var data = rows.fieldByName('data');
+    var node_loaded = Ti.JSON.parse(data);
+    Ti.API.info(node_loaded);
+  }
+  else {
+    Ti.API.info('No data found.');
+  }
+  
+}
+catch (e) {
+  
+}
+*/
+
+/*
+KEY `node_type` (`type`(4)),
+KEY `uid` (`uid`),
+KEY `node_moderate` (`moderate`),
+KEY `node_promote_status` (`promote`,`status`),
+KEY `node_created` (`created`),
+KEY `node_changed` (`changed`),
+KEY `node_status_type` (`status`,`type`,`nid`),
+*/
 
 /*
 var store = Drupal.entity.db('site');
