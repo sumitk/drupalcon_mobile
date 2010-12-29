@@ -119,7 +119,16 @@ Drupal.entity.Datastore.prototype.exists = function(id) {
 };
 
 Drupal.entity.Datastore.prototype.load = function(id) {
-
+  var rows = this.connection.execute('SELECT data FROM node WHERE nid=?', 1);
+  
+  if (rows.isValidRow()) {
+    var data = rows.fieldByName('data');
+    var node_loaded = Ti.JSON.parse(data);
+    Ti.API.info(node_loaded);
+  }
+  else {
+    Ti.API.info('No data found.');
+  }
 };
 
 /**
