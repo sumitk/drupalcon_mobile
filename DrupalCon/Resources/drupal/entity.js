@@ -74,11 +74,8 @@ Drupal.entity.Datastore.prototype.getIdField = function() {
 };
 
 Drupal.entity.Datastore.prototype.save = function(entity) {
-  Ti.API.info('Checking for existing object.');
   if (this.exists(entity[this.idField])) {
-    Ti.API.info('Object already exists.');
     this.update(entity);
-    //this.connection.update(idObject, entity);
   }
   else {
     Ti.API.info('Object did not exist.');
@@ -87,24 +84,18 @@ Drupal.entity.Datastore.prototype.save = function(entity) {
 };
 
 Drupal.entity.Datastore.prototype.insert = function(entity) {
-  Ti.API.info('Inserting new object.');
-
   var data = Ti.JSON.stringify(entity);
-
   this.connection.execute("INSERT INTO " + this.entityType + " (nid, type, title, data) VALUES (?, ?, ?, ?)", [entity[this.idField], entity.type, entity.title, data]);
 };
 
 
 Drupal.entity.Datastore.prototype.update = function(entity) {
-  Ti.API.info('Updating existing object.');
-
   var data = Ti.JSON.stringify(entity);
 
   this.connection.execute("UPDATE " + this.entityType + " SET type=?, title=?, data=? WHERE nid=?", [entity.type, entity.title, data, entity[this.idField]]);
 };
 
 Drupal.entity.Datastore.prototype.exists = function(id) {
-  Ti.API.info('Checking for object existence...');
   var rows = this.connection.execute("SELECT 1 FROM " + this.entityType + " WHERE " + this.idField + " = ?", [id]);
   
   // In case of pretty much any error whatsoever, Ti will just
@@ -119,8 +110,8 @@ Drupal.entity.Datastore.prototype.load = function(id) {
   
   if (rows && rows.isValidRow()) {
     var data = rows.fieldByName('data');
-    var node_loaded = Ti.JSON.parse(data);
-    return node_loaded;
+    var entity = Ti.JSON.parse(data);
+    return entity;
   }
   else {
     Ti.API.info('No data found.');
@@ -129,7 +120,6 @@ Drupal.entity.Datastore.prototype.load = function(id) {
 };
 
 Drupal.entity.Datastore.prototype.loadMultiple = function(ids) {
-  Ti.API.info('Loading multiple nodes...');
   
   var numPlaceholders = ids.length;
   var placeholders = [];
@@ -137,11 +127,7 @@ Drupal.entity.Datastore.prototype.loadMultiple = function(ids) {
     placeholders.push('?');
   }
   
-  Ti.API.info(placeholders);
-  
   var query = 'SELECT data FROM node WHERE nid IN (' + placeholders.join(', ') + ')';
-  
-  Ti.API.info(query);
   
   var rows = this.connection.execute(query, ids);
   
@@ -150,19 +136,11 @@ Drupal.entity.Datastore.prototype.loadMultiple = function(ids) {
   if (rows) {
     while (rows.isValidRow()) {
       var data = rows.fieldByName('data');
-      Ti.API.info(data);
       var entity = Ti.JSON.parse(data);
-      Ti.API.info(entity);
       entities.push(entity);
       
       rows.next();
     }
-  }
-  
-  Ti.API.info('Checking array in method.');
-  
-  for (var j = 0; j < entities.length; j++) {
-    Ti.API.info(entities[j]);
   }
   
   return entities;
