@@ -3,10 +3,6 @@ if (!Drupal) {
   Ti.include('drupal.js');
 }
 
-// NOTE: Ti.Storage must already have been included.  Since we use relative
-// paths I don't really know yet how to include it from here, so it's up to the
-// including app to load it first.
-
 /**
  * Define a new library for Drupal Entity storage.
  */
@@ -78,8 +74,6 @@ Drupal.entity.Datastore.prototype.getIdField = function() {
 };
 
 Drupal.entity.Datastore.prototype.save = function(entity) {
-  trc.Debug(entity);
-
   Ti.API.info('Checking for existing object.');
   if (this.exists(entity[this.idField])) {
     Ti.API.info('Object already exists.');
@@ -88,11 +82,11 @@ Drupal.entity.Datastore.prototype.save = function(entity) {
   }
   else {
     Ti.API.info('Object did not exist.');
-    this.create(entity);
+    this.insert(entity);
   }
 };
 
-Drupal.entity.Datastore.prototype.create = function(entity) {
+Drupal.entity.Datastore.prototype.insert = function(entity) {
   Ti.API.info('Inserting new object.');
 
   var data = Ti.JSON.stringify(entity);
@@ -111,11 +105,13 @@ Drupal.entity.Datastore.prototype.update = function(entity) {
 
 Drupal.entity.Datastore.prototype.exists = function(id) {
   Ti.API.info('Checking for object existence...');
-  var exists = this.connection.execute("SELECT 1 FROM " + this.entityType + " WHERE " + this.idField + " = ?", [id]).rowCount;
+  var rows = this.connection.execute("SELECT 1 FROM " + this.entityType + " WHERE " + this.idField + " = ?", [id]);
   
-  Ti.API.info("Exists value: " + exists);
-  
-  return exists;
+  // In case of pretty much any error whatsoever, Ti will just
+  // return null rather than show a useful error.  So we have
+  // to check the return, always. Fail.  We'll assume that a 
+  // null return (error) indicates that the record is not there.
+  return rows && rows.rowCount;
 };
 
 Drupal.entity.Datastore.prototype.load = function(id) {
@@ -149,24 +145,69 @@ Drupal.entity.Datastore.prototype.remove = function(id) {
 };
 
 
+/* -----------------------------------------------
+
+var db = Titanium.Database.open('mydb');
+
+db.execute('CREATE TABLE IF NOT EXISTS DATABASETEST  (ID INTEGER, NAME TEXT)');
+db.execute('DELETE FROM DATABASETEST');
+
+db.execute('INSERT INTO DATABASETEST (ID, NAME ) VALUES(?,?)',1,'Name 1');
+db.execute('INSERT INTO DATABASETEST (ID, NAME ) VALUES(?,?)',2,'Name 2');
+db.execute('INSERT INTO DATABASETEST (ID, NAME ) VALUES(?,?)',3,'Name 3');
+db.execute('INSERT INTO DATABASETEST (ID, NAME ) VALUES(?,?)',4,'Name 4');
+db.execute('INSERT INTO DATABASETEST (ID, NAME ) VALUES(?,?)', 5, '\u2070 \u00B9 \u00B2 \u00B3 \u2074 \u2075 \u2076 \u2077 \u2078 \u2079');
+var updateName = 'I was updated';
+var updateId = 4;
+db.execute('UPDATE DATABASETEST SET NAME = ? WHERE ID = ?', updateName, updateId);
+
+db.execute('UPDATE DATABASETEST SET NAME = "I was updated too" WHERE ID = 2');
+
+db.execute('DELETE FROM DATABASETEST WHERE ID = ?',1);
+
+Titanium.API.info('JUST INSERTED, rowsAffected = ' + db.rowsAffected);
+Titanium.API.info('JUST INSERTED, lastInsertRowId = ' + db.lastInsertRowId);
+
+var rows = db.execute('SELECT * FROM DATABASETEST');
+Titanium.API.info('ROW COUNT = ' + rows.getRowCount());
+Titanium.API.info('ROW COUNT = ' + rows.getRowCount());
+Titanium.API.info('ROW COUNT = ' + rows.getRowCount());
+
+while (rows.isValidRow())
+{
+    Titanium.API.info('ID: ' + rows.field(0) + ' NAME: ' + rows.fieldByName('name') + ' COLUMN NAME ' + rows.fieldName(0));
+    if (rows.field(0)==5)
+    {
+        Ti.API.info(rows.fieldByName('name'));
+    }
+
+    rows.next();
+}
+rows.close();
+db.close(); // close db when you're done to save resources
+
+// ---------------------------------------------
+*/
+
+
 function resetTest() {
   var conn = Ti.Database.open('default');
 
   //Reset for testing.
   conn.remove();
   
+  conn.close();
+  
   var conn2 = Ti.Database.open('default');
   
-  conn2.execute("CREATE TABLE IF NOT EXISTS node " +
-   "nid int(10) unsigned NOT NULL AUTO_INCREMENT," +
-   "vid int(10) unsigned NOT NULL DEFAULT '0'," +
-   "type varchar(32) NOT NULL DEFAULT ''," +
-   "title varchar(255) NOT NULL DEFAULT ''," +
-   "`created` int(11) NOT NULL DEFAULT '0'," +
-   "`changed` int(11) NOT NULL DEFAULT '0'," +
-   "data BLOB" +
-   "PRIMARY KEY (`nid`)," +
-   "UNIQUE KEY `vid` (`vid`)");
+  conn2.execute("CREATE TABLE IF NOT EXISTS node (" +
+   "nid INTEGER PRIMARY KEY," +
+   "vid INTEGER," +
+   "type VARCHAR," +
+   "title VARCHAR," +
+   "created INT," +
+   "changed INT," +
+   "data BLOB)");
   
 }
 
@@ -179,61 +220,48 @@ var node1 = {
     title: 'Hello world'
   };
 
-Drupal.entity.db('default', 'node');
+var node2 = {
+    nid: 2,
+    type: 'page',
+    title: 'Goodbye world'
+  };
 
-/*
-// Insert
-try {
-  Ti.API.info('Inserting node.');
+var store = Drupal.entity.db('default', 'node');
 
-  var data = Ti.JSON.stringify(node1);
-  
-  // Check if the node exists already.
-  var exists = conn.execute("SELECT nid FROM node WHERE nid = ?", [node1.nid]).rowCount;
-  
-  if (exists) {
-    conn.execute("UPDATE node SET type=?, title=?, data=? WHERE nid=?", [node1.type, node1.title, data, node1.nid]);
-  }
-  else {
-    conn.execute("INSERT INTO node (nid, type, title, data) VALUES (?, ?, ?, ?)", [node1.nid, node1.type, node1.title, data]);
-  }
-}
-catch (e) {
-  
-}
+Ti.API.info('Inserting node.');
+store.insert(node1);
+store.insert(node2);
 
+Ti.API.info('Selecting whole table');
+var c = store.connection;
 
-// Check to see if it was created.
-var rows = conn.execute("SELECT nid FROM node WHERE nid = ?", [node1.nid]);
+Ti.API.info(c.toString());
+
+var rows = c.execute('SELECT * FROM node');
+
 Ti.API.info(rows);
 
+if (rows) {
+  Ti.API.info(rows.toString());
+}
 
-if (exists) {
+
+Ti.API.info('Row count: ' + rows.getRowCount());
+while (rows.isValidRow()) {
+  Ti.API.info(rows.fieldByName('title'));
+  rows.next();
+}
+
+Ti.API.info('Checking for record.');
+if (store.exists(1)) {
   Ti.API.info('Record exists.');
 }
 else {
   Ti.API.info('Record does not exist.');
 }
 
-// load
-try {
-  
-  var rows = conn.execute('SELECT data FROM node WHERE nid=?', 1);
-  
-  if (rows.isValidRow()) {
-    var data = rows.fieldByName('data');
-    var node_loaded = Ti.JSON.parse(data);
-    Ti.API.info(node_loaded);
-  }
-  else {
-    Ti.API.info('No data found.');
-  }
-  
-}
-catch (e) {
-  
-}
-*/
+
+
 
 /*
 KEY `node_type` (`type`(4)),
