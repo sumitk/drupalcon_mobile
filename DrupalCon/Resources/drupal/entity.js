@@ -117,13 +117,15 @@ Drupal.entity.Datastore.prototype.exists = function(id) {
 Drupal.entity.Datastore.prototype.load = function(id) {
   var rows = this.connection.execute('SELECT data FROM node WHERE nid=?', 1);
   
-  if (rows.isValidRow()) {
+  if (rows && rows.isValidRow()) {
     var data = rows.fieldByName('data');
     var node_loaded = Ti.JSON.parse(data);
-    Ti.API.info(node_loaded);
+    //Ti.API.info(node_loaded);
+    return node_loaded;
   }
   else {
     Ti.API.info('No data found.');
+    return null;
   }
 };
 
@@ -193,20 +195,9 @@ var c = store.connection;
 
 Ti.API.info(c.toString());
 
-var rows = c.execute('SELECT * FROM node');
+var count = c.execute('SELECT COUNT(*) FROM node').field(0);
 
-Ti.API.info(rows);
-
-if (rows) {
-  Ti.API.info(rows.toString());
-}
-
-
-Ti.API.info('Row count: ' + rows.getRowCount());
-while (rows.isValidRow()) {
-  Ti.API.info(rows.fieldByName('title'));
-  rows.next();
-}
+Ti.API.info('There should be 2 records.  There are actually: ' + count);
 
 Ti.API.info('Checking for record.');
 if (store.exists(1)) {
@@ -216,18 +207,9 @@ else {
   Ti.API.info('Record does not exist.');
 }
 
+var loaded_node = store.load(1);
 
-
-
-/*
-KEY `node_type` (`type`(4)),
-KEY `uid` (`uid`),
-KEY `node_moderate` (`moderate`),
-KEY `node_promote_status` (`promote`,`status`),
-KEY `node_created` (`created`),
-KEY `node_changed` (`changed`),
-KEY `node_status_type` (`status`,`type`,`nid`),
-*/
+Ti.API.info(loaded_node);
 
 /*
 var store = Drupal.entity.db('site');
