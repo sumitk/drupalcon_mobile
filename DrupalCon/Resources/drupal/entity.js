@@ -262,13 +262,7 @@ Drupal.entity.Datastore.prototype.loadMultiple = function(ids) {
  *   The ID of the entity to remove.
  */
 Drupal.entity.Datastore.prototype.remove = function(id) {
-
-  var idField = this.getIdField();
-  var idObject = {};
-  idObject[idField] = id;
-
-  //this.collection.remove(idObject);
-
+  this.connection.execute("DELETE FROM " + this.entityType + " WHERE " + this.idField + " = ?", [id]);
 };
 
 
@@ -321,7 +315,6 @@ var c = store.connection;
 Ti.API.info(c.toString());
 
 var count = c.execute('SELECT COUNT(*) FROM node').field(0);
-
 Ti.API.info('There should be 2 records.  There are actually: ' + count);
 
 Ti.API.info('Checking for record.');
@@ -350,6 +343,12 @@ store.save(node);
 
 var nodeB = store.load(1);
 Ti.API.info(nodeB);
+
+Ti.API.info('Try to delete a node now.');
+store.remove(1);
+
+var count = c.execute('SELECT COUNT(*) FROM node').field(0);
+Ti.API.info('There should be 1 record.  There are actually: ' + count);
 
 
 /*
