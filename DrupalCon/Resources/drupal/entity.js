@@ -228,7 +228,7 @@ var store = Drupal.entity.db('default', 'node');
 
 Ti.API.info('Inserting node.');
 store.insert(node1);
-store.insert(node2);
+store.save(node2);
 
 Ti.API.info('Selecting whole table');
 var c = store.connection;
@@ -252,12 +252,19 @@ var loaded_node = store.load(1);
 Ti.API.info(loaded_node);
 
 Ti.API.info('Trying to load multiple nodes.');
-var nodes = store.loadMultiple([1, 2]);
+var nodes = store.loadMultiple([2, 1]);
 
 Ti.API.info('Checking returned nodes.');
 for (var i = 0; i < nodes.length; i++) {
   Ti.API.info(nodes[i]);
 }
+
+var node = store.load(1);
+node.title = "Hello, Drupal world.";
+store.save(node);
+
+var nodeB = store.load(1);
+Ti.API.info(nodeB);
 
 
 /*
