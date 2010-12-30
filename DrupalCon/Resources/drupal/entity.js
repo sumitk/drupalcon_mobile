@@ -127,7 +127,7 @@ Drupal.entity.Datastore.prototype.loadMultiple = function(ids) {
     placeholders.push('?');
   }
   
-  var rows = this.connection.execute('SELECT data FROM node WHERE nid IN (' + placeholders.join(', ') + ')', ids);
+  var rows = this.connection.execute('SELECT data FROM ' + this.entityType + ' WHERE ' + this.idField + ' IN (' + placeholders.join(', ') + ')', ids);
   
   
   if (rows) {
