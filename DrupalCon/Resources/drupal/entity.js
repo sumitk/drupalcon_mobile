@@ -42,13 +42,34 @@ Drupal.entity = {
     }
   },
 
-  db: function(database, entityType) {
-
-    var conn = Ti.Database.open(database);
+  /**
+   * Creates a new entity storage object.
+   * 
+   * @param string site
+   *   A key for the site from which we are mirroring 
+   *   content. This corresponds to the database we are
+   *   loading.
+   * @param string entityType
+   *   The type of entity (node, user, etc.) that we are
+   *   accessing.
+   * @return
+   *   A new datastore object for the specified site and entity.
+   */
+  db: function(site, entityType) {
+    var conn = Ti.Database.open(site);
 
     return new Drupal.entity.Datastore(conn, entityType);
   },
 
+  /**
+   * Retrieves information about a defined entity.
+   * 
+   * @param entityType
+   *   The type of entity for which we want information.
+   * @return Object
+   *   The entity definition as an object/associative array,
+   *   or null if not found.
+   */
   entityInfo: function(entityType) {
     if (this.types[entityType] !== undefined) {
       return this.types[entityType];
@@ -57,6 +78,19 @@ Drupal.entity = {
   }
 };
 
+/**
+ * Creates a Drupal Datastore object.
+ * 
+ * A datastore object serves as a repository for loading
+ * and saving cached entities.  Although it uses SQLite
+ * under the hood, it's not truly accessible as an SQL engine.
+ * 
+ * @param Ti.Database.DB connection
+ *   The database connection object for this datastore.
+ * @param string
+ *   The type of entity this datastore should access.
+ * @return {Datastore}
+ */
 Drupal.entity.Datastore = function(connection, entityType) {
 
   this.connection = connection;
@@ -67,12 +101,31 @@ Drupal.entity.Datastore = function(connection, entityType) {
   return this;
 };
 
+/**
+ * Returns the name of the field that holds the primary key for entities of this type.
+ * 
+ * @return string
+ *   The name of the field that holds this entity type's primary key.
+ */
 Drupal.entity.Datastore.prototype.getIdField = function() {
   var idField = Drupal.entity.types[this.entityType].entity_keys.id;
 
   return idField;
 };
 
+/**
+ * Saves an entity into the local database.
+ * 
+ * Note that although we allow saving of new entities, 
+ * a primary key is required. One will not be created
+ * automatically and the query will fail if one is not
+ * defined.
+ * 
+ * @param object entity
+ *   A Drupal entity to save.  This should be an untyped
+ *   object.  It is (or should be) safe to simply use an 
+ *   entity object retrieved from a Drupal site.
+ */
 Drupal.entity.Datastore.prototype.save = function(entity) {
   if (this.exists(entity[this.idField])) {
     this.update(entity);
@@ -83,18 +136,49 @@ Drupal.entity.Datastore.prototype.save = function(entity) {
   }
 };
 
+/**
+ * Inserts a new entity into the local database.
+ * 
+ * @param object entity
+ *   A Drupal entity to insert.  This should be an untyped
+ *   object.  It is (or should be) safe to simply use an 
+ *   entity object retrieved from a Drupal site.
+ */
 Drupal.entity.Datastore.prototype.insert = function(entity) {
   var data = Ti.JSON.stringify(entity);
   this.connection.execute("INSERT INTO " + this.entityType + " (nid, type, title, data) VALUES (?, ?, ?, ?)", [entity[this.idField], entity.type, entity.title, data]);
 };
 
 
+/**
+ * Updates an existing entity in the local database.
+ * 
+ * Note: if the specified object does not already exist, 
+ * it will not be saved.  To ensure that an object
+ * is saved properly call the save() method instead.
+ * 
+ * @param object entity
+ *   A Drupal entity to update.  This should be an untyped
+ *   object.  It is (or should be) safe to simply use an 
+ *   entity object retrieved from a Drupal site.
+ */
 Drupal.entity.Datastore.prototype.update = function(entity) {
   var data = Ti.JSON.stringify(entity);
-
   this.connection.execute("UPDATE " + this.entityType + " SET type=?, title=?, data=? WHERE nid=?", [entity.type, entity.title, data, entity[this.idField]]);
 };
 
+/**
+ * Determines if an entity with the given ID already exists.
+ * 
+ * The ID is localized to the keyspace of this datastore's
+ * site and entity type.
+ * 
+ * @param integer id
+ *   The ID of the entity to check.
+ * @return boolean
+ *   true if an entity with the specified ID exists, false
+ *   if not or if there was an error.
+ */
 Drupal.entity.Datastore.prototype.exists = function(id) {
   var rows = this.connection.execute("SELECT 1 FROM " + this.entityType + " WHERE " + this.idField + " = ?", [id]);
   
@@ -105,6 +189,15 @@ Drupal.entity.Datastore.prototype.exists = function(id) {
   return rows && rows.rowCount;
 };
 
+/**
+ * Loads a single entity from the datastore.
+ * 
+ * @param integer id
+ *   The ID of the entity to load.
+ * @return object
+ *   The entity with the specified ID if any, or null
+ *   if one was not found.
+ */
 Drupal.entity.Datastore.prototype.load = function(id) {
   entities = this.loadMultiple([id]);
 
@@ -117,6 +210,18 @@ Drupal.entity.Datastore.prototype.load = function(id) {
   }
 };
 
+/**
+ * Loads multiple entities from the datastore.
+ * 
+ * @todo Figure out some way to control the order
+ *   in which the entities are returned.
+ * @param Array ids
+ *   An array of entity IDs to load.
+ * @return Array
+ *   An array of loaded entity objects.  If none were found
+ *   the array will be empty. Note that the order of entities
+ *   in the array is undefined.
+ */
 Drupal.entity.Datastore.prototype.loadMultiple = function(ids) {
   
   var entities = [];
@@ -128,8 +233,7 @@ Drupal.entity.Datastore.prototype.loadMultiple = function(ids) {
   }
   
   var rows = this.connection.execute('SELECT data FROM ' + this.entityType + ' WHERE ' + this.idField + ' IN (' + placeholders.join(', ') + ')', ids);
-  
-  
+    
   if (rows) {
     while (rows.isValidRow()) {
       var data = rows.fieldByName('data');
@@ -145,11 +249,17 @@ Drupal.entity.Datastore.prototype.loadMultiple = function(ids) {
 
 
 /**
- * Remove an entity from the collection.
+ * Remove an entity from the datastore.
  *
- * This would be called delete(), but that's a reserved word in Javascript.
+ * This would be called delete(), but that's a reserved word
+ * in Javascript.
  *
- * @param id
+ * Note that removing an entity from the local datastore does
+ * not remove it from the site being mirrored. It only removes
+ * the local copy.
+ *
+ * @param integer id
+ *   The ID of the entity to remove.
  */
 Drupal.entity.Datastore.prototype.remove = function(id) {
 
