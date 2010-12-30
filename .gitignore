@@ -2,3 +2,6 @@
 # Any compiled files inside them. Everyone builds their own.
 #DrupalCon/build/iphone/*
 #DrupalCon/build/android/*
+
+# Compiled files. We're copying this line from KitchenSink's repository.
+*.pyc
