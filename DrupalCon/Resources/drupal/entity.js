@@ -120,7 +120,6 @@ Drupal.entity.Datastore.prototype.load = function(id) {
   if (rows && rows.isValidRow()) {
     var data = rows.fieldByName('data');
     var node_loaded = Ti.JSON.parse(data);
-    //Ti.API.info(node_loaded);
     return node_loaded;
   }
   else {
@@ -128,6 +127,47 @@ Drupal.entity.Datastore.prototype.load = function(id) {
     return null;
   }
 };
+
+Drupal.entity.Datastore.prototype.loadMultiple = function(ids) {
+  Ti.API.info('Loading multiple nodes...');
+  
+  var numPlaceholders = ids.length;
+  var placeholders = [];
+  for (var i=0; i < numPlaceholders; i++) {
+    placeholders.push('?');
+  }
+  
+  Ti.API.info(placeholders);
+  
+  var query = 'SELECT data FROM node WHERE nid IN (' + placeholders.join(', ') + ')';
+  
+  Ti.API.info(query);
+  
+  var rows = this.connection.execute(query, ids);
+  
+  var entities = [];
+  
+  if (rows) {
+    while (rows.isValidRow()) {
+      var data = rows.fieldByName('data');
+      Ti.API.info(data);
+      var entity = Ti.JSON.parse(data);
+      Ti.API.info(entity);
+      entities.push(entity);
+      
+      rows.next();
+    }
+  }
+  
+  Ti.API.info('Checking array in method.');
+  
+  for (var j = 0; j < entities.length; j++) {
+    Ti.API.info(entities[j]);
+  }
+  
+  return entities;
+};
+
 
 /**
  * Remove an entity from the collection.
@@ -168,9 +208,7 @@ function resetTest() {
    "created INT," +
    "changed INT," +
    "data BLOB)");
-  
 }
-
 
 resetTest();
 
@@ -212,6 +250,15 @@ else {
 var loaded_node = store.load(1);
 
 Ti.API.info(loaded_node);
+
+Ti.API.info('Trying to load multiple nodes.');
+var nodes = store.loadMultiple([1, 2]);
+
+Ti.API.info('Checking returned nodes.');
+for (var i = 0; i < nodes.length; i++) {
+  Ti.API.info(nodes[i]);
+}
+
 
 /*
 var store = Drupal.entity.db('site');
