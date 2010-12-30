@@ -147,6 +147,8 @@ Drupal.entity.Datastore.prototype.remove = function(id) {
 };
 
 
+//These kinda sorta serve as a unit test, ish, maybe, for now.
+
 
 function resetTest() {
   var conn = Ti.Database.open('default');
@@ -218,63 +220,5 @@ var nodes = store.loadMultiple('node', ids);
 store.save('node', node);
 */
 
-// These kinda sorta serve as a unit test, ish, maybe, for now.
 
-try {
-  //trc.Begin('app.js');
 
-  
-  /*
-  var conn = TiStorage();
-  var db = conn.use('default');
-  var store = db.collection('node');
-
-  //var store = Drupal.entity.db('default', 'node');
-
-  store.clear();
-
-  var node1 = {
-    id: 1,
-    nid: 1,
-    type: 'page',
-    title: 'Hello world'
-  };
-
-  Ti.API.info('Inserting node.');
-  store.create(node1);
-
-  Ti.API.info('Checking for record.');
-  if (store.exists({id: 1})) {
-    Ti.API.info('Record exists.');
-  }
-  else {
-    Ti.API.info('Record does not exist.');
-  }
-  */
-
-  /*
-  Ti.API.info('About to save this node.');
-  Ti.API.info(node1);
-
-  Ti.API.info('Saving node.');
-  store.save(node1);
-
-  Ti.API.info(node1);
-
-  Ti.API.info('Loading node again.');
-  var node1b = store.load(1);
-
-  Ti.API.info('Showing loaded node.');
-  Ti.API.info(node1b);
-*/
-
-  //store.remove(1);
-
-}
-catch(e) {
-  //trc.SetMessage(e.name, e.message, trc);
-}
-
-//if (trc.IsError()) {
-//  trc.Show();
-//}
