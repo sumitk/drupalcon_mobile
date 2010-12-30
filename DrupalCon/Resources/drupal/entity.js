@@ -145,50 +145,6 @@ Drupal.entity.Datastore.prototype.remove = function(id) {
 };
 
 
-/* -----------------------------------------------
-
-var db = Titanium.Database.open('mydb');
-
-db.execute('CREATE TABLE IF NOT EXISTS DATABASETEST  (ID INTEGER, NAME TEXT)');
-db.execute('DELETE FROM DATABASETEST');
-
-db.execute('INSERT INTO DATABASETEST (ID, NAME ) VALUES(?,?)',1,'Name 1');
-db.execute('INSERT INTO DATABASETEST (ID, NAME ) VALUES(?,?)',2,'Name 2');
-db.execute('INSERT INTO DATABASETEST (ID, NAME ) VALUES(?,?)',3,'Name 3');
-db.execute('INSERT INTO DATABASETEST (ID, NAME ) VALUES(?,?)',4,'Name 4');
-db.execute('INSERT INTO DATABASETEST (ID, NAME ) VALUES(?,?)', 5, '\u2070 \u00B9 \u00B2 \u00B3 \u2074 \u2075 \u2076 \u2077 \u2078 \u2079');
-var updateName = 'I was updated';
-var updateId = 4;
-db.execute('UPDATE DATABASETEST SET NAME = ? WHERE ID = ?', updateName, updateId);
-
-db.execute('UPDATE DATABASETEST SET NAME = "I was updated too" WHERE ID = 2');
-
-db.execute('DELETE FROM DATABASETEST WHERE ID = ?',1);
-
-Titanium.API.info('JUST INSERTED, rowsAffected = ' + db.rowsAffected);
-Titanium.API.info('JUST INSERTED, lastInsertRowId = ' + db.lastInsertRowId);
-
-var rows = db.execute('SELECT * FROM DATABASETEST');
-Titanium.API.info('ROW COUNT = ' + rows.getRowCount());
-Titanium.API.info('ROW COUNT = ' + rows.getRowCount());
-Titanium.API.info('ROW COUNT = ' + rows.getRowCount());
-
-while (rows.isValidRow())
-{
-    Titanium.API.info('ID: ' + rows.field(0) + ' NAME: ' + rows.fieldByName('name') + ' COLUMN NAME ' + rows.fieldName(0));
-    if (rows.field(0)==5)
-    {
-        Ti.API.info(rows.fieldByName('name'));
-    }
-
-    rows.next();
-}
-rows.close();
-db.close(); // close db when you're done to save resources
-
-// ---------------------------------------------
-*/
-
 
 function resetTest() {
   var conn = Ti.Database.open('default');
