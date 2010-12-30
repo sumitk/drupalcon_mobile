@@ -128,11 +128,10 @@ Drupal.entity.Datastore.prototype.getIdField = function() {
  */
 Drupal.entity.Datastore.prototype.save = function(entity) {
   if (this.exists(entity[this.idField])) {
-    this.update(entity);
+    return this.update(entity);
   }
   else {
-    Ti.API.info('Object did not exist.');
-    this.insert(entity);
+    return this.insert(entity);
   }
 };
 
@@ -143,12 +142,15 @@ Drupal.entity.Datastore.prototype.save = function(entity) {
  *   A Drupal entity to insert.  This should be an untyped
  *   object.  It is (or should be) safe to simply use an 
  *   entity object retrieved from a Drupal site.
+ * @return integer
+ *   The number of rows affected. This should only ever be 1 for 
+ *   a successful insert or 0 if something went wrong.
  */
 Drupal.entity.Datastore.prototype.insert = function(entity) {
   var data = Ti.JSON.stringify(entity);
   this.connection.execute("INSERT INTO " + this.entityType + " (nid, type, title, data) VALUES (?, ?, ?, ?)", [entity[this.idField], entity.type, entity.title, data]);
+  return this.connection.rowsAffected;
 };
-
 
 /**
  * Updates an existing entity in the local database.
@@ -161,10 +163,15 @@ Drupal.entity.Datastore.prototype.insert = function(entity) {
  *   A Drupal entity to update.  This should be an untyped
  *   object.  It is (or should be) safe to simply use an 
  *   entity object retrieved from a Drupal site.
+ * @return integer
+ *   The number of rows affected. This should only ever be 1 for 
+ *   a successful update or 0 if the entity didn't exist in the
+ *   first place.
  */
 Drupal.entity.Datastore.prototype.update = function(entity) {
   var data = Ti.JSON.stringify(entity);
   this.connection.execute("UPDATE " + this.entityType + " SET type=?, title=?, data=? WHERE nid=?", [entity.type, entity.title, data, entity[this.idField]]);
+  return this.connection.rowsAffected;
 };
 
 /**
@@ -260,9 +267,15 @@ Drupal.entity.Datastore.prototype.loadMultiple = function(ids) {
  *
  * @param integer id
  *   The ID of the entity to remove.
+ * @return integer
+ *   The number of rows affected. This should only ever be 1 for 
+ *   a successful deletion or 0 if the entity didn't exist in the
+ *   first place.
  */
 Drupal.entity.Datastore.prototype.remove = function(id) {
   this.connection.execute("DELETE FROM " + this.entityType + " WHERE " + this.idField + " = ?", [id]);
+  
+  return this.connection.rowsAffected;
 };
 
 
@@ -305,16 +318,16 @@ var node2 = {
 
 var store = Drupal.entity.db('default', 'node');
 
+var ret;
+
 Ti.API.info('Inserting node.');
-store.insert(node1);
-store.save(node2);
+ret = store.insert(node1);
+Ti.API.info('Insert new entity returned: ' + ret);
 
-Ti.API.info('Selecting whole table');
-var c = store.connection;
+ret = store.save(node2);
+Ti.API.info('Save on new entity returned: ' + ret);
 
-Ti.API.info(c.toString());
-
-var count = c.execute('SELECT COUNT(*) FROM node').field(0);
+var count = store.connection.execute('SELECT COUNT(*) FROM node').field(0);
 Ti.API.info('There should be 2 records.  There are actually: ' + count);
 
 Ti.API.info('Checking for record.');
@@ -339,15 +352,18 @@ for (var i = 0; i < nodes.length; i++) {
 
 var node = store.load(1);
 node.title = "Hello, Drupal world.";
-store.save(node);
+ret = store.save(node);
+Ti.API.info('Save on existing entity returned: ' + ret);
+
 
 var nodeB = store.load(1);
 Ti.API.info(nodeB);
 
 Ti.API.info('Try to delete a node now.');
-store.remove(1);
+ret = store.remove(1);
+Ti.API.info('Removing existing entity returned: ' + ret);
 
-var count = c.execute('SELECT COUNT(*) FROM node').field(0);
+var count = store.connection.execute('SELECT COUNT(*) FROM node').field(0);
 Ti.API.info('There should be 1 record.  There are actually: ' + count);
 
 
