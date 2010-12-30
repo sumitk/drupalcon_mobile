@@ -106,12 +106,10 @@ Drupal.entity.Datastore.prototype.exists = function(id) {
 };
 
 Drupal.entity.Datastore.prototype.load = function(id) {
-  var rows = this.connection.execute('SELECT data FROM node WHERE nid=?', 1);
-  
-  if (rows && rows.isValidRow()) {
-    var data = rows.fieldByName('data');
-    var entity = Ti.JSON.parse(data);
-    return entity;
+  entities = this.loadMultiple([id]);
+
+  if (entities && entities[0]) {
+    return entities[0];
   }
   else {
     Ti.API.info('No data found.');
@@ -121,17 +119,16 @@ Drupal.entity.Datastore.prototype.load = function(id) {
 
 Drupal.entity.Datastore.prototype.loadMultiple = function(ids) {
   
+  var entities = [];
+
   var numPlaceholders = ids.length;
   var placeholders = [];
   for (var i=0; i < numPlaceholders; i++) {
     placeholders.push('?');
   }
   
-  var query = 'SELECT data FROM node WHERE nid IN (' + placeholders.join(', ') + ')';
+  var rows = this.connection.execute('SELECT data FROM node WHERE nid IN (' + placeholders.join(', ') + ')', ids);
   
-  var rows = this.connection.execute(query, ids);
-  
-  var entities = [];
   
   if (rows) {
     while (rows.isValidRow()) {
