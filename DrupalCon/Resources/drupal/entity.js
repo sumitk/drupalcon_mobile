@@ -199,7 +199,7 @@ Drupal.entity.Datastore.prototype.exists = function(id) {
  *   if one was not found.
  */
 Drupal.entity.Datastore.prototype.load = function(id) {
-  entities = this.loadMultiple([id]);
+  var entities = this.loadMultiple([id]);
 
   if (entities && entities[0]) {
     return entities[0];
