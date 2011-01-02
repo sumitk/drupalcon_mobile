@@ -131,12 +131,12 @@ Drupal.entity.Datastore.prototype.getIdField = function() {
  *   entity object retrieved from a Drupal site.
  */
 Drupal.entity.Datastore.prototype.save = function(entity) {
-  if (this.exists(entity[this.idField])) {
-    return this.update(entity);
-  }
-  else {
-    return this.insert(entity);
-  }
+  // For simplicity, we'll just do a delete/insert cycle.
+  // We're only using a very simple (if dynamic) schema,
+  // so this lets us avoid having to write a dynamic
+  // update builder for now.
+  this.remove(entity[this.idField]);
+  return this.insert(entity);
 };
 
 /**
