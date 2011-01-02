@@ -12,40 +12,45 @@ if (!Drupal.db) {
  */
 Drupal.entity = {
 
-  /**
-   * Entity types known to the system.
-   *
-   * This is a subset of the information provided in hook_entity_info(). We have
-   * to specify it again here because we may not be dealing with Drupal 7 on
-   * the other end.
-   *
-   * We're using lower_case variables here instead of camelCase so that they
-   * exactly match the PHP variables.  That will make dynamic definition easier
-   * later.
-   *
-   * @todo Make it possible to override this data with a direct pull of
-   *       hook_entity_info() from a connected server.
-   */
-  types: {
-    node: {
-      label: Ti.Locale.getString('Node'),
-      entity_keys: {
-        id: 'nid',
-        revision: 'vid',
-        bundle: 'type',
-        label: 'title'
-      }
-    },
-    user: {
-      label: Ti.Locale.getString('User'),
-      entity_keys: {
-        id: 'uid',
-        bundle: null,
-        label: 'name'
+
+  sites: {
+    main: {
+      /**
+       * Entity types known to the system.
+       *
+       * This is a subset of the information provided in hook_entity_info(). We have
+       * to specify it again here because we may not be dealing with Drupal 7 on
+       * the other end.
+       *
+       * We're using lower_case variables here instead of camelCase so that they
+       * exactly match the PHP variables.  That will make dynamic definition easier
+       * later.
+       *
+       * @todo Make it possible to override this data with a direct pull of
+       *       hook_entity_info() from a connected server.
+       */
+      types: {
+        node: {
+          label: Ti.Locale.getString('Node'),
+          entity_keys: {
+            id: 'nid',
+            revision: 'vid',
+            bundle: 'type',
+            label: 'title'
+          }
+        },
+        user: {
+          label: Ti.Locale.getString('User'),
+          entity_keys: {
+            id: 'uid',
+            bundle: null,
+            label: 'name'
+          }
+        }
       }
     }
   },
-
+  
   /**
    * Creates a new entity storage object.
    *
@@ -62,19 +67,21 @@ Drupal.entity = {
   db: function(site, entityType) {
     var conn = Drupal.db.openConnection(site);
 
-    return new Drupal.entity.Datastore(conn, entityType);
+    return new Drupal.entity.Datastore(site, conn, entityType);
   },
 
   /**
    * Retrieves information about a defined entity.
    *
+   * @param string site
+   *   The site key for which we want information.
    * @param entityType
    *   The type of entity for which we want information.
    * @return Object
    *   The entity definition as an object/associative array,
    *   or null if not found.
    */
-  entityInfo: function(entityType) {
+  entityInfo: function(site, entityType) {
     if (this.types[entityType] !== undefined) {
       return this.types[entityType];
     }
@@ -89,14 +96,17 @@ Drupal.entity = {
  * and saving cached entities.  Although it uses SQLite
  * under the hood, it's not truly accessible as an SQL engine.
  *
+ * @param string site
+ *   The site key to wich this datastore is bound.
  * @param Ti.Database.DB connection
  *   The database connection object for this datastore.
  * @param string
  *   The type of entity this datastore should access.
  * @return {Datastore}
  */
-Drupal.entity.Datastore = function(connection, entityType) {
+Drupal.entity.Datastore = function(site, connection, entityType) {
 
+  this.site = site;
   this.connection = connection;
   this.entityType = entityType;
 
@@ -112,7 +122,7 @@ Drupal.entity.Datastore = function(connection, entityType) {
  *   The name of the field that holds this entity type's primary key.
  */
 Drupal.entity.Datastore.prototype.getIdField = function() {
-  var idField = Drupal.entity.types[this.entityType].entity_keys.id;
+  var idField = Drupal.entity[this.site].types[this.entityType].entity_keys.id;
 
   return idField;
 };
