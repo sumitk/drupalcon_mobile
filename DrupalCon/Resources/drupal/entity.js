@@ -321,16 +321,16 @@ Drupal.entity.Datastore.prototype.remove = function(id) {
 
 
 function resetTest() {
-  Drupal.db.addConnectionInfo('default');
+  Drupal.db.addConnectionInfo('main');
   
-  var conn = Drupal.db.openConnection('default');
+  var conn = Drupal.db.openConnection('main');
 
   //Reset for testing.
   conn.remove();
 
   conn.close();
 
-  var conn2 = Drupal.db.openConnection('default');
+  var conn2 = Drupal.db.openConnection('main');
 
   conn2.query("CREATE TABLE IF NOT EXISTS node (" +
    "nid INTEGER PRIMARY KEY," +
@@ -356,7 +356,7 @@ var node2 = {
     title: 'Goodbye world'
   };
 
-var store = Drupal.entity.db('default', 'node');
+var store = Drupal.entity.db('main', 'node');
 
 var ret;
 
