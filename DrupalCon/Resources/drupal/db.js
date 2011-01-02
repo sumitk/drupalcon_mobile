@@ -236,10 +236,10 @@ Drupal.db.Query.prototype.nextPlaceholder= function() {
  * @return Query
  *   The called object.
  */
-Drupal.db.Query.prototype.comment(comment) {
+Drupal.db.Query.prototype.comment = function(comment) {
   this.comments = comment;
   return this;
-}
+};
 
 /**
  * Returns a reference to the comments array for the query.
