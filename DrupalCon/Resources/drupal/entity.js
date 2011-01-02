@@ -89,6 +89,25 @@ Drupal.entity = {
   }
 };
 
+Drupal.entity.sites.main.node.schema = {
+  fields: function() {
+    return {
+      created: 'integer',
+      updated: 'integer'
+    };
+  },
+  
+  getFieldValues: function(entity) {
+    var fields = {};
+    
+    fields.created = entity.created;
+    fields.updated = entity.updated;
+    
+    return fields;
+  }
+  
+};
+
 /**
  * Creates a Drupal Datastore object.
  *
