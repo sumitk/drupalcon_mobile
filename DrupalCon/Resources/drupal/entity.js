@@ -152,7 +152,13 @@ Drupal.entity.Datastore.prototype.save = function(entity) {
  */
 Drupal.entity.Datastore.prototype.insert = function(entity) {
   var data = Ti.JSON.stringify(entity);
-  this.connection.query("INSERT INTO " + this.entityType + " (nid, type, title, data) VALUES (?, ?, ?, ?)", [entity[this.idField], entity.type, entity.title, data]);
+  this.connection.insert(this.entityType).fields({
+    nid: entity[this.idField],
+    type: entity.type,
+    title: entity.title,
+    data: data
+  }).execute();
+  
   return this.connection.rowsAffected;
 };
 
