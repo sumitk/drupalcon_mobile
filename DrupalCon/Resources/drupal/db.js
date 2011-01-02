@@ -3,6 +3,8 @@ if (!Drupal) {
   Ti.include('drupal.js');
 }
 
+Ti.include('db.insert.js');
+
 /**
  * Define a new library for Drupal Entity storage.
  */
