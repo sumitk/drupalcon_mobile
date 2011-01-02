@@ -3,6 +3,10 @@ if (!Drupal) {
   Ti.include('drupal.js');
 }
 
+if (!Drupal.db) {
+  Ti.include('db.js');
+}
+
 /**
  * Define a new library for Drupal Entity storage.
  */
@@ -56,7 +60,7 @@ Drupal.entity = {
    *   A new datastore object for the specified site and entity.
    */
   db: function(site, entityType) {
-    var conn = Ti.Database.open(site);
+    var conn = Drupal.db.openConnection(site);
 
     return new Drupal.entity.Datastore(conn, entityType);
   },
@@ -148,7 +152,7 @@ Drupal.entity.Datastore.prototype.save = function(entity) {
  */
 Drupal.entity.Datastore.prototype.insert = function(entity) {
   var data = Ti.JSON.stringify(entity);
-  this.connection.execute("INSERT INTO " + this.entityType + " (nid, type, title, data) VALUES (?, ?, ?, ?)", [entity[this.idField], entity.type, entity.title, data]);
+  this.connection.query("INSERT INTO " + this.entityType + " (nid, type, title, data) VALUES (?, ?, ?, ?)", [entity[this.idField], entity.type, entity.title, data]);
   return this.connection.rowsAffected;
 };
 
@@ -170,7 +174,7 @@ Drupal.entity.Datastore.prototype.insert = function(entity) {
  */
 Drupal.entity.Datastore.prototype.update = function(entity) {
   var data = Ti.JSON.stringify(entity);
-  this.connection.execute("UPDATE " + this.entityType + " SET type=?, title=?, data=? WHERE nid=?", [entity.type, entity.title, data, entity[this.idField]]);
+  this.connection.query("UPDATE " + this.entityType + " SET type=?, title=?, data=? WHERE nid=?", [entity.type, entity.title, data, entity[this.idField]]);
   return this.connection.rowsAffected;
 };
 
@@ -187,7 +191,7 @@ Drupal.entity.Datastore.prototype.update = function(entity) {
  *   if not or if there was an error.
  */
 Drupal.entity.Datastore.prototype.exists = function(id) {
-  var rows = this.connection.execute("SELECT 1 FROM " + this.entityType + " WHERE " + this.idField + " = ?", [id]);
+  var rows = this.connection.query("SELECT 1 FROM " + this.entityType + " WHERE " + this.idField + " = ?", [id]);
 
   // In case of pretty much any error whatsoever, Ti will just
   // return null rather than show a useful error.  So we have
@@ -239,7 +243,7 @@ Drupal.entity.Datastore.prototype.loadMultiple = function(ids) {
     placeholders.push('?');
   }
 
-  var rows = this.connection.execute('SELECT data FROM ' + this.entityType + ' WHERE ' + this.idField + ' IN (' + placeholders.join(', ') + ')', ids);
+  var rows = this.connection.query('SELECT data FROM ' + this.entityType + ' WHERE ' + this.idField + ' IN (' + placeholders.join(', ') + ')', ids);
 
   if (rows) {
     while (rows.isValidRow()) {
@@ -272,7 +276,7 @@ Drupal.entity.Datastore.prototype.loadMultiple = function(ids) {
  *   first place.
  */
 Drupal.entity.Datastore.prototype.remove = function(id) {
-  this.connection.execute("DELETE FROM " + this.entityType + " WHERE " + this.idField + " = ?", [id]);
+  this.connection.query("DELETE FROM " + this.entityType + " WHERE " + this.idField + " = ?", [id]);
 
   return this.connection.rowsAffected;
 };
@@ -282,16 +286,18 @@ Drupal.entity.Datastore.prototype.remove = function(id) {
 
 
 function resetTest() {
-  var conn = Ti.Database.open('default');
+  Drupal.db.addConnectionInfo('default');
+  
+  var conn = Drupal.db.openConnection('default');
 
   //Reset for testing.
   conn.remove();
 
   conn.close();
 
-  var conn2 = Ti.Database.open('default');
+  var conn2 = Drupal.db.openConnection('default');
 
-  conn2.execute("CREATE TABLE IF NOT EXISTS node (" +
+  conn2.query("CREATE TABLE IF NOT EXISTS node (" +
    "nid INTEGER PRIMARY KEY," +
    "vid INTEGER," +
    "type VARCHAR," +
@@ -326,7 +332,7 @@ Ti.API.info('Insert new entity returned: ' + ret);
 ret = store.save(node2);
 Ti.API.info('Save on new entity returned: ' + ret);
 
-var count = store.connection.execute('SELECT COUNT(*) FROM node').field(0);
+var count = store.connection.query('SELECT COUNT(*) FROM node').field(0);
 Ti.API.info('There should be 2 records.  There are actually: ' + count);
 
 Ti.API.info('Checking for record.');
@@ -361,7 +367,7 @@ Ti.API.info('Try to delete a node now.');
 ret = store.remove(1);
 Ti.API.info('Removing existing entity returned: ' + ret);
 
-var count = store.connection.execute('SELECT COUNT(*) FROM node').field(0);
+var count = store.connection.query('SELECT COUNT(*) FROM node').field(0);
 Ti.API.info('There should be 1 record.  There are actually: ' + count);
 
 
