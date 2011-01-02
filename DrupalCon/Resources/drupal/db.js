@@ -50,7 +50,7 @@ Drupal.db = {
    *
    * @var array
    */
-  databaseInfo: null,
+  databaseInfo: [],
 
   /**
    * Gets the connection object for the specified database key.
@@ -185,11 +185,11 @@ Drupal.db.Connection = function(key) {
   this.connection = Ti.Database.open(key);
 };
 
-Drupal.db.Connection.prototype.execute = function(stmt, args) {
+Drupal.db.Connection.prototype.query = function(stmt, args) {
   if (!args) {
     args = [];
   }
-  
+
   return this.connection.execute(stmt, args);
 };
 
@@ -200,5 +200,35 @@ Drupal.db.Connection.prototype.close = function() {
 Drupal.db.Connection.prototype.remove = function() {
   this.connection.remove();
 };
+
+/* Kinda sorta unit tests, ish. */
+
+function resetDBTest() {
+  var conn = Ti.Database.open('test');
+
+  //Reset for testing.
+  conn.remove();
+
+  var conn2 = Ti.Database.open('test');
+
+  conn2.execute("CREATE TABLE IF NOT EXISTS node (" +
+   "nid INTEGER PRIMARY KEY," +
+   "vid INTEGER," +
+   "type VARCHAR," +
+   "title VARCHAR," +
+   "created INT," +
+   "changed INT)");
+
+  conn2.execute("INSERT INTO node (nid, vid, type, title, created, changed) VALUES (1, 1, 'page', 'Hello world', 12345, 12345)");
+}
+
+resetDBTest();
+
+Drupal.db.addConnectionInfo('test');
+
+var conn = Drupal.db.getConnection('test');
+
+var count = conn.query('SELECT COUNT(*) FROM node').field(0);
+Ti.API.info('There should be 1 record.  There are actually: ' + count);
 
 
