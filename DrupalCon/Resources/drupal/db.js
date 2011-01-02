@@ -191,7 +191,12 @@ Drupal.db.Connection.prototype.query = function(stmt, args) {
     args = [];
   }
 
-  return this.connection.execute(stmt, args);
+  var result = this.connection.execute(stmt, args);
+  
+  // So that we can still have access to this value.
+  this.affectedRows = this.connection.affectedRows;
+  
+  return result;
 };
 
 Drupal.db.Connection.prototype.close = function() {
