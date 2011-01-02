@@ -31,3 +31,11 @@ var Drupal = {
   }
 };
 
+/**
+ * For fancy-schmancy inheritance building.
+ */
+Drupal.constructPrototype = function(o) {
+  var f = function() {};
+  f.prototype = o.prototype;
+  return new f;
+};

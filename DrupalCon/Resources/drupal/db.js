@@ -203,6 +203,63 @@ Drupal.db.Connection.prototype.remove = function() {
   this.connection.remove();
 };
 
+Drupal.db.Query = function(connection) {
+
+  this.connection = connection;
+  
+  this.comments = [];
+  
+  this.nextPlaceholder = 0;
+};
+
+/**
+ * Gets the next placeholder value for this query object.
+ *
+ * @return int
+ *   Next placeholder value.
+ */
+Drupal.db.Query.prototype.nextPlaceholder= function() {
+  return this.nextPlaceholder++;
+};
+
+/**
+ * Adds a comment to the query.
+ *
+ * By adding a comment to a query, you can more easily find it in your
+ * query log or the list of active queries on an SQL server. This allows
+ * for easier debugging and allows you to more easily find where a query
+ * with a performance problem is being generated.
+ *
+ * @param $comment
+ *   The comment string to be inserted into the query.
+ *
+ * @return Query
+ *   The called object.
+ */
+Drupal.db.Query.prototype.comment(comment) {
+  this.comments = comment;
+  return this;
+}
+
+/**
+ * Returns a reference to the comments array for the query.
+ *
+ * Because this method returns by reference, alter hooks may edit the comments
+ * array directly to make their changes. If just adding comments, however, the
+ * use of comment() is preferred.
+ *
+ * Note that this method must be called by reference as well:
+ * @code
+ * $comments =& $query->getComments();
+ * @endcode
+ *
+ * @return
+ *   A reference to the comments array structure.
+ */
+Drupal.db.Query.prototype.getComments = function() {
+  return this.comments;
+};
+
 /* Kinda sorta unit tests, ish. */
 
 function resetDBTest() {
