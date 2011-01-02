@@ -3,8 +3,6 @@ if (!Drupal) {
   Ti.include('drupal.js');
 }
 
-Ti.include('db.insert.js');
-
 /**
  * Define a new library for Drupal Entity storage.
  */
@@ -203,6 +201,10 @@ Drupal.db.Connection.prototype.remove = function() {
   this.connection.remove();
 };
 
+Drupal.db.Connection.prototype.insert = function(table) {
+  return new Drupal.db.InsertQuery(table, this);
+};
+
 Drupal.db.Query = function(connection) {
 
   this.connection = connection;
@@ -260,6 +262,10 @@ Drupal.db.Query.prototype.getComments = function() {
   return this.comments;
 };
 
+
+Ti.include('db.insert.js');
+
+
 /* Kinda sorta unit tests, ish. */
 
 function resetDBTest() {
@@ -290,4 +296,20 @@ var conn = Drupal.db.getConnection('test');
 var count = conn.query('SELECT COUNT(*) FROM node').field(0);
 Ti.API.info('There should be 1 record.  There are actually: ' + count);
 
+Ti.API.info('Testing insert queries.');
+
+Ti.API.info('Creating insert object');
+var ins = conn.insert('node');
+
+Ti.API.info('Setting fields');
+ins.fields({nid: 2, title: 'Goodbye world'});
+
+Ti.API.info('Setting values');
+ins.values({nid: 3, title: 'Hi again!'});
+
+Ti.API.info('Executing insert');
+ins.execute();
+
+var count = conn.query('SELECT COUNT(*) FROM node').field(0);
+Ti.API.info('There should be 3 records.  There are actually: ' + count);
 

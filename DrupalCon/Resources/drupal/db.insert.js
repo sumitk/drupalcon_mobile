@@ -1,6 +1,4 @@
 
-Drupal.db.InsertQuery.prototype = Drupal.constructPrototype(Drupal.db.Query);
-
 Drupal.db.InsertQuery = function(table, connection) {
   /**
    * The table on which to insert.
@@ -50,6 +48,12 @@ Drupal.db.InsertQuery = function(table, connection) {
   this.fromQuery = null;
 };
 
+// This defines the "parent" class, kinda.  It has to happen after the
+// constructor definition because otherwise Drupal.db.InsertQuery doesn't
+// exist yet.
+Drupal.db.InsertQuery.prototype = Drupal.constructPrototype(Drupal.db.Query);
+
+
 /**
  * Adds a set of field->value pairs to be inserted.
  *
@@ -71,9 +75,14 @@ Drupal.db.InsertQuery = function(table, connection) {
  *   The called object.
  */
 Drupal.db.InsertQuery.prototype.fields = function(fields, values) {
-  if (!this.insertFields) {
+  if (this.insertFields.length === 0) {
+    Ti.API.info('No fields defined yet.');
     if (!values) {
-      if (!fields[0]) {
+      Ti.API.info('No values were defined, so extracting from the fields object.');
+      // If fields is an array, then we're specifying only the fields, not values.
+      // If it's not an array then it must be an object, in which case we're 
+      // specifying both the fields and values at once.
+      if (!Array.isArray(fields)) {
         var keys = [];
         var arrValues = [];
         for (var prop in fields) {
@@ -82,7 +91,10 @@ Drupal.db.InsertQuery.prototype.fields = function(fields, values) {
             arrValues.push(fields[prop]);
           }
         }
-        values = arrValues;
+        if(arrValues.length) {
+          values = arrValues;
+        }
+        
         fields = keys;
       }
     }
@@ -111,16 +123,19 @@ Drupal.db.InsertQuery.prototype.fields = function(fields, values) {
  *   The called object.
  */
 Drupal.db.InsertQuery.prototype.values = function(values) {
-  if (values[0]) {
+  if (Array.isArray(values)) {
+    Ti.API.info('Called values() with an array');
     this.insertValues.push(values);
   }
   else {
+    Ti.API.info('Called values() with an object');
     // Reorder the submitted values to match the fields array.
     // For consistency, the values array is always numerically indexed.
-    var insertValues;
+    var insertValues = [];
     for (var key in this.insertFields) {
       if (this.insertFields.hasOwnProperty(key)) {
-        insertValues.push(values[key]);
+        Ti.API.info('Checking value for key: ' + this.insertFields[key]);
+        insertValues.push(values[this.insertFields[key]]);
       }
     }
     this.insertValues.push(insertValues);
@@ -183,6 +198,7 @@ Drupal.db.InsertQuery.prototype.preExecute = function() {
 
   // Don't execute query without fields.
   if ((this.insertFields.length + this.defaultFields.length) === 0) {
+    Ti.API.info('ERROR: There are no fields available to insert with.');
     throw new Error('There are no fields available to insert with.');
   }
 
@@ -207,11 +223,13 @@ Drupal.db.InsertQuery.prototype.preExecute = function() {
 Drupal.db.InsertQuery.prototype.execute = function() {
   // If validation fails, simply return NULL. Note that validation routines
   // in preExecute() may throw exceptions instead.
+  Ti.API.info('Calling preExecute');
   if (!this.preExecute()) {
     return null;
   }
 
   if (!this.insertFields) {
+    Ti.API.info('There were no insertFields, so using all default values');
     return this.connection.query('INSERT INTO ' + this.table + ' DEFAULT VALUES');
   }
   
@@ -233,8 +251,10 @@ Drupal.db.InsertQuery.prototype.execute = function() {
   //$transaction = $this->connection->startTransaction();
 
   try {
+    Ti.API.info('About to call sqlString');
     var sql = this.sqlString();
     for (var i = 0; i < this.insertValues.length; i++) {
+      Ti.API.info('About to call query');
       lastInsertId = this.connection.query(sql, this.insertValues[i]);
     }
   }
@@ -258,6 +278,7 @@ Drupal.db.InsertQuery.prototype.sqlString = function() {
   var comments = (this.comments) ? '/* ' + this.comments.join('; ') + ' */ ' : '';
 
   // Produce as many generic placeholders as necessary.
+  Ti.API.info('Building placeholders');
   var placeholders = [];
   var length = this.insertFields.length;
   for (var i = 0; i < length; i++) {
@@ -271,6 +292,7 @@ Drupal.db.InsertQuery.prototype.sqlString = function() {
     //return comments + 'INSERT INTO {' + $this->table + '} (' + implode(', ', $this->insertFields) + ') ' + (string)$this->fromQuery;
   //}
 
+  Ti.API.info('Returning query string');
   return comments + 'INSERT INTO ' + this.table + ' (' + this.insertFields.join(', ') + ') VALUES (' + placeholders.join(', ') + ')';
 };
 
