@@ -134,9 +134,6 @@ Drupal.db = {
    * @param $key
    *   The database connection key, as specified in settings.php. The default is
    *   "default".
-   *
-   * @throws DatabaseConnectionNotDefinedException
-   * @throws DatabaseDriverNotSpecifiedException
    */
   openConnection: function(key) {
     if (!key) {
@@ -174,4 +171,34 @@ Drupal.db = {
     this.connections[key] = undefined;
   }
 };
+
+/**
+ * Base Database API class.
+ *
+ * This class provides a Drupal-specific connection object.
+ */
+Drupal.db.Connection = function(key) {
+
+  // Constructor portion.
+  this.key = key;
+
+  this.connection = Ti.Database.open(key);
+};
+
+Drupal.db.Connection.prototype.execute = function(stmt, args) {
+  if (!args) {
+    args = [];
+  }
+  
+  return this.connection.execute(stmt, args);
+};
+
+Drupal.db.Connection.prototype.close = function() {
+  this.connection.close();
+};
+
+Drupal.db.Connection.prototype.remove = function() {
+  this.connection.remove();
+};
+
 
