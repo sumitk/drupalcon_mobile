@@ -354,7 +354,6 @@ node.title = "Hello, Drupal world.";
 ret = store.save(node);
 Ti.API.info('Save on existing entity returned: ' + ret);
 
-
 var nodeB = store.load(1);
 Ti.API.info(nodeB);
 
