@@ -67,7 +67,7 @@ Drupal.entity = {
   db: function(site, entityType) {
     var conn = Drupal.db.openConnection(site);
 
-    return new Drupal.entity.Datastore(site, conn, entityType);
+    return new Drupal.entity.Datastore(site, conn, entityType, this.entity[site].types[entityType]);
   },
 
   /**

@@ -14,12 +14,14 @@
  *   The type of entity this datastore should access.
  * @return {Datastore}
  */
-Drupal.entity.Datastore = function(site, connection, entityType) {
+Drupal.entity.Datastore = function(site, connection, entityType, entityInfo) {
 
   this.site = site;
   this.connection = connection;
   this.entityType = entityType;
 
+  this.entityInfo = entityInfo;
+  
   this.idField = this.getIdField();
 
   return this;
@@ -32,7 +34,7 @@ Drupal.entity.Datastore = function(site, connection, entityType) {
  *   The name of the field that holds this entity type's primary key.
  */
 Drupal.entity.Datastore.prototype.getIdField = function() {
-  var idField = Drupal.entity[this.site].types[this.entityType].entity_keys.id;
+  var idField = this.entityInfo.entity_keys.id;
 
   return idField;
 };
