@@ -207,3 +207,43 @@ Drupal.entity.Datastore.prototype.remove = function(id) {
 
   return this.connection.rowsAffected;
 };
+
+/**
+ * Reinitialize the schema for this datastore.
+ * 
+ * Note: This means dropping and recreating the table for this entity
+ * type.  That is, all existing data will be destroyed.  Did we mention
+ * *all existing data for this entity type will be lost*?
+ */
+Drupal.entity.Datastore.prototype.initializeSchema = function() {
+  
+  var fields = [];
+  
+  // We always want to denormalize the entity keys, if available.
+  if (this.entityInfo.entity_keys.id) {
+    fields[this.entityInfo.entity_keys.id] = 'INTEGER',
+  }
+  if (this.entityInfo.entity_keys.revision) {
+    fields[this.entityInfo.entity_keys.revision] = 'INTEGER',
+  }
+  if (this.entityInfo.entity_keys.bundle) {
+    fields[this.entityInfo.entity_keys.bundle] = 'VARCHAR',
+  }
+  if (this.entityInfo.entity_keys.label) {
+    fields[this.entityInfo.entity_keys.label] = 'VARCHAR',
+  }
+
+  // Now extract any additional fields to denormalize.
+  var extraFields = this.entityInfo.schema.fields();
+  fields = fields.concat(extraFields);
+  
+  // We always want a "data" column to store the serialized object itself.
+  fields.data = 'BLOB';
+  
+  this.connection.dropTable(this.entityType);
+  
+  this.connection.schema().createTable(this.entityType, fields, this.entityInfo.entity_keys.id);
+  
+};
+
+
