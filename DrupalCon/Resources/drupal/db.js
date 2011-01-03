@@ -211,6 +211,138 @@ Drupal.db.Connection.prototype.insert = function(table) {
   return new Drupal.db.InsertQuery(table, this);
 };
 
+Drupal.db.Connection.prototype.dropTable = function(table) {
+  if (this.tableExists(table)) {
+    this.query("DROP TABLE IF EXISTS " + table);
+    return true;
+  }
+
+  return false;
+};
+
+Drupal.db.Connection.prototype.createTable = function(name, table) {
+  var queries = [];
+  queries.concat('CREATE TABLE' + name + '(' + this.createColumnSql(name, table) + ')');
+  queries.concat(this.createIndexSql(name, table));
+  
+  for (var i = 0; i < queries.length; i++) {
+    this.query(queries[i]);
+  }
+  
+};
+
+Drupal.db.Connection.prototype.createColumnSql = function(tablename, schema) {
+  var sqlArray = [];
+
+  // Add the SQL statement for each field.
+  var field;
+  for (var name in schema.fields) {
+    if (schema.fields.hasOwnProperty(name)) {
+      field = schema.fields[name];
+      // If a field is serial it must be a primary key, so we can safely
+      // remove it from the other list of primary keys. I think.
+      // @todo Finish converting this later when we figure out how.
+      //if (field.type && field.type == 'serial') {
+      //  if (isset($schema['primary key']) && ($key = array_search($name, $schema['primary key'])) !== FALSE) {
+      //    unset($schema['primary key'][$key]);
+      //  }
+      //}
+      sqlArray.push(this.createFieldSql(name, field));
+    }
+  }
+
+  // Process keys.
+  if (schema.primarKey) {
+    sqlArray.push(" PRIMARY KEY (" + this.createKeySql(schema.primaryKey) + ")");
+  }
+
+  return sqlArray.join(", \n");
+};
+
+Drupal.db.Connection.prototype.createFieldSql = function(name, spec) {
+  var sql;
+  
+  spec.type = spec.type.toUpperCase();
+  
+  if (spec.hasOwnProperty('autoIncrement')) {
+    sql = name + " INTEGER PRIMARY KEY AUTOINCREMENT";
+    if (spec.unsigned) {
+      sql += ' CHECK (' + name + '>= 0)';
+    }
+  }
+  else {
+    sql = name + ' ' + spec.type;
+
+    if (['VARCHAR', 'TEXT'].indexOf(spec.type) !== false && spec.length) {
+      sql += '(' + spec.length + ')';
+    }
+
+    if (spec.hasOwnProperty('notNull')) {
+      if (spec['not null']) {
+        sql += ' NOT NULL';
+      }
+      else {
+        sql += ' NULL';
+      }
+    }
+
+    if (spec.hasOwnProperty('unsigned')) {
+      sql += ' CHECK (' + name + '>= 0)';
+    }
+
+    if (spec.hasOwnProperty('defaultValue')) {
+      if (typeof spec.defaultValue == 'String') {
+        spec.defaultValue = "'" + spec.defaultValue + "'";
+      }
+      sql += ' DEFAULT ' + spec.defaultValue;
+    }
+
+    if (!spec.hasOwnProperty('notNull') && !spec.hasOwnProperty('defaultValue')) {
+      sql += ' DEFAULT NULL';
+    }
+  }
+  return sql;
+};
+
+
+Drupal.db.Connection.prototype.createIndexSql = function(table, schema) {
+  var sql = [];
+  var key;
+  
+  if (schema.hasOwnProperty('uniqueKeys')) {
+    for (key in schema.uniqueKeys) {
+      if (schema.uniqueKeys.hasOwnProperty(key)) {
+        sql.push('CREATE UNIQUE INDEX ' + table + '_' + key + ' ON ' + table + ' (' + this.createKeySql(schema.uniqueKeys[key]) + "); \n");
+      }
+    }
+  }
+  if (schema.hasOwnProperty('indexes')) {
+    for (key in schema.indexes) {
+      if (schema.indexes.hasOwnProperty(key)) {
+        sql.push('CREATE INDEX ' + table + '_' + key + ' ON ' + table + ' (' + this.createKeySql(schema.indexes[key]) + "); \n");
+      }
+    }
+  }
+  return sql;
+};
+
+Drupal.db.Connection.prototype.createKeySql = function(fields) {
+  var ret = [];
+  for (var i = 0; i < fields.length; i++) {
+    if (typeof fields[i] == 'Array') {
+      ret.push(fields[i][0]);
+    }
+    else {
+      ret.push(fields[i]);
+    }
+  }
+  return ret.join(', ');
+};
+
+Drupal.db.Connection.prototype.tableExists = function(table) {
+  return Boolean(this.query('SELECT 1 FROM sqlite_master WHERE type = ? AND name = ?', ['table', table]).field(0));
+};
+
 Drupal.db.Query = function(connection) {
 
   this.connection = connection;
@@ -267,6 +399,7 @@ Drupal.db.Query.prototype.comment = function(comment) {
 Drupal.db.Query.prototype.getComments = function() {
   return this.comments;
 };
+
 
 
 Ti.include('db.insert.js');
