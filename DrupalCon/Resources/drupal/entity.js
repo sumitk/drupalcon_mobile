@@ -82,18 +82,32 @@ Drupal.entity = {
    *   or null if not found.
    */
   entityInfo: function(site, entityType) {
-    if (this.types[entityType] !== undefined) {
-      return this.types[entityType];
+    if (this.sites[site].types[entityType] !== undefined) {
+      return this.sites[site].types[entityType];
     }
-    Ti.API.info('No such entity type defined: ' + entityType);
+    Ti.API.info('Entity type ' + entityType + ' not defined for site ' + site);
   }
 };
 
-Drupal.entity.sites.main.node.schema = {
+
+Ti.include('entity.datastore.js');
+
+
+// THis is mostly for testing.  We'll have a real one later.
+Drupal.entity.sites.main.types.node.schema = {
   fields: function() {
     return {
-      created: 'integer',
-      updated: 'integer'
+      fields: {
+        created: {
+          type: 'INTEGER'
+        },
+        changed: {
+          type: 'INTEGER'
+        }
+      },
+      indexes: {
+        'node_changed': ['changed']
+      }
     };
   },
   
