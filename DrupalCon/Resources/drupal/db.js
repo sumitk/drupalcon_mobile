@@ -221,16 +221,12 @@ Drupal.db.Connection.prototype.dropTable = function(table) {
 };
 
 Drupal.db.Connection.prototype.createTable = function(name, table) {
-  Ti.API.info('In createTable()');
   var queries = [];
   queries = queries
     .concat('CREATE TABLE ' + name + '(' + this.createColumnSql(name, table) + ')')
     .concat(this.createIndexSql(name, table));
   
-  Ti.API.info('We need to run this many queries to create this table: ' + queries.length);
-  
   for (var i = 0; i < queries.length; i++) {
-    Ti.API.info('About to run query: ' + queries[i]);
     this.query(queries[i]);
   }
 };
@@ -404,8 +400,6 @@ Drupal.db.Query.prototype.comment = function(comment) {
 Drupal.db.Query.prototype.getComments = function() {
   return this.comments;
 };
-
-
 
 Ti.include('db.insert.js');
 
