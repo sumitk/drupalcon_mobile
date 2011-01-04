@@ -132,17 +132,6 @@ function resetTest() {
   conn.remove();
 
   conn.close();
-
-  var conn2 = Drupal.db.openConnection('main');
-
-  conn2.query("CREATE TABLE IF NOT EXISTS node (" +
-   "nid INTEGER PRIMARY KEY," +
-   "vid INTEGER," +
-   "type VARCHAR," +
-   "title VARCHAR," +
-   "created INT," +
-   "changed INT," +
-   "data BLOB)");
 }
 
 resetTest();
@@ -160,6 +149,9 @@ var node2 = {
   };
 
 var store = Drupal.entity.db('main', 'node');
+
+// Reset everything.
+store.initializeSchema();
 
 var ret;
 
