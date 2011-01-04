@@ -221,17 +221,22 @@ Drupal.db.Connection.prototype.dropTable = function(table) {
 };
 
 Drupal.db.Connection.prototype.createTable = function(name, table) {
+  Ti.API.info('In createTable()');
   var queries = [];
-  queries.concat('CREATE TABLE' + name + '(' + this.createColumnSql(name, table) + ')');
-  queries.concat(this.createIndexSql(name, table));
+  queries = queries
+    .concat('CREATE TABLE ' + name + '(' + this.createColumnSql(name, table) + ')')
+    .concat(this.createIndexSql(name, table));
+  
+  Ti.API.info('We need to run this many queries to create this table: ' + queries.length);
   
   for (var i = 0; i < queries.length; i++) {
+    Ti.API.info('About to run query: ' + queries[i]);
     this.query(queries[i]);
   }
-  
 };
 
 Drupal.db.Connection.prototype.createColumnSql = function(tablename, schema) {
+  Ti.API.info('In createColumnSql()');
   var sqlArray = [];
 
   // Add the SQL statement for each field.
