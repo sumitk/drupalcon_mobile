@@ -62,6 +62,17 @@ button.addEventListener('click',function(e){
   Titanium.App.Properties.setString("siteUsername",user);
   Titanium.App.Properties.setString("sitePassword",pass);
   Titanium.UI.createAlertDialog({title:'Preferences',message:'Your preferences have been saved.'}).show();
+  messageLabel.text = 'Your preferences have been saved.';
+	messageWin.open();
+	setTimeout(function()
+	{
+    messageLabel.text = 'Your preferences have been saved.';
+	},1000);
+
+	setTimeout(function()
+	{
+		messageWin.close({opacity:0,duration:500});
+	},2000);
   win.close();
 
 });
