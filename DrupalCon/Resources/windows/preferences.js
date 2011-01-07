@@ -7,7 +7,7 @@ var inputRow = Ti.UI.createTableViewRow();
 var buttonRow = Ti.UI.createTableViewRow();
 
 var titleLabel = Titanium.UI.createLabel({
-    text:'Please enter your chicago2011.drupal.org username and password.',
+    text:'Please enter your Drupal.org username and password.',
     height:'auto',
     width:300,
     color:'#eee',
@@ -40,7 +40,6 @@ inputRow.add(password);
 
 var button = Titanium.UI.createButton({
   title:'Save',
-  top: android ? 200 : 180,
   width:300,
   height: android ? 45 : 40
 });
