@@ -16,6 +16,20 @@ Drupal.services.addConnectionInfo('default', {
   pass: ''
 });
 
+// Testing fetching preferences from the preferences.js file
+var checkButton = Titanium.UI.createButton({
+  title:'Check user/pass',
+  top: 10,
+  width:300,
+  height: 40
+});
+checkButton.addEventListener('click',function(e){
+  var pass = Titanium.App.Properties.getString("sitePassword");
+  var user = Titanium.App.Properties.getString("siteUsername");
+  alert("User: " + user + " and Pass: " + pass);
+});
+mainWindow.add(checkButton);
+
 var mainWindow = Titanium.UI.createWindow({
   title: 'Home',
   backgroundColor: '#000',
