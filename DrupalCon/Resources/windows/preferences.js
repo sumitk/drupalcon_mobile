@@ -49,7 +49,10 @@ data.push(labelRow);
 data.push(inputRow);
 data.push(buttonRow);
 
-tableView = Titanium.UI.createTableView({ data:data });
+tableView = Titanium.UI.createTableView({
+    data:data,
+    top:20
+    });
 
 win.add(tableView);
 
