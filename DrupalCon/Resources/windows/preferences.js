@@ -61,7 +61,48 @@ button.addEventListener('click',function(e){
   
   Titanium.App.Properties.setString("siteUsername",user);
   Titanium.App.Properties.setString("sitePassword",pass);
-  Titanium.UI.createAlertDialog({title:'Preferences',message:'Your preferences have been saved.'}).show();
+    //
+    //  TAB GROUP EVENTS
+    //
+    var messageWin = Titanium.UI.createWindow({
+      height:30,
+      width:250,
+      top:270,
+      borderRadius:10,
+      touchEnabled:false,
+    
+      orientationModes : [
+      Titanium.UI.PORTRAIT,
+      Titanium.UI.UPSIDE_PORTRAIT,
+      Titanium.UI.LANDSCAPE_LEFT,
+      Titanium.UI.LANDSCAPE_RIGHT,
+      ]
+    });
+    var messageView = Titanium.UI.createView({
+      id:'messageview',
+      height:30,
+      width:250,
+      borderRadius:10,
+      backgroundColor:'#fff',
+      opacity:0.7,
+      touchEnabled:false
+    });
+    
+    var messageLabel = Titanium.UI.createLabel({
+      id:'messagelabel',
+      text:'',
+      color:'#000',
+      width:250,
+      height:'auto',
+      font:{
+        fontFamily:'Helvetica Neue',
+        fontSize:13
+      },
+      textAlign:'center'
+    });
+    messageWin.add(messageView);
+    messageWin.add(messageLabel);
+
   messageLabel.text = 'Your preferences have been saved.';
 	messageWin.open();
 	setTimeout(function()
@@ -72,7 +113,7 @@ button.addEventListener('click',function(e){
 	setTimeout(function()
 	{
 		messageWin.close({opacity:0,duration:500});
+    win.close();
 	},2000);
-  win.close();
 
 });
