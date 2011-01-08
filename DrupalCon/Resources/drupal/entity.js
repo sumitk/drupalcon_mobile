@@ -94,35 +94,6 @@ Drupal.entity = {
 Ti.include('entity.datastore.js');
 
 
-// THis is mostly for testing.  We'll have a real one later.
-Drupal.entity.sites.main.types.node.schema = {
-  fields: function() {
-    return {
-      fields: {
-        created: {
-          type: 'INTEGER'
-        },
-        changed: {
-          type: 'INTEGER'
-        }
-      },
-      indexes: {
-        'node_changed': ['changed']
-      }
-    };
-  },
-  
-  getFieldValues: function(entity) {
-    var fields = {};
-    
-    fields.created = entity.created;
-    fields.updated = entity.updated;
-    
-    return fields;
-  }
-};
-
-
 //These kinda sorta serve as a unit test, ish, maybe, for now.
 
 function resetTest() {
