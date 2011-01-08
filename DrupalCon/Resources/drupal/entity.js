@@ -84,7 +84,7 @@ Drupal.entity = {
     if (this.sites[site].types[entityType] !== undefined) {
       return this.sites[site].types[entityType];
     }
-    Ti.API.info('Entity type ' + entityType + ' not defined for site ' + site);
+    Ti.API.error('Entity type ' + entityType + ' not defined for site ' + site);
   }
 };
 

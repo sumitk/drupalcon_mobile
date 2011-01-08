@@ -193,7 +193,7 @@ Drupal.db.InsertQuery.prototype.preExecute = function() {
 
   // Don't execute query without fields.
   if ((this.insertFields.length + this.defaultFields.length) === 0) {
-    Ti.API.info('ERROR: There are no fields available to insert with.');
+    Ti.API.error('ERROR: There are no fields available to insert with.');
     throw new Error('There are no fields available to insert with.');
   }
 
