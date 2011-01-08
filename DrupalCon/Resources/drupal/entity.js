@@ -37,7 +37,8 @@ Drupal.entity = {
             revision: 'vid',
             bundle: 'type',
             label: 'title'
-          }
+          },
+          schema: {}
         },
         user: {
           label: Ti.Locale.getString('User'),
@@ -45,7 +46,8 @@ Drupal.entity = {
             id: 'uid',
             bundle: null,
             label: 'name'
-          }
+          },
+          schema: {}
         }
       }
     }

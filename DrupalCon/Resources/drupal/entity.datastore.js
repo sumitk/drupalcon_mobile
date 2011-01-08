@@ -247,16 +247,18 @@ Drupal.entity.Datastore.prototype.initializeSchema = function() {
   }
 
   // Now extract any additional fields and indexes to denormalize.
-  var extraSchema = this.entityInfo.schema.fields();
-  var properties = ['fields', 'indexes', 'uniqueKeys'];
-  var set;
-  var property;
-  for (var i = 0; i < properties.count; i++) {
-    property = properties[i];
-    set = extraSchema[property];
-    for (var key in set) {
-      if (set.hasOwnProperty(key)) {
-        schema[property][key] = set[key];
+  if (this.entityInfo.schema.fields) {
+    var extraSchema = this.entityInfo.schema.fields();
+    var properties = ['fields', 'indexes', 'uniqueKeys'];
+    var set;
+    var property;
+    for (var i = 0; i < properties.count; i++) {
+      property = properties[i];
+      set = extraSchema[property];
+      for (var key in set) {
+        if (set.hasOwnProperty(key)) {
+          schema[property][key] = set[key];
+        }
       }
     }
   }
