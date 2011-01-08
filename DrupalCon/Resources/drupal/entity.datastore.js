@@ -216,8 +216,6 @@ Drupal.entity.Datastore.prototype.remove = function(id) {
  * *all existing data for this entity type will be lost*?
  */
 Drupal.entity.Datastore.prototype.initializeSchema = function() {
-  Ti.API.info('In initializeSchema()');
-  
   var schema = {
     description: 'Storage table for ' + this.entityType + ' entities.',
     fields: {},

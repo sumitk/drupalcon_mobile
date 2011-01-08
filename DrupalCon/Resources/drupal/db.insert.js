@@ -76,9 +76,7 @@ Drupal.db.InsertQuery.prototype = Drupal.constructPrototype(Drupal.db.Query);
  */
 Drupal.db.InsertQuery.prototype.fields = function(fields, values) {
   if (this.insertFields.length === 0) {
-    Ti.API.info('No fields defined yet.');
     if (!values) {
-      Ti.API.info('No values were defined, so extracting from the fields object.');
       // If fields is an array, then we're specifying only the fields, not values.
       // If it's not an array then it must be an object, in which case we're 
       // specifying both the fields and values at once.
@@ -124,17 +122,14 @@ Drupal.db.InsertQuery.prototype.fields = function(fields, values) {
  */
 Drupal.db.InsertQuery.prototype.values = function(values) {
   if (Array.isArray(values)) {
-    Ti.API.info('Called values() with an array');
     this.insertValues.push(values);
   }
   else {
-    Ti.API.info('Called values() with an object');
     // Reorder the submitted values to match the fields array.
     // For consistency, the values array is always numerically indexed.
     var insertValues = [];
     for (var key in this.insertFields) {
       if (this.insertFields.hasOwnProperty(key)) {
-        Ti.API.info('Checking value for key: ' + this.insertFields[key]);
         insertValues.push(values[this.insertFields[key]]);
       }
     }
@@ -223,13 +218,11 @@ Drupal.db.InsertQuery.prototype.preExecute = function() {
 Drupal.db.InsertQuery.prototype.execute = function() {
   // If validation fails, simply return NULL. Note that validation routines
   // in preExecute() may throw exceptions instead.
-  Ti.API.info('Calling preExecute');
   if (!this.preExecute()) {
     return null;
   }
 
   if (!this.insertFields) {
-    Ti.API.info('There were no insertFields, so using all default values');
     return this.connection.query('INSERT INTO ' + this.table + ' DEFAULT VALUES');
   }
   
@@ -251,10 +244,8 @@ Drupal.db.InsertQuery.prototype.execute = function() {
   //$transaction = $this->connection->startTransaction();
 
   try {
-    Ti.API.info('About to call sqlString');
     var sql = this.sqlString();
     for (var i = 0; i < this.insertValues.length; i++) {
-      Ti.API.info('About to call query');
       lastInsertId = this.connection.query(sql, this.insertValues[i]);
     }
   }
@@ -278,7 +269,6 @@ Drupal.db.InsertQuery.prototype.sqlString = function() {
   var comments = (this.comments) ? '/* ' + this.comments.join('; ') + ' */ ' : '';
 
   // Produce as many generic placeholders as necessary.
-  Ti.API.info('Building placeholders');
   var placeholders = [];
   var length = this.insertFields.length;
   for (var i = 0; i < length; i++) {
@@ -292,7 +282,6 @@ Drupal.db.InsertQuery.prototype.sqlString = function() {
     //return comments + 'INSERT INTO {' + $this->table + '} (' + implode(', ', $this->insertFields) + ') ' + (string)$this->fromQuery;
   //}
 
-  Ti.API.info('Returning query string');
   return comments + 'INSERT INTO ' + this.table + ' (' + this.insertFields.join(', ') + ') VALUES (' + placeholders.join(', ') + ')';
 };
 

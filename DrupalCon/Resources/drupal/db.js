@@ -232,7 +232,6 @@ Drupal.db.Connection.prototype.createTable = function(name, table) {
 };
 
 Drupal.db.Connection.prototype.createColumnSql = function(tablename, schema) {
-  Ti.API.info('In createColumnSql()');
   var sqlArray = [];
 
   // Add the SQL statement for each field.
