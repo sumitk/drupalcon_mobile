@@ -61,10 +61,10 @@ Drupal.db = {
   /**
    * Gets the connection object for the specified database key.
    *
-   * @param $key
+   * @param key
    *   The database connection key. Defaults to NULL which means the active key.
    *
-   * @return DatabaseConnection
+   * @return {Drupal.db.Connection}
    *   The corresponding connection object.
    */
   getConnection: function(key) {
@@ -387,10 +387,10 @@ Drupal.db.Query.prototype.nextPlaceholder= function() {
  * for easier debugging and allows you to more easily find where a query
  * with a performance problem is being generated.
  *
- * @param $comment
+ * @param comment
  *   The comment string to be inserted into the query.
  *
- * @return Query
+ * @return Drupal.db.Query
  *   The called object.
  */
 Drupal.db.Query.prototype.comment = function(comment) {
@@ -405,12 +405,7 @@ Drupal.db.Query.prototype.comment = function(comment) {
  * array directly to make their changes. If just adding comments, however, the
  * use of comment() is preferred.
  *
- * Note that this method must be called by reference as well:
- * @code
- * $comments =& $query->getComments();
- * @endcode
- *
- * @return
+ * @return Array
  *   A reference to the comments array structure.
  */
 Drupal.db.Query.prototype.getComments = function() {

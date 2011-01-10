@@ -26,15 +26,15 @@ Drupal.db.InsertQuery = function(table, connection) {
   /**
    * A nested array of values to insert.
    *
-   * $insertValues is an array of arrays. Each sub-array is either an
+   * insertValues is an array of arrays. Each sub-array is either an
    * associative array whose keys are field names and whose values are field
    * values to insert, or a non-associative array of values in the same order
-   * as $insertFields.
+   * as insertFields.
    *
    * Whether multiple insert sets will be run in a single query or multiple
    * queries is left to individual drivers to implement in whatever manner is
    * most appropriate. The order of values in each sub-array must match the
-   * order of fields in $insertFields.
+   * order of fields in insertFields.
    *
    * @var array
    */
@@ -61,17 +61,17 @@ Drupal.db.InsertQuery.prototype = Drupal.constructPrototype(Drupal.db.Query);
  * ignored. To queue up multiple sets of values to be inserted at once,
  * use the values() method.
  *
- * @param $fields
+ * @param fields
  *   An array of fields on which to insert. This array may be indexed or
  *   associative. If indexed, the array is taken to be the list of fields.
  *   If associative, the keys of the array are taken to be the fields and
  *   the values are taken to be corresponding values to insert. If a
- *   $values argument is provided, $fields must be indexed.
- * @param $values
+ *   values argument is provided, fields must be indexed.
+ * @param values
  *   An array of fields to insert into the database. The values must be
- *   specified in the same order as the $fields array.
+ *   specified in the same order as the fields array.
  *
- * @return InsertQuery
+ * @return Drupal.db.InsertQuery
  *   The called object.
  */
 Drupal.db.InsertQuery.prototype.fields = function(fields, values) {
@@ -109,15 +109,15 @@ Drupal.db.InsertQuery.prototype.fields = function(fields, values) {
 /**
  * Adds another set of values to the query to be inserted.
  *
- * If $values is a numeric-keyed array, it will be assumed to be in the same
+ * If values is a numeric-keyed array, it will be assumed to be in the same
  * order as the original fields() call. If it is associative, it may be
  * in any order as long as the keys of the array match the names of the
  * fields.
  *
- * @param $values
+ * @param values
  *   An array of values to add to the query.
  *
- * @return InsertQuery
+ * @return Drupal.db.InsertQuery
  *   The called object.
  */
 Drupal.db.InsertQuery.prototype.values = function(values) {
@@ -138,7 +138,6 @@ Drupal.db.InsertQuery.prototype.values = function(values) {
   return this;
 };
 
-
 /**
  * Specifies fields for which the database defaults should be used.
  *
@@ -151,11 +150,11 @@ Drupal.db.InsertQuery.prototype.values = function(values) {
  * Specifying a field both in fields() and in useDefaults() is an error
  * and will not execute.
  *
- * @param $fields
+ * @param fields
  *   An array of values for which to use the default values
  *   specified in the table definition.
  *
- * @return InsertQuery
+ * @return Drupal.db.InsertQuery
  *   The called object.
  */
 Drupal.db.InsertQuery.prototype.useDefaults = function(fields) {
@@ -163,11 +162,10 @@ Drupal.db.InsertQuery.prototype.useDefaults = function(fields) {
   return this;
 };
 
-
 /**
  * Preprocesses and validates the query.
  *
- * @return
+ * @return Boolean
  *   TRUE if the validation was successful, FALSE if not.
  *
  * @throws FieldsOverlapException
@@ -209,7 +207,7 @@ Drupal.db.InsertQuery.prototype.preExecute = function() {
 /**
  * Executes the insert query.
  *
- * @return
+ * @return integer
  *   The last insert ID of the query, if one exists. If the query
  *   was given multiple sets of values to insert, the return value is
  *   undefined. If no fields are specified, this method will do nothing and
@@ -269,6 +267,9 @@ Drupal.db.InsertQuery.prototype.execute = function() {
   return lastInsertId;
 };
 
+/**
+ * Convert this query to a SQL string.
+ */
 Drupal.db.InsertQuery.prototype.sqlString = function() {
   // Create a comments string to prepend to the query.
   var comments = (this.comments.length) ? '/* ' + this.comments.join('; ') + ' */ ' : '';

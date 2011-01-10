@@ -66,7 +66,7 @@ Drupal.entity.Datastore.prototype.save = function(entity) {
 /**
  * Inserts a new entity into the local database.
  *
- * @param object entity
+ * @param Object entity
  *   A Drupal entity to insert.  This should be an untyped
  *   object.  It is (or should be) safe to simply use an 
  *   entity object retrieved from a Drupal site.

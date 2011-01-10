@@ -62,7 +62,7 @@ Drupal.entity = {
    * @param string entityType
    *   The type of entity (node, user, etc.) that we are
    *   accessing.
-   * @return
+   * @return Drupal.entity.Datastore
    *   A new datastore object for the specified site and entity.
    */
   db: function(site, entityType) {
