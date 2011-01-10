@@ -12,7 +12,7 @@
  *   The database connection object for this datastore.
  * @param string
  *   The type of entity this datastore should access.
- * @return {Datastore}
+ * @return Drupal.entity.Datastore
  */
 Drupal.entity.Datastore = function(site, connection, entityType, entityInfo) {
 
@@ -49,7 +49,7 @@ Drupal.entity.Datastore.prototype.getIdField = function() {
  * automatically and the query will fail if one is not
  * defined.
  *
- * @param object entity
+ * @param Object entity
  *   A Drupal entity to save.  This should be an untyped
  *   object.  It is (or should be) safe to simply use an 
  *   entity object retrieved from a Drupal site.
@@ -114,7 +114,7 @@ Drupal.entity.Datastore.prototype.insert = function(entity) {
  * it will not be saved.  To ensure that an object
  * is saved properly call the save() method instead.
  *
- * @param object entity
+ * @param Object entity
  *   A Drupal entity to update.  This should be an untyped
  *   object.  It is (or should be) safe to simply use an
  *   entity object retrieved from a Drupal site.
@@ -156,7 +156,7 @@ Drupal.entity.Datastore.prototype.exists = function(id) {
  *
  * @param integer id
  *   The ID of the entity to load.
- * @return object
+ * @return Object
  *   The entity with the specified ID if any, or null
  *   if one was not found.
  */
