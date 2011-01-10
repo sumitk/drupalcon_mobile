@@ -66,3 +66,37 @@ else if (Titanium.Platform.name == 'iPhone OS') {
 
 mainWindow.open();
 
+
+// Download tests, for now.  These must get moved eventually.
+
+Drupal.db.addConnectionInfo('main');
+
+Drupal.db.errorMode = Drupal.db.ERROR_LEVEL_DEBUG;
+
+var service = Drupal.services.createConnection('main');
+service.loadHandler = function() {
+  Ti.API.info("Data was loaded, called from custom handler.");
+  //Ti.API.info(this.responseText);
+
+  var store = Drupal.entity.db('main', 'node');
+
+  Ti.API.info('Initializing schema');
+  store.initializeSchema();
+
+  Ti.API.info('Calling save()');
+  var ret = store.save(Ti.JSON.parse(this.responseText));
+
+  Ti.API.info('save() returned: ' + ret);
+
+  Ti.API.info('Number of nodes on file: ' + store.connection.query("SELECT COUNT(*) FROM node").field(0));
+
+  var storedNid = store.connection.query("SELECT nid FROM node WHERE nid=?", [464]).field(0);
+
+    Ti.API.info(storedNid);
+
+  var node = store.load(464);
+
+  Ti.API.info(node);
+
+};
+service.request({query: 'node/464'});
