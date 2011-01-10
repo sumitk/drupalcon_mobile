@@ -52,6 +52,12 @@ Drupal.db = {
    */
   databaseInfo: [],
 
+  errorMode: 0,
+
+  ERROR_LEVEL_NONE: 0,
+  ERROR_LEVEL_DEBUG: 1,
+  
+
   /**
    * Gets the connection object for the specified database key.
    *
@@ -191,6 +197,10 @@ Drupal.db.Connection.prototype.query = function(stmt, args) {
     args = [];
   }
 
+  if (Drupal.db.errorMode >= Drupal.db.ERROR_LEVEL_DEBUG) {
+    Ti.API.debug('Executing query: ' + stmt + "\nArguments: " + args.toString());
+  }
+
   var result = this.connection.execute(stmt, args);
   
   // So that we can still have access to this value.
@@ -212,7 +222,9 @@ Drupal.db.Connection.prototype.insert = function(table) {
 };
 
 Drupal.db.Connection.prototype.dropTable = function(table) {
+  Ti.API.debug('In Connection.dropTable()');
   if (this.tableExists(table)) {
+    Ti.API.debug('Table exists, so drop it: ' + table);
     this.query("DROP TABLE IF EXISTS " + table);
     return true;
   }
@@ -260,6 +272,7 @@ Drupal.db.Connection.prototype.createColumnSql = function(tablename, schema) {
 };
 
 Drupal.db.Connection.prototype.createFieldSql = function(name, spec) {
+  Ti.API.debug('In Connection.createFieldSql()');
   var sql;
   
   spec.type = spec.type.toUpperCase();
@@ -306,6 +319,7 @@ Drupal.db.Connection.prototype.createFieldSql = function(name, spec) {
 
 
 Drupal.db.Connection.prototype.createIndexSql = function(table, schema) {
+  Ti.API.debug('In Connection.createIndexSql');
   var sql = [];
   var key;
   
