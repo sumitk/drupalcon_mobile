@@ -19,13 +19,9 @@ Drupal.entity.sites.main.types.node.schema = {
     };
   },
 
-  getFieldValues: function(entity) {
-    var fields = {};
-
-    fields.created = entity.created;
-    fields.updated = entity.updated;
-
-    return fields;
+  getFieldValues: function(entity, values) {
+    values.created = entity.created;
+    values.changed = entity.changed;
   }
 };
 
