@@ -12,7 +12,7 @@ Ti.include('drupalcon/entity.js');
 
 // Define our connection information.  This is very similar to the DB layer's
 // $databases array in settings.php.
-Drupal.services.addConnectionInfo('default', {
+Drupal.services.addConnectionInfo('main', {
   endpointUrl: 'http://chicago2011.drupal.org/services/mobile',
   user: '',
   pass: ''
