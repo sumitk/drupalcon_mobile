@@ -24,6 +24,8 @@ Drupal.entity.Datastore = function(site, connection, entityType, entityInfo) {
   
   this.idField = this.getIdField();
 
+  this.schemaDefinition = null;
+
   return this;
 };
 
@@ -209,68 +211,79 @@ Drupal.entity.Datastore.prototype.remove = function(id) {
 };
 
 /**
- * Reinitialize the schema for this datastore.
+ * Reinitializes the schema for this datastore.
  * 
  * Note: This means dropping and recreating the table for this entity
  * type.  That is, all existing data will be destroyed.  Did we mention
  * *all existing data for this entity type will be lost*?
  */
 Drupal.entity.Datastore.prototype.initializeSchema = function() {
-  var schema = {
-    description: 'Storage table for ' + this.entityType + ' entities.',
-    fields: {},
-    indexes: {},
-    uniqueKeys: {}
-  };
-  
-  // We always want to denormalize the entity keys, if available.
-  if (this.entityInfo.entity_keys.id) {
-    schema.fields[this.entityInfo.entity_keys.id] = {
-      type: 'INTEGER'
-    };
-    schema.primaryKey = [this.entityInfo.entity_keys.id];
-  }
-  if (this.entityInfo.entity_keys.revision) {
-    schema.fields[this.entityInfo.entity_keys.revision] = {
-      type: 'INTEGER'
-    };
-  }
-  if (this.entityInfo.entity_keys.bundle) {
-    schema.fields[this.entityInfo.entity_keys.bundle] = {
-      type: 'VARCHAR'
-    };
-  }
-  if (this.entityInfo.entity_keys.label) {
-    schema.fields[this.entityInfo.entity_keys.label] = {
-      type: 'VARCHAR'
-    };
-  }
 
-  // Now extract any additional fields and indexes to denormalize.
-  if (this.entityInfo.schema.fields) {
-    var extraSchema = this.entityInfo.schema.fields();
-    var properties = ['fields', 'indexes', 'uniqueKeys'];
-    var set;
-    var property;
-    for (var i = 0; i < properties.count; i++) {
-      property = properties[i];
-      set = extraSchema[property];
-      for (var key in set) {
-        if (set.hasOwnProperty(key)) {
-          schema[property][key] = set[key];
-        }
-      }
-    }
-  }
-
-  // We always want a "data" column to store the serialized object itself.
-  schema.fields.data = {
-      type: 'BLOB'
-  };
-  
+  var schema = this.getSchema();
   this.connection.dropTable(this.entityType);
   
   this.connection.createTable(this.entityType, schema);
 };
 
+/**
+ * Returns the schema definition for this enity's storage.
+ */
+Drupal.entity.Datastore.prototype.getSchema = function() {
+  if (! this.schemaDefinition) {
+    var schema = {
+      description: 'Storage table for ' + this.entityType + ' entities.',
+      fields: {},
+      indexes: {},
+      uniqueKeys: {}
+    };
 
+    // We always want to denormalize the entity keys, if available.
+    if (this.entityInfo.entity_keys.id) {
+      schema.fields[this.entityInfo.entity_keys.id] = {
+        type: 'INTEGER'
+      };
+      schema.primaryKey = [this.entityInfo.entity_keys.id];
+    }
+    if (this.entityInfo.entity_keys.revision) {
+      schema.fields[this.entityInfo.entity_keys.revision] = {
+        type: 'INTEGER'
+      };
+    }
+    if (this.entityInfo.entity_keys.bundle) {
+      schema.fields[this.entityInfo.entity_keys.bundle] = {
+        type: 'VARCHAR'
+      };
+    }
+    if (this.entityInfo.entity_keys.label) {
+      schema.fields[this.entityInfo.entity_keys.label] = {
+        type: 'VARCHAR'
+      };
+    }
+
+    // Now extract any additional fields and indexes to denormalize.
+    if (this.entityInfo.schema.fields) {
+      var extraSchema = this.entityInfo.schema.fields();
+      var properties = ['fields', 'indexes', 'uniqueKeys'];
+      var set;
+      var property;
+      for (var i = 0; i < properties.length; i++) {
+        property = properties[i];
+        set = extraSchema[property];
+        for (var key in set) {
+          if (set.hasOwnProperty(key)) {
+            schema[property][key] = set[key];
+          }
+        }
+      }
+    }
+
+    // We always want a "data" column to store the serialized object itself.
+    schema.fields.data = {
+        type: 'BLOB'
+    };
+
+    this.schemaDefinition = schema;
+  }
+
+  return this.schemaDefinition;
+};
