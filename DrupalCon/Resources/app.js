@@ -41,14 +41,14 @@ if (Titanium.Platform.osname == 'android') {
 
     // @todo Switch this to the generic Titanium properties API, with a custom
     // UI: http://developer.appcelerator.com/apidoc/mobile/latest/Titanium.App.Properties-module
-    var m1 = menu.add({ title : 'Settings' });
+    var m1 = menu.add({title : 'Settings'});
     m1.addEventListener('click', function(e) {
       Titanium.UI.Android.openPreferences();
     });
 
     // This is a placeholder for testing.  It will eventually get moved to a
     // more appropriate location within the App.
-    var m2 = menu.add({ title : 'Update sessions' });
+    var m2 = menu.add({title : 'Update sessions'});
     m2.addEventListener('click', function(e) {
       var service = Drupal.services.createConnection();
       service.loadHandler = function() {
