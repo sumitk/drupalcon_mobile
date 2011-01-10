@@ -96,6 +96,7 @@ Ti.include('entity.datastore.js');
 
 //These kinda sorta serve as a unit test, ish, maybe, for now.
 
+/*
 function resetTest() {
   Drupal.db.addConnectionInfo('main');
   
@@ -172,7 +173,7 @@ Ti.API.info('Removing existing entity returned: ' + ret);
 
 var count = store.connection.query('SELECT COUNT(*) FROM node').field(0);
 Ti.API.info('There should be 1 record.  There are actually: ' + count);
-
+*/
 
 /*
 var store = Drupal.entity.db('site');

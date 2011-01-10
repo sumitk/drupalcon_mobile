@@ -421,6 +421,7 @@ Ti.include('db.insert.js');
 
 /* Kinda sorta unit tests, ish. */
 
+/*
 function resetDBTest() {
   var conn = Ti.Database.open('test');
 
@@ -466,3 +467,4 @@ ins.execute();
 var count = conn.query('SELECT COUNT(*) FROM node').field(0);
 Ti.API.info('There should be 3 records.  There are actually: ' + count);
 
+*/
