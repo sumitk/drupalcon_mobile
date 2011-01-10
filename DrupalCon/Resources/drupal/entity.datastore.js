@@ -144,7 +144,7 @@ Drupal.entity.Datastore.prototype.load = function(id) {
     return entities[0];
   }
   else {
-    Ti.API.info('No data found.');
+    Ti.API.error('No such entity found: ' + id);
     return null;
   }
 };

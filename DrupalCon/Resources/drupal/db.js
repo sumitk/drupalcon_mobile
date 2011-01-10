@@ -233,6 +233,7 @@ Drupal.db.Connection.prototype.dropTable = function(table) {
 };
 
 Drupal.db.Connection.prototype.createTable = function(name, table) {
+  Ti.API.debug('In Connection.createTable()');
   var queries = [];
   queries = queries
     .concat('CREATE TABLE ' + name + '(' + this.createColumnSql(name, table) + ')')
@@ -244,6 +245,7 @@ Drupal.db.Connection.prototype.createTable = function(name, table) {
 };
 
 Drupal.db.Connection.prototype.createColumnSql = function(tablename, schema) {
+  Ti.API.debug('In Connection.createColumnSql()');
   var sqlArray = [];
 
   // Add the SQL statement for each field.

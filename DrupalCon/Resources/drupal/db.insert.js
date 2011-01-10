@@ -271,7 +271,7 @@ Drupal.db.InsertQuery.prototype.execute = function() {
 
 Drupal.db.InsertQuery.prototype.sqlString = function() {
   // Create a comments string to prepend to the query.
-  var comments = (this.comments) ? '/* ' + this.comments.join('; ') + ' */ ' : '';
+  var comments = (this.comments.length) ? '/* ' + this.comments.join('; ') + ' */ ' : '';
 
   // Produce as many generic placeholders as necessary.
   var placeholders = [];
