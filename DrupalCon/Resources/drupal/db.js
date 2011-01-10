@@ -394,7 +394,7 @@ Drupal.db.Query.prototype.nextPlaceholder= function() {
  *   The called object.
  */
 Drupal.db.Query.prototype.comment = function(comment) {
-  this.comments = comment;
+  this.comments.push(comment);
   return this;
 };
 
