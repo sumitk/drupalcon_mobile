@@ -12,7 +12,6 @@ if (!Drupal.db) {
  */
 Drupal.entity = {
 
-
   sites: {
     main: {
       /**
@@ -37,7 +36,8 @@ Drupal.entity = {
             revision: 'vid',
             bundle: 'type',
             label: 'title'
-          }
+          },
+          schema: {}
         },
         user: {
           label: Ti.Locale.getString('User'),
@@ -45,7 +45,8 @@ Drupal.entity = {
             id: 'uid',
             bundle: null,
             label: 'name'
-          }
+          },
+          schema: {}
         }
       }
     }
@@ -61,7 +62,7 @@ Drupal.entity = {
    * @param string entityType
    *   The type of entity (node, user, etc.) that we are
    *   accessing.
-   * @return
+   * @return Drupal.entity.Datastore
    *   A new datastore object for the specified site and entity.
    */
   db: function(site, entityType) {
@@ -84,7 +85,7 @@ Drupal.entity = {
     if (this.sites[site].types[entityType] !== undefined) {
       return this.sites[site].types[entityType];
     }
-    Ti.API.info('Entity type ' + entityType + ' not defined for site ' + site);
+    Ti.API.error('Entity type ' + entityType + ' not defined for site ' + site);
   }
 };
 
@@ -92,37 +93,9 @@ Drupal.entity = {
 Ti.include('entity.datastore.js');
 
 
-// THis is mostly for testing.  We'll have a real one later.
-Drupal.entity.sites.main.types.node.schema = {
-  fields: function() {
-    return {
-      fields: {
-        created: {
-          type: 'INTEGER'
-        },
-        changed: {
-          type: 'INTEGER'
-        }
-      },
-      indexes: {
-        'node_changed': ['changed']
-      }
-    };
-  },
-  
-  getFieldValues: function(entity) {
-    var fields = {};
-    
-    fields.created = entity.created;
-    fields.updated = entity.updated;
-    
-    return fields;
-  }
-};
-
-
 //These kinda sorta serve as a unit test, ish, maybe, for now.
 
+/*
 function resetTest() {
   Drupal.db.addConnectionInfo('main');
   
@@ -199,7 +172,7 @@ Ti.API.info('Removing existing entity returned: ' + ret);
 
 var count = store.connection.query('SELECT COUNT(*) FROM node').field(0);
 Ti.API.info('There should be 1 record.  There are actually: ' + count);
-
+*/
 
 /*
 var store = Drupal.entity.db('site');

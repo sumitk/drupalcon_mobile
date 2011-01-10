@@ -52,13 +52,19 @@ Drupal.db = {
    */
   databaseInfo: [],
 
+  errorMode: 0,
+
+  ERROR_LEVEL_NONE: 0,
+  ERROR_LEVEL_DEBUG: 1,
+  
+
   /**
    * Gets the connection object for the specified database key.
    *
-   * @param $key
+   * @param key
    *   The database connection key. Defaults to NULL which means the active key.
    *
-   * @return DatabaseConnection
+   * @return {Drupal.db.Connection}
    *   The corresponding connection object.
    */
   getConnection: function(key) {
@@ -144,7 +150,7 @@ Drupal.db = {
     // error.
     if (!this.databaseInfo[key]) {
       // @todo Turn this into a proper exception object, or whatever is appropriate in Javascript.
-      Ti.API.info('ERROR: The specified database connection is not defined: ' + key);
+      Ti.API.error('ERROR: The specified database connection is not defined: ' + key);
       throw new Error('The specified database connection is not defined: ' + key);
     }
     
@@ -191,6 +197,10 @@ Drupal.db.Connection.prototype.query = function(stmt, args) {
     args = [];
   }
 
+  if (Drupal.db.errorMode >= Drupal.db.ERROR_LEVEL_DEBUG) {
+    Ti.API.debug('Executing query: ' + stmt + "\nArguments: " + args.toString());
+  }
+
   var result = this.connection.execute(stmt, args);
   
   // So that we can still have access to this value.
@@ -212,7 +222,9 @@ Drupal.db.Connection.prototype.insert = function(table) {
 };
 
 Drupal.db.Connection.prototype.dropTable = function(table) {
+  Ti.API.debug('In Connection.dropTable()');
   if (this.tableExists(table)) {
+    Ti.API.debug('Table exists, so drop it: ' + table);
     this.query("DROP TABLE IF EXISTS " + table);
     return true;
   }
@@ -221,6 +233,7 @@ Drupal.db.Connection.prototype.dropTable = function(table) {
 };
 
 Drupal.db.Connection.prototype.createTable = function(name, table) {
+  Ti.API.debug('In Connection.createTable()');
   var queries = [];
   queries = queries
     .concat('CREATE TABLE ' + name + '(' + this.createColumnSql(name, table) + ')')
@@ -232,7 +245,7 @@ Drupal.db.Connection.prototype.createTable = function(name, table) {
 };
 
 Drupal.db.Connection.prototype.createColumnSql = function(tablename, schema) {
-  Ti.API.info('In createColumnSql()');
+  Ti.API.debug('In Connection.createColumnSql()');
   var sqlArray = [];
 
   // Add the SQL statement for each field.
@@ -248,6 +261,7 @@ Drupal.db.Connection.prototype.createColumnSql = function(tablename, schema) {
       //    unset($schema['primary key'][$key]);
       //  }
       //}
+
       sqlArray.push(this.createFieldSql(name, field));
     }
   }
@@ -261,6 +275,7 @@ Drupal.db.Connection.prototype.createColumnSql = function(tablename, schema) {
 };
 
 Drupal.db.Connection.prototype.createFieldSql = function(name, spec) {
+  Ti.API.debug('In Connection.createFieldSql()');
   var sql;
   
   spec.type = spec.type.toUpperCase();
@@ -307,6 +322,7 @@ Drupal.db.Connection.prototype.createFieldSql = function(name, spec) {
 
 
 Drupal.db.Connection.prototype.createIndexSql = function(table, schema) {
+  Ti.API.debug('In Connection.createIndexSql');
   var sql = [];
   var key;
   
@@ -371,14 +387,14 @@ Drupal.db.Query.prototype.nextPlaceholder= function() {
  * for easier debugging and allows you to more easily find where a query
  * with a performance problem is being generated.
  *
- * @param $comment
+ * @param comment
  *   The comment string to be inserted into the query.
  *
- * @return Query
+ * @return Drupal.db.Query
  *   The called object.
  */
 Drupal.db.Query.prototype.comment = function(comment) {
-  this.comments = comment;
+  this.comments.push(comment);
   return this;
 };
 
@@ -389,12 +405,7 @@ Drupal.db.Query.prototype.comment = function(comment) {
  * array directly to make their changes. If just adding comments, however, the
  * use of comment() is preferred.
  *
- * Note that this method must be called by reference as well:
- * @code
- * $comments =& $query->getComments();
- * @endcode
- *
- * @return
+ * @return Array
  *   A reference to the comments array structure.
  */
 Drupal.db.Query.prototype.getComments = function() {
@@ -406,6 +417,7 @@ Ti.include('db.insert.js');
 
 /* Kinda sorta unit tests, ish. */
 
+/*
 function resetDBTest() {
   var conn = Ti.Database.open('test');
 
@@ -451,3 +463,4 @@ ins.execute();
 var count = conn.query('SELECT COUNT(*) FROM node').field(0);
 Ti.API.info('There should be 3 records.  There are actually: ' + count);
 
+*/

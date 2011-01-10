@@ -9,10 +9,12 @@ Ti.include('drupal/entity.js');
 Ti.include('lib/twitter_services.js');
 
 
+Ti.include('drupalcon/entity.js');
+
 // Define our connection information.  This is very similar to the DB layer's
 // $databases array in settings.php.
-Drupal.services.addConnectionInfo('default', {
-  endpointUrl: 'http://chicago2011.garfield.sandbox/mobile/test',
+Drupal.services.addConnectionInfo('main', {
+  endpointUrl: 'http://chicago2011.drupal.org/services/mobile',
   user: '',
   pass: ''
 });
@@ -58,7 +60,6 @@ var tab3 = Titanium.UI.createTab({
     title:'Twitter',
     window:win3
 });
-
 
 //
 // create platform tab and root window
@@ -244,3 +245,37 @@ win1.activity.onCreateOptionsMenu = function(e) {
     service.request({method: 'GET', query: 'node/464', format: 'json'});
   });
 };
+
+// Download tests, for now.  These must get moved eventually.
+
+Drupal.db.addConnectionInfo('main');
+
+Drupal.db.errorMode = Drupal.db.ERROR_LEVEL_DEBUG;
+
+var service = Drupal.services.createConnection('main');
+service.loadHandler = function() {
+  Ti.API.info("Data was loaded, called from custom handler.");
+  //Ti.API.info(this.responseText);
+
+  var store = Drupal.entity.db('main', 'node');
+
+  Ti.API.info('Initializing schema');
+  store.initializeSchema();
+
+  Ti.API.info('Calling save()');
+  var ret = store.save(Ti.JSON.parse(this.responseText));
+
+  Ti.API.info('save() returned: ' + ret);
+
+  Ti.API.info('Number of nodes on file: ' + store.connection.query("SELECT COUNT(*) FROM node").field(0));
+
+  var storedNid = store.connection.query("SELECT nid FROM node WHERE nid=?", [464]).field(0);
+
+    Ti.API.info(storedNid);
+
+  var node = store.load(464);
+
+  Ti.API.info(node);
+
+};
+service.request({query: 'node/464'});

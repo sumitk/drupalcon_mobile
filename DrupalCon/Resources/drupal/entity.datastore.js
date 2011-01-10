@@ -12,7 +12,7 @@
  *   The database connection object for this datastore.
  * @param string
  *   The type of entity this datastore should access.
- * @return {Datastore}
+ * @return Drupal.entity.Datastore
  */
 Drupal.entity.Datastore = function(site, connection, entityType, entityInfo) {
 
@@ -23,6 +23,8 @@ Drupal.entity.Datastore = function(site, connection, entityType, entityInfo) {
   this.entityInfo = entityInfo;
   
   this.idField = this.getIdField();
+
+  this.schemaDefinition = null;
 
   return this;
 };
@@ -47,7 +49,7 @@ Drupal.entity.Datastore.prototype.getIdField = function() {
  * automatically and the query will fail if one is not
  * defined.
  *
- * @param object entity
+ * @param Object entity
  *   A Drupal entity to save.  This should be an untyped
  *   object.  It is (or should be) safe to simply use an 
  *   entity object retrieved from a Drupal site.
@@ -64,7 +66,7 @@ Drupal.entity.Datastore.prototype.save = function(entity) {
 /**
  * Inserts a new entity into the local database.
  *
- * @param object entity
+ * @param Object entity
  *   A Drupal entity to insert.  This should be an untyped
  *   object.  It is (or should be) safe to simply use an 
  *   entity object retrieved from a Drupal site.
@@ -73,13 +75,34 @@ Drupal.entity.Datastore.prototype.save = function(entity) {
  *   a successful insert or 0 if something went wrong.
  */
 Drupal.entity.Datastore.prototype.insert = function(entity) {
+  Ti.API.debug('In Datastore.insert()');
   var data = Ti.JSON.stringify(entity);
-  this.connection.insert(this.entityType).fields({
-    nid: entity[this.idField],
-    type: entity.type,
-    title: entity.title,
-    data: data
-  }).execute();
+
+  var fields = {};
+
+  // Get the basic fields first.
+  var properties = ['id', 'revision', 'bundle', 'label'];
+  var property;
+  for (var i = 0; i < properties.length; i++) {
+    property = properties[i];
+    if (this.entityInfo.entity_keys[property]) {
+      fields[this.entityInfo.entity_keys[property]] = entity[this.entityInfo.entity_keys[property]];
+    }
+  }
+
+  // Now let the defined schema add whatever additional 
+  // fields it wants.  We pass it the field object for two 
+  // reasons.  One, it lets it manipulate existing fields if
+  // necessary.  Two, it means we don't need to figure
+  // out how to merge two objects cleanly.'
+  if (this.entityInfo.schema.getFieldValues) {
+    this.entityInfo.schema.getFieldValues(entity, fields);
+  }
+
+  // And finally, store the serialized entity object.
+  fields.data = data;
+
+  this.connection.insert(this.entityType).fields(fields).execute();
   
   return this.connection.rowsAffected;
 };
@@ -91,7 +114,7 @@ Drupal.entity.Datastore.prototype.insert = function(entity) {
  * it will not be saved.  To ensure that an object
  * is saved properly call the save() method instead.
  *
- * @param object entity
+ * @param Object entity
  *   A Drupal entity to update.  This should be an untyped
  *   object.  It is (or should be) safe to simply use an
  *   entity object retrieved from a Drupal site.
@@ -133,7 +156,7 @@ Drupal.entity.Datastore.prototype.exists = function(id) {
  *
  * @param integer id
  *   The ID of the entity to load.
- * @return object
+ * @return Object
  *   The entity with the specified ID if any, or null
  *   if one was not found.
  */
@@ -144,7 +167,7 @@ Drupal.entity.Datastore.prototype.load = function(id) {
     return entities[0];
   }
   else {
-    Ti.API.info('No data found.');
+    Ti.API.error('No such entity found: ' + id);
     return null;
   }
 };
@@ -209,68 +232,76 @@ Drupal.entity.Datastore.prototype.remove = function(id) {
 };
 
 /**
- * Reinitialize the schema for this datastore.
+ * Reinitializes the schema for this datastore.
  * 
  * Note: This means dropping and recreating the table for this entity
  * type.  That is, all existing data will be destroyed.  Did we mention
  * *all existing data for this entity type will be lost*?
  */
 Drupal.entity.Datastore.prototype.initializeSchema = function() {
-  Ti.API.info('In initializeSchema()');
-  
-  var schema = {
-    description: 'Storage table for ' + this.entityType + ' entities.',
-    fields: {},
-    indexes: {},
-    uniqueKeys: {}
-  };
-  
-  // We always want to denormalize the entity keys, if available.
-  if (this.entityInfo.entity_keys.id) {
-    schema.fields[this.entityInfo.entity_keys.id] = {
-      type: 'INTEGER'
-    };
-    schema.primaryKey = [this.entityInfo.entity_keys.id];
-  }
-  if (this.entityInfo.entity_keys.revision) {
-    schema.fields[this.entityInfo.entity_keys.revision] = {
-      type: 'INTEGER'
-    };
-  }
-  if (this.entityInfo.entity_keys.bundle) {
-    schema.fields[this.entityInfo.entity_keys.bundle] = {
-      type: 'VARCHAR'
-    };
-  }
-  if (this.entityInfo.entity_keys.label) {
-    schema.fields[this.entityInfo.entity_keys.label] = {
-      type: 'VARCHAR'
-    };
-  }
-
-  // Now extract any additional fields and indexes to denormalize.
-  var extraSchema = this.entityInfo.schema.fields();
-  var properties = ['fields', 'indexes', 'uniqueKeys'];
-  var set;
-  var property;
-  for (var i = 0; i < properties.count; i++) {
-    property = properties[i];
-    set = extraSchema[property];
-    for (var key in set) {
-      if (set.hasOwnProperty(key)) {
-        schema[property][key] = set[key];
-      }
-    }
-  }
-
-  // We always want a "data" column to store the serialized object itself.
-  schema.fields.data = {
-      type: 'BLOB'
-  };
-  
   this.connection.dropTable(this.entityType);
-  
-  this.connection.createTable(this.entityType, schema);
+  this.connection.createTable(this.entityType, this.getSchema());
 };
 
+/**
+ * Returns the schema definition for this enity's storage.
+ */
+Drupal.entity.Datastore.prototype.getSchema = function() {
+  if (! this.schemaDefinition) {
+    var schema = {
+      description: 'Storage table for ' + this.entityType + ' entities.',
+      fields: {},
+      indexes: {},
+      uniqueKeys: {}
+    };
 
+    // We always want to denormalize the entity keys, if available.
+    if (this.entityInfo.entity_keys.id) {
+      schema.fields[this.entityInfo.entity_keys.id] = {
+        type: 'INTEGER'
+      };
+      schema.primaryKey = [this.entityInfo.entity_keys.id];
+    }
+    if (this.entityInfo.entity_keys.revision) {
+      schema.fields[this.entityInfo.entity_keys.revision] = {
+        type: 'INTEGER'
+      };
+    }
+    if (this.entityInfo.entity_keys.bundle) {
+      schema.fields[this.entityInfo.entity_keys.bundle] = {
+        type: 'VARCHAR'
+      };
+    }
+    if (this.entityInfo.entity_keys.label) {
+      schema.fields[this.entityInfo.entity_keys.label] = {
+        type: 'VARCHAR'
+      };
+    }
+
+    // Now extract any additional fields and indexes to denormalize.
+    if (this.entityInfo.schema.fields) {
+      var extraSchema = this.entityInfo.schema.fields();
+      var properties = ['fields', 'indexes', 'uniqueKeys'];
+      var set;
+      var property;
+      for (var i = 0; i < properties.length; i++) {
+        property = properties[i];
+        set = extraSchema[property];
+        for (var key in set) {
+          if (set.hasOwnProperty(key)) {
+            schema[property][key] = set[key];
+          }
+        }
+      }
+    }
+
+    // We always want a "data" column to store the serialized object itself.
+    schema.fields.data = {
+        type: 'BLOB'
+    };
+
+    this.schemaDefinition = schema;
+  }
+
+  return this.schemaDefinition;
+};
