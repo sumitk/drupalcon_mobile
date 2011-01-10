@@ -75,13 +75,34 @@ Drupal.entity.Datastore.prototype.save = function(entity) {
  *   a successful insert or 0 if something went wrong.
  */
 Drupal.entity.Datastore.prototype.insert = function(entity) {
+  Ti.API.debug('In Datastore.insert()');
   var data = Ti.JSON.stringify(entity);
-  this.connection.insert(this.entityType).fields({
-    nid: entity[this.idField],
-    type: entity.type,
-    title: entity.title,
-    data: data
-  }).execute();
+
+  var fields = {};
+
+  // Get the basic fields first.
+  var properties = ['id', 'revision', 'bundle', 'label'];
+  var property;
+  for (var i = 0; i < properties.length; i++) {
+    property = properties[i];
+    if (this.entityInfo.entity_keys[property]) {
+      fields[this.entityInfo.entity_keys[property]] = entity[this.entityInfo.entity_keys[property]];
+    }
+  }
+
+  // Now let the defined schema add whatever additional 
+  // fields it wants.  We pass it the field object for two 
+  // reasons.  One, it lets it manipulate existing fields if
+  // necessary.  Two, it means we don't need to figure
+  // out how to merge two objects cleanly.'
+  if (this.entityInfo.schema.getFieldValues) {
+    this.entityInfo.schema.getFieldValues(entity, fields);
+  }
+
+  // And finally, store the serialized entity object.
+  fields.data = data;
+
+  this.connection.insert(this.entityType).fields(fields).execute();
   
   return this.connection.rowsAffected;
 };
