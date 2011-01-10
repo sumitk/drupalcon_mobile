@@ -239,11 +239,8 @@ Drupal.entity.Datastore.prototype.remove = function(id) {
  * *all existing data for this entity type will be lost*?
  */
 Drupal.entity.Datastore.prototype.initializeSchema = function() {
-
-  var schema = this.getSchema();
   this.connection.dropTable(this.entityType);
-  
-  this.connection.createTable(this.entityType, schema);
+  this.connection.createTable(this.entityType, this.getSchema());
 };
 
 /**
