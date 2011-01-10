@@ -261,6 +261,7 @@ Drupal.db.Connection.prototype.createColumnSql = function(tablename, schema) {
       //    unset($schema['primary key'][$key]);
       //  }
       //}
+
       sqlArray.push(this.createFieldSql(name, field));
     }
   }

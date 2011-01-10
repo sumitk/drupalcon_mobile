@@ -12,7 +12,6 @@ if (!Drupal.db) {
  */
 Drupal.entity = {
 
-
   sites: {
     main: {
       /**
