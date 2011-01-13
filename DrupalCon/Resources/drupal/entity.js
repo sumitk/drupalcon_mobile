@@ -37,7 +37,10 @@ Drupal.entity = {
             bundle: 'type',
             label: 'title'
           },
-          schema: {}
+          schema: {},
+          requestUrl: function(id) {
+            return 'node/' + id;
+          }
         },
         user: {
           label: Ti.Locale.getString('User'),
@@ -46,7 +49,10 @@ Drupal.entity = {
             bundle: null,
             label: 'name'
           },
-          schema: {}
+          schema: {},
+          requestUrl: function(id) {
+            return 'user/' + id;
+          }
         }
       }
     }
