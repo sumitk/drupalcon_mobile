@@ -25,7 +25,21 @@ var tabGroup = Titanium.UI.createTabGroup({id:'tabGroup1'});
 //
 // create base UI tab and root window
 //
-var win1 = Titanium.UI.createWindow({id:'win1'});
+var win1 = Titanium.UI.createWindow({
+  id:'win1',
+  backgroundImage:'background.png',
+});
+
+desc = "<p style='font-size: 12px;'>This app was produced by Patrick Teglia (Copyright 2010-2011). You may find updates ";
+desc += 'or news about the app on his website: <a href="http://patrickteglia.com">http://patrickteglia.com</a></p>';
+
+var wb = Ti.UI.createWebView({
+  html:desc,
+  height: 150,
+  backgroundColor:'transparent',
+});
+
+win1.add(wb);
 
 var tab1 = Titanium.UI.createTab({
 	id:'tab1',

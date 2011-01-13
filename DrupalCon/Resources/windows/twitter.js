@@ -3,6 +3,9 @@ var twitter_name = 'drupalcon';
 var win = Titanium.UI.currentWindow;
 win.title = '@'+twitter_name;
 
+// set this to true if you are only tracking one user
+var single = true;
+
 var net = Titanium.Network;
 var up = net.online;
 
@@ -25,8 +28,8 @@ function getTweets(screen_name){
 	var data = [];
 
 	var xhr = Ti.Network.createHTTPClient();
-	xhr.timeout = 1000000;
-	xhr.open("GET","http://api.twitter.com/1/statuses/user_timeline.json?screen_name="+screen_name+"&count=30");
+	xhr.timeout = 1000;
+	xhr.open("GET","http://api.twitter.com/1/statuses/user_timeline.json?screen_name="+screen_name+"&count=5");
 	xhr.onload = function()
 	{
 		try
@@ -36,11 +39,27 @@ function getTweets(screen_name){
 
 				var tweet = tweets[c].text;
 				var user = tweets[c].user.screen_name;
-				var avatar = tweets[c].user.profile_image_url;
+				var avatarWidth = 48;
+			  var leftMargin = 54;
+			  var rowHeight = 110;
+			  
+				// No need to load every single avatar if we are only looking at one user.
+				// Perhaps there is no need to load avatar at all?
+				if (single) {
+				  //var avatar = tweets[0].user.profile_image_url;
+          var avatar = '';
+          avatarWidth = 0;
+          leftMargin = 2;
+          rowHeight = 90;
+				}
+				else {
+				  var avatar = tweets[c].user.profile_image_url;
+			  }
+			  
 				var created_at = prettyDate(strtotime(tweets[c].created_at));
 				var bgcolor = (c % 2) == 0 ? '#fff' : '#eee';
 
-				var row = Ti.UI.createTableViewRow({hasChild:false,height:'auto',backgroundColor:bgcolor});
+				var row = Ti.UI.createTableViewRow({hasChild:true,height:rowHeight,backgroundColor:bgcolor});
 
 				// Create a vertical layout view to hold all the info labels and images for each tweet
 				var post_view = Ti.UI.createView({
@@ -52,19 +71,19 @@ function getTweets(screen_name){
 					right:5
 				});
 
-				var av = Ti.UI.createImageView({
-						image:avatar,
-						left:0,
-						top:0,
-						height:48,
-						width:48
-					});
-				// Add the avatar image to the view
-				post_view.add(av);
+        var av = Ti.UI.createImageView({
+           image:avatar,
+           left:0,
+           top:0,
+           height:48,
+           width:avatarWidth
+         });
+        // Add the avatar image to the view
+        post_view.add(av);
 
 				var user_label = Ti.UI.createLabel({
 					text:user,
-					left:54,
+					left:leftMargin,
 					width:120,
 					top:-48,
 					bottom:2,
@@ -92,11 +111,10 @@ function getTweets(screen_name){
 
 				var tweet_text = Ti.UI.createLabel({
 					text:tweet,
-					left:54,
-					top:0,
+					left:leftMargin,
+					top:11,
 					bottom:2,
-					height:'auto',
-					color:'#000',
+					color:'#999999',
 					width:'auto',
 					textAlign:'left',
 					font:{fontSize:14}
@@ -112,9 +130,13 @@ function getTweets(screen_name){
 			Titanium.App.Properties.setString("lastTweet",tweet);
 			
 			// Create the tableView and add it to the window.
-			var tableview = Titanium.UI.createTableView({data:data,minRowHeight:58});
+			var tableview = Titanium.UI.createTableView({data:data,minRowHeight:110});
 			win.add(tableview);
 			actInd.hide();
+			
+			tableview.addEventListener('click', function(e) {
+			  Ti.API.info(tweets[e.index].user.screen_name);
+			});
 		}
 		catch(E){
 			alert(E);
@@ -319,18 +341,21 @@ function prettyDate(time){
 }
 // Get the tweets for 'twitter_name'
 if (up) {
-	getTweets(twitter_name);	
+	getTweets(twitter_name);
+	
+	// Refresh menu item	
+	win.activity.onCreateOptionsMenu = function(e) {
+    var menu = e.menu;
+
+    var m1 = menu.add({ title : 'Refresh Tweets' });
+    m1.addEventListener('click', function(e) {
+      getTweets(twitter_name);
+    });
+  };
 }
 else {
 	alert("No active network connection.  Please try again when you are connected.");
 }
 
-win.activity.onCreateOptionsMenu = function(e) {
-  var menu = e.menu;
 
-  var m1 = menu.add({ title : 'Refresh Tweets' });
-  m1.addEventListener('click', function(e) {
-    getTweets(twitter_name);
-  });
-};
 
