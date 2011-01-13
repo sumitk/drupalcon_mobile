@@ -37,7 +37,10 @@ Drupal.entity = {
             bundle: 'type',
             label: 'title'
           },
-          schema: {}
+          schema: {},
+          requestUrl: function(id) {
+            return 'node/' + id;
+          }
         },
         user: {
           label: Ti.Locale.getString('User'),
@@ -46,7 +49,10 @@ Drupal.entity = {
             bundle: null,
             label: 'name'
           },
-          schema: {}
+          schema: {},
+          requestUrl: function(id) {
+            return 'user/' + id;
+          }
         }
       }
     }
@@ -86,6 +92,31 @@ Drupal.entity = {
       return this.sites[site].types[entityType];
     }
     Ti.API.error('Entity type ' + entityType + ' not defined for site ' + site);
+  },
+
+  /**
+   * Mirror an entity from a remote server.
+   *
+   * Note that the mirroring process is asynchronous. That is, the entity
+   * will not be available locally until sometime after this method returns,
+   * depending on network latency.
+   *
+   * @todo Add an event that fires when mirroring is done.
+   *
+   * @param site
+   *   The site key from which to mirror.
+   * @param entityType
+   *   The type of entity to be mirrored.
+   * @param id
+   *   The ID of the entity that is being mirrored.
+   */
+  mirror: function(site, entityType, id) {
+    var service = Drupal.services.createConnection('main');
+    service.loadHandler = function() {
+      Drupal.entity.db(site, entityType).save(Ti.JSON.parse(this.responseText));
+    };
+
+    service.request({query: this.entityInfo(site, entityType).requestUrl(id)});
   }
 };
 

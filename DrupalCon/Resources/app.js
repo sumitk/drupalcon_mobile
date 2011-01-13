@@ -19,6 +19,9 @@ Drupal.services.addConnectionInfo('main', {
   pass: ''
 });
 
+// Register our database information.
+Drupal.db.addConnectionInfo('main');
+
 // create tab group
 var tabGroup = Titanium.UI.createTabGroup({id:'tabGroup1'});
 
@@ -262,34 +265,17 @@ win1.activity.onCreateOptionsMenu = function(e) {
 
 // Download tests, for now.  These must get moved eventually.
 
-Drupal.db.addConnectionInfo('main');
-
 Drupal.db.errorMode = Drupal.db.ERROR_LEVEL_DEBUG;
 
-var service = Drupal.services.createConnection('main');
-service.loadHandler = function() {
-  Ti.API.info("Data was loaded, called from custom handler.");
-  //Ti.API.info(this.responseText);
+// This is just for testing purposes. In practice we wouldn't
+// actually want to wipe the DB on every app start. :-)
+var store = Drupal.entity.db('main', 'node');
+store.initializeSchema();
 
-  var store = Drupal.entity.db('main', 'node');
 
-  Ti.API.info('Initializing schema');
-  store.initializeSchema();
+Drupal.entity.mirror('main', 'node', 464);
 
-  Ti.API.info('Calling save()');
-  var ret = store.save(Ti.JSON.parse(this.responseText));
+// This will actually not have the updated number of records,
+// since the mirror request is synchronous.
+Ti.API.info('Number of nodes on file: ' + Drupal.entity.db('main', 'node').connection.query("SELECT COUNT(*) FROM node").field(0));
 
-  Ti.API.info('save() returned: ' + ret);
-
-  Ti.API.info('Number of nodes on file: ' + store.connection.query("SELECT COUNT(*) FROM node").field(0));
-
-  var storedNid = store.connection.query("SELECT nid FROM node WHERE nid=?", [464]).field(0);
-
-    Ti.API.info(storedNid);
-
-  var node = store.load(464);
-
-  Ti.API.info(node);
-
-};
-service.request({query: 'node/464'});
