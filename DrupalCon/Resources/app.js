@@ -2,12 +2,14 @@
 Titanium.UI.setBackgroundColor('#000');
 
 // Include the Drupal connection libraries.
-Ti.include("/drupal/drupal.js");
-Ti.include("/drupal/services.js");
-Ti.include('/drupal/db.js');
-Ti.include('/drupal/entity.js');
-Ti.include('/lib/twitter_services.js');
-Ti.include('/drupalcon/entity.js');
+Ti.include(
+  "drupal/drupal.js",
+  "drupal/services.js",
+  "drupal/db.js",
+  "drupal/entity.js",
+  "lib/twitter_services.js",
+  "drupalcon/entity.js"
+);
 
 
 // Define our connection information.  This is very similar to the DB layer's
@@ -45,7 +47,7 @@ win1.add(wb);
 
 var tab1 = Titanium.UI.createTab({
 	id:'tab1',
-  //icon:'images/tabs/KS_nav_ui.png',
+  icon:'images/tabs/KS_nav_ui.png',
   title:'Schedule',
   window:win1
 });
@@ -54,11 +56,11 @@ var tab1 = Titanium.UI.createTab({
 // create controls tab and root window
 //
 var win2 = Titanium.UI.createWindow({
-    url:'/windows/preferences.js',
+    url:'windows/preferences.js',
     title:'Maps'
 });
 var tab2 = Titanium.UI.createTab({
-    //icon:'images/tabs/KS_nav_mashup.png',
+    icon:'images/tabs/KS_nav_mashup.png',
     title:'Maps',
     window:win2
 });
@@ -68,11 +70,11 @@ var tab2 = Titanium.UI.createTab({
 // create phone tab and root window
 //
 var win3 = Titanium.UI.createWindow({
-    url:'/windows/twitter.js',
+    url:'windows/twitter.js',
     titleid:'twitter_win_title'
 });
 var tab3 = Titanium.UI.createTab({
-    //icon:'images/tabs/twitter.png',
+    icon:'images/tabs/twitter.png',
     title:'Twitter',
     window:win3
 });
@@ -81,11 +83,11 @@ var tab3 = Titanium.UI.createTab({
 // create platform tab and root window
 //
 var win4 = Titanium.UI.createWindow({
-    url:'/windows/preferences.js',
+    url:'windows/preferences.js',
     title:'Starred'
 });
 var tab4 = Titanium.UI.createTab({
-    //icon:'images/tabs/star.png',
+    icon:'images/tabs/star.png',
     title:'Starred',
     window:win4
 });
@@ -94,11 +96,11 @@ var tab4 = Titanium.UI.createTab({
 // create mashup tab and root window
 //
 var win5 = Titanium.UI.createWindow({
-    url:'/windows/preferences.js',
+    url:'windows/preferences.js',
     title:'More'
 });
 var tab5 = Titanium.UI.createTab({
-    //icon:'images/tabs/more.png',
+    icon:'images/tabs/more.png',
     title:'More',
     window:win5
 });
@@ -236,7 +238,7 @@ win1.add(checkButton);
 
 Ti.API.info(win1.activity);
 
-Ti.include('/windows/frontMenu.js');
+Ti.include('windows/frontMenu.js');
 
 function createMenu() {
     menu.setTiVersion(1.4);

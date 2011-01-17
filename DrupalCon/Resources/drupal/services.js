@@ -1,6 +1,6 @@
 // Include the main Drupal library.
 if (!Drupal) {
-  Ti.include("drupal.js");
+  Ti.include("drupal/drupal.js");
 }
 
 /**
