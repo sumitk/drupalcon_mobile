@@ -2,14 +2,13 @@
 Titanium.UI.setBackgroundColor('#000');
 
 // Include the Drupal connection libraries.
-Ti.include("drupal/drupal.js");
-Ti.include("drupal/services.js");
-Ti.include('drupal/db.js');
-Ti.include('drupal/entity.js');
-Ti.include('lib/twitter_services.js');
+Ti.include("/drupal/drupal.js");
+Ti.include("/drupal/services.js");
+Ti.include('/drupal/db.js');
+Ti.include('/drupal/entity.js');
+Ti.include('/lib/twitter_services.js');
+Ti.include('/drupalcon/entity.js');
 
-
-Ti.include('drupalcon/entity.js');
 
 // Define our connection information.  This is very similar to the DB layer's
 // $databases array in settings.php.
@@ -30,7 +29,7 @@ var tabGroup = Titanium.UI.createTabGroup({id:'tabGroup1'});
 //
 var win1 = Titanium.UI.createWindow({
   id:'win1',
-  backgroundImage:'background.png',
+  backgroundImage:'background.png'
 });
 
 desc = "<p style='font-size: 12px;'>This app was produced by Patrick Teglia (Copyright 2010-2011). You may find updates ";
@@ -39,14 +38,14 @@ desc += 'or news about the app on his website: <a href="http://patrickteglia.com
 var wb = Ti.UI.createWebView({
   html:desc,
   height: 150,
-  backgroundColor:'transparent',
+  backgroundColor:'transparent'
 });
 
 win1.add(wb);
 
 var tab1 = Titanium.UI.createTab({
 	id:'tab1',
-  icon:'images/tabs/KS_nav_ui.png',
+  //icon:'images/tabs/KS_nav_ui.png',
   title:'Schedule',
   window:win1
 });
@@ -55,11 +54,11 @@ var tab1 = Titanium.UI.createTab({
 // create controls tab and root window
 //
 var win2 = Titanium.UI.createWindow({
-    url:'windows/preferences.js',
+    url:'/windows/preferences.js',
     title:'Maps'
 });
 var tab2 = Titanium.UI.createTab({
-    icon:'images/tabs/KS_nav_mashup.png',
+    //icon:'images/tabs/KS_nav_mashup.png',
     title:'Maps',
     window:win2
 });
@@ -69,11 +68,11 @@ var tab2 = Titanium.UI.createTab({
 // create phone tab and root window
 //
 var win3 = Titanium.UI.createWindow({
-    url:'windows/twitter.js',
+    url:'/windows/twitter.js',
     titleid:'twitter_win_title'
 });
 var tab3 = Titanium.UI.createTab({
-    icon:'images/tabs/twitter.png',
+    //icon:'images/tabs/twitter.png',
     title:'Twitter',
     window:win3
 });
@@ -82,11 +81,11 @@ var tab3 = Titanium.UI.createTab({
 // create platform tab and root window
 //
 var win4 = Titanium.UI.createWindow({
-    url:'windows/preferences.js',
+    url:'/windows/preferences.js',
     title:'Starred'
 });
 var tab4 = Titanium.UI.createTab({
-    icon:'images/tabs/star.png',
+    //icon:'images/tabs/star.png',
     title:'Starred',
     window:win4
 });
@@ -95,11 +94,11 @@ var tab4 = Titanium.UI.createTab({
 // create mashup tab and root window
 //
 var win5 = Titanium.UI.createWindow({
-    url:'windows/preferences.js',
+    url:'/windows/preferences.js',
     title:'More'
 });
 var tab5 = Titanium.UI.createTab({
-    icon:'images/tabs/more.png',
+    //icon:'images/tabs/more.png',
     title:'More',
     window:win5
 });
@@ -235,33 +234,53 @@ checkButton.addEventListener('click',function(e){
 });
 win1.add(checkButton);
 
-win1.activity.onCreateOptionsMenu = function(e) {
-  var menu = e.menu;
+Ti.API.info(win1.activity);
 
-  var m1 = menu.add({ title : 'Settings' });
-  m1.addEventListener('click', function(e) {
-    Ti.API.info("Clicked Settings.");
-    var preferencesWindow = Titanium.UI.createWindow({
-      url:'windows/preferences.js',
-      title:'Preferences',
-      backgroundColor: '#000'
+Ti.include('/windows/frontMenu.js');
+
+function createMenu() {
+    menu.setTiVersion(1.4);
+    menu.init({
+        buttons: [
+            {
+                title: "Refresh",
+                clickevent: function () { refresh(true); }
+            },
+            {
+                title: "Logout",
+                clickevent: logout
+            }
+        ]
     });
-    preferencesWindow.open({modal:true});
-    
-  });
-  var m2 = menu.add({ title : 'Update sessions' });
-  m2.addEventListener('click', function(e) {
-    Ti.API.info("Update button was clicked.");
-    // Do stuff here to test downloading sessions.
-    Ti.API.info("Requesting new service object.");
-    var service = Drupal.createConnection({endpointUrl: 'http://chicago2011.garfield.sandbox/mobile/test'});
-    service.loadHandler = function() {
-      Ti.API.info("Data was loaded, called from custom handler.");
-    };
-    Ti.API.info("Making request.");
-    service.request({method: 'GET', query: 'node/464', format: 'json'});
-  });
-};
+}
+
+//win1.activity.onCreateOptionsMenu = function(e) {
+//  var menu = e.menu;
+//
+//  var m1 = menu.add({title : 'Settings'});
+//  m1.addEventListener('click', function(e) {
+//    Ti.API.info("Clicked Settings.");
+//    var preferencesWindow = Titanium.UI.createWindow({
+//      url:'windows/preferences.js',
+//      title:'Preferences',
+//      backgroundColor: '#000'
+//    });
+//    preferencesWindow.open({modal:true});
+//
+//  });
+//  var m2 = menu.add({title : 'Update sessions'});
+//  m2.addEventListener('click', function(e) {
+//    Ti.API.info("Update button was clicked.");
+//    // Do stuff here to test downloading sessions.
+//    Ti.API.info("Requesting new service object.");
+//    var service = Drupal.createConnection({endpointUrl: 'http://chicago2011.garfield.sandbox/mobile/test'});
+//    service.loadHandler = function() {
+//      Ti.API.info("Data was loaded, called from custom handler.");
+//    };
+//    Ti.API.info("Making request.");
+//    service.request({method: 'GET', query: 'node/464', format: 'json'});
+//  });
+//};
 
 // Download tests, for now.  These must get moved eventually.
 
