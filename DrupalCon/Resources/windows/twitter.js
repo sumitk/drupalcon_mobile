@@ -225,7 +225,7 @@ function getTweets(screen_name){
 	var data = [];
 
 	var xhr = Ti.Network.createHTTPClient();
-	xhr.timeout = 1000;
+	xhr.timeout = 100000;
 	xhr.open("GET","http://api.twitter.com/1/statuses/user_timeline.json?screen_name="+screen_name+"&count=5");
 	xhr.onload = function()
 	{
@@ -246,8 +246,8 @@ function getTweets(screen_name){
 				if (single) {
 				  //var avatar = tweets[0].user.profile_image_url;
           avatarWidth = 0;
-          leftMargin = 2;
-          rowHeight = 90;
+          leftMargin = 5;
+          rowHeight = 'auto';
 				}
 				else {
 				  avatar = tweets[c].user.profile_image_url;
@@ -276,13 +276,13 @@ function getTweets(screen_name){
            width:avatarWidth
          });
         // Add the avatar image to the view
-        post_view.add(av);
+        //post_view.add(av);
 
 				var user_label = Ti.UI.createLabel({
 					text:user,
 					left:leftMargin,
 					width:120,
-					top:-48,
+					top:1,
 					bottom:2,
 					height:16,
 					textAlign:'left',
@@ -295,7 +295,7 @@ function getTweets(screen_name){
 				var date_label = Ti.UI.createLabel({
 					text:created_at,
 					right:0,
-					top:-18,
+					top:5,
 					bottom:2,
 					height:14,
 					textAlign:'right',
@@ -309,10 +309,11 @@ function getTweets(screen_name){
 				var tweet_text = Ti.UI.createLabel({
 					text:tweet,
 					left:leftMargin,
-					top:11,
+					top:3,
 					bottom:2,
 					color:'#999999',
 					width:'auto',
+          height:'auto',
 					textAlign:'left',
 					font:{fontSize:14}
 				});
@@ -348,14 +349,28 @@ if (up) {
 	getTweets(twitter_name);
 
 	// Refresh menu item
-	win.activity.onCreateOptionsMenu = function(e) {
-    var menu = e.menu;
+	if (Ti.Platform.name == 'android') {
+    win.activity.onCreateOptionsMenu = function(e) {
+      var menu = e.menu;
 
-    var m1 = menu.add({ title : 'Refresh Tweets' });
-    m1.addEventListener('click', function(e) {
+      var m1 = menu.add({title : 'Refresh Tweets'});
+      m1.addEventListener('click', function(e) {
+        getTweets(twitter_name);
+      });
+    };
+  }
+  else {
+    //create iphone menu.
+    var index = 0;
+    var button = Ti.UI.createButton({
+      systemButton: Ti.UI.iPhone.SystemButton.REFRESH
+    
+    });
+    win.leftNavButton = button;
+    button.addEventListener('click', function(e) {
       getTweets(twitter_name);
     });
-  };
+  }
 }
 else {
 	alert("No active network connection.  Please try again when you are connected.");

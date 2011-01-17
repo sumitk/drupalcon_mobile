@@ -3,7 +3,7 @@ var Ti, Titanium, Drupal, desc, menu, refresh, logout;
 
 // this sets the background color of the master UIView (when there are no windows/tab groups on it)
 Titanium.UI.setBackgroundColor('#000');
-
+/*
 // Include the Drupal connection libraries.
 Ti.include(
   "drupal/drupal.js",
@@ -25,7 +25,7 @@ Drupal.services.addConnectionInfo('main', {
 
 // Register our database information.
 Drupal.db.addConnectionInfo('main');
-
+*/
 // create tab group
 var tabGroup = Titanium.UI.createTabGroup({id:'tabGroup1'});
 
@@ -241,24 +241,6 @@ win1.add(checkButton);
 
 Ti.API.info(win1.activity);
 
-Ti.include('windows/frontMenu.js');
-
-function createMenu() {
-    menu.setTiVersion(1.4);
-    menu.init({
-        buttons: [
-            {
-                title: "Refresh",
-                clickevent: function () { refresh(true); }
-            },
-            {
-                title: "Logout",
-                clickevent: logout
-            }
-        ]
-    });
-}
-
 //win1.activity.onCreateOptionsMenu = function(e) {
 //  var menu = e.menu;
 //
@@ -287,8 +269,8 @@ function createMenu() {
 //  });
 //};
 
+/*
 // Download tests, for now.  These must get moved eventually.
-
 Drupal.db.errorMode = Drupal.db.ERROR_LEVEL_DEBUG;
 
 // This is just for testing purposes. In practice we wouldn't
@@ -303,3 +285,4 @@ Drupal.entity.mirror('main', 'node', 464);
 // since the mirror request is synchronous.
 Ti.API.info('Number of nodes on file: ' + Drupal.entity.db('main', 'node').connection.query("SELECT COUNT(*) FROM node").field(0));
 
+*/
