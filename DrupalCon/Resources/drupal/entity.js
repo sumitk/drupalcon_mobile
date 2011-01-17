@@ -1,6 +1,15 @@
 // Declaring variables to prevent implied global error in jslint
 var Ti, Drupal;
 
+// Include the main Drupal library.
+if (!Drupal) {
+  Ti.include('drupal/drupal.js');
+}
+
+if (!Drupal.db) {
+  Ti.include('drupal/db.js');
+}
+
 /**
  * Define a new library for Drupal Entity storage.
  */
