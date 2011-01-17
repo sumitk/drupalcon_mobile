@@ -1,3 +1,6 @@
+// Declaring variables to prevent implied global error in jslint
+var Ti;
+
 // Check for new tweets
 setInterval (function() {
   var screen_name = 'drupalcon';
@@ -32,7 +35,7 @@ setInterval (function() {
       catch(E){
         alert(E);
       }
-    }
+    };
    	xhr.send();
 	}
 },1000);

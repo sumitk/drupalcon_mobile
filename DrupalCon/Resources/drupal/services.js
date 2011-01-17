@@ -1,7 +1,5 @@
-// Include the main Drupal library.
-if (!Drupal) {
-  Ti.include("drupal.js");
-}
+// Declaring variables to prevent implied global error in jslint
+var Ti, Drupal;
 
 /**
  * Define a new library for Drupal Services integration.
@@ -38,7 +36,7 @@ Drupal.services = {
       pass: ''
     };
 
-    if (this.connections[key] == undefined) {
+    if (this.connections[key] === undefined) {
       Drupal.setDefaults(info, defaults);
       this.connections[key] = info;
     }
@@ -55,7 +53,7 @@ Drupal.services = {
    *   each time this method is called.
    */
   createConnection: function(key) {
-    if (key == undefined) {
+    if (key === undefined) {
       key = 'default';
     }
 

@@ -23,7 +23,7 @@ var Drupal = {
    */
   setDefaults: function(settings, defaults) {
     for (var key in defaults) {
-      if (defaults.hasOwnProperty(key) && settings[key] == undefined) {
+      if (defaults.hasOwnProperty(key) && settings[key] === undefined) {
         settings[key] = defaults[key];
       }
     }
@@ -37,5 +37,5 @@ var Drupal = {
 Drupal.constructPrototype = function(o) {
   var f = function() {};
   f.prototype = o.prototype;
-  return new f;
+  return new f();
 };

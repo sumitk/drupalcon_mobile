@@ -19,12 +19,11 @@
 	<iphone>
 		<orientations device="iphone">
 			<orientation>Ti.UI.PORTRAIT</orientation>
-		</orientations>
-		<orientations device="ipad">
-			<orientation>Ti.UI.PORTRAIT</orientation>
 			<orientation>Ti.UI.UPSIDE_PORTRAIT</orientation>
 			<orientation>Ti.UI.LANDSCAPE_LEFT</orientation>
 			<orientation>Ti.UI.LANDSCAPE_RIGHT</orientation>
+			<orientation>Ti.UI.FACE_UP</orientation>
+			<orientation>Ti.UI.FACE_DOWN</orientation>
 		</orientations>
 	</iphone>
 	<android xmlns:android="http://schemas.android.com/apk/res/android">

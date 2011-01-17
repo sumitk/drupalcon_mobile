@@ -1,7 +1,5 @@
-// Include the main Drupal library.
-if (!Drupal) {
-  Ti.include('drupal.js');
-}
+// Declaring variables to prevent implied global error in jslint
+var Ti, Drupal;
 
 /**
  * Define a new library for Drupal Entity storage.
@@ -412,7 +410,7 @@ Drupal.db.Query.prototype.getComments = function() {
   return this.comments;
 };
 
-Ti.include('db.insert.js');
+Ti.include('/drupal/db.insert.js');
 
 
 /* Kinda sorta unit tests, ish. */

@@ -1,11 +1,14 @@
-var frontMenu = {
+// Declaring variables to prevent implied global error in jslint
+var Ti, menu, Button;
 
+var frontMenu = {
   isAndroid: Ti.Platform.name == 'android',
   win: Ti.UI.currentWindow,
   data: [],
   tiVersion: 1.5,
 
   init: function (params) {
+    var k = 0;
     if (!menu.isAndroid) {
       //create iphone menu.
       var index = 0;
@@ -13,7 +16,7 @@ var frontMenu = {
         systemButton: Ti.UI.iPhone.SystemButton.FLEXIBLE_SPACE
       });
       menu.data[index++] = flexSpace;
-      for (var k = 0; k < params.buttons.length; k++) {
+      for (k = 0; k < params.buttons.length; k++) {
         menu.data[index] = new Button({
           title: params.buttons[k].title,
           style: Ti.UI.iPhone.SystemButtonStyle.BORDERED
@@ -31,21 +34,21 @@ var frontMenu = {
         var activity = Ti.Android.currentActivity;
         activity.onCreateOptionsMenu = function (e) {
           var optionsmenu = e.menu;
-          for (var k = 0; k < params.buttons.length; k++) {
+          for (k = 0; k < params.buttons.length; k++) {
             menu.data[k] = optionsmenu.add({
               title: params.buttons[k].title
-            })
+            });
             menu.data[k].addEventListener("click", params.buttons[k].clickevent);
           }
-        }
+        };
       }
       else {
         //pre-ti 1.5 way to create menu.
         var optionsmenu = Ti.UI.Android.OptionMenu.createMenu();
-        for (var k = 0; k < params.buttons.length; k++) {
+        for (k = 0; k < params.buttons.length; k++) {
           menu.data[k] = Ti.UI.Android.OptionMenu.createMenuItem({
             title: params.buttons[k].title
-          })
+          });
           menu.data[k].addEventListener("click", params.buttons[k].clickevent);
           optionsmenu.add(menu.data[k]);
         }

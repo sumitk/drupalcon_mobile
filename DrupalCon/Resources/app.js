@@ -1,3 +1,6 @@
+// Declaring variables to prevent implied global error in jslint
+var Ti, Titanium, Drupal, desc, menu, refresh, logout;
+
 // this sets the background color of the master UIView (when there are no windows/tab groups on it)
 Titanium.UI.setBackgroundColor('#000');
 
@@ -137,10 +140,10 @@ var messageWin = Titanium.UI.createWindow({
 	touchEnabled:false,
 
 	orientationModes : [
-	Titanium.UI.PORTRAIT,
-	Titanium.UI.UPSIDE_PORTRAIT,
-	Titanium.UI.LANDSCAPE_LEFT,
-	Titanium.UI.LANDSCAPE_RIGHT,
+    Titanium.UI.PORTRAIT,
+    Titanium.UI.UPSIDE_PORTRAIT,
+    Titanium.UI.LANDSCAPE_LEFT,
+    Titanium.UI.LANDSCAPE_RIGHT
 	]
 });
 var messageView = Titanium.UI.createView({

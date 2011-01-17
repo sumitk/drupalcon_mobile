@@ -1,3 +1,6 @@
+// Declaring variables to prevent implied global error in jslint
+var Ti;
+
 var win = Titanium.UI.currentWindow;
 var android = Ti.Platform.name == 'android';
 var data = [];
@@ -49,7 +52,7 @@ data.push(labelRow);
 data.push(inputRow);
 data.push(buttonRow);
 
-tableView = Titanium.UI.createTableView({
+var tableView = Titanium.UI.createTableView({
     data:data,
     top:20
     });
@@ -77,7 +80,7 @@ button.addEventListener('click',function(e){
       Titanium.UI.PORTRAIT,
       Titanium.UI.UPSIDE_PORTRAIT,
       Titanium.UI.LANDSCAPE_LEFT,
-      Titanium.UI.LANDSCAPE_RIGHT,
+      Titanium.UI.LANDSCAPE_RIGHT
       ]
     });
     var messageView = Titanium.UI.createView({
