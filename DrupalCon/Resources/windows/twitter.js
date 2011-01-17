@@ -5,6 +5,7 @@ var Ti;
 var twitter_name = 'drupalcon';
 var win = Titanium.UI.currentWindow;
 win.title = '@'+twitter_name;
+var tweetCount = 50;
 
 // set this to true if you are only tracking one user
 var single = true;
@@ -226,7 +227,8 @@ function getTweets(screen_name){
 
 	var xhr = Ti.Network.createHTTPClient();
 	xhr.timeout = 100000;
-	xhr.open("GET","http://api.twitter.com/1/statuses/user_timeline.json?screen_name="+screen_name+"&count=5");
+  var tweetParams = "http://api.twitter.com/1/statuses/user_timeline.json?screen_name="+screen_name+"&count="+tweetCount;
+	xhr.open("GET", tweetParams);
 	xhr.onload = function()
 	{
 		try
@@ -366,7 +368,7 @@ if (up) {
       systemButton: Ti.UI.iPhone.SystemButton.REFRESH
     
     });
-    win.leftNavButton = button;
+    win.rightNavButton = button;
     button.addEventListener('click', function(e) {
       getTweets(twitter_name);
     });
