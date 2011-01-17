@@ -1,10 +1,10 @@
 // Include the main Drupal library.
 if (!Drupal) {
-  Ti.include('drupal/drupal.js');
+  Ti.include('drupal.js');
 }
 
 if (!Drupal.db) {
-  Ti.include('drupal/db.js');
+  Ti.include('db.js');
 }
 
 /**
@@ -120,7 +120,7 @@ Drupal.entity = {
   }
 };
 
-Ti.include('drupal/entity.datastore.js');
+Ti.include('entity.datastore.js');
 
 
 //These kinda sorta serve as a unit test, ish, maybe, for now.
