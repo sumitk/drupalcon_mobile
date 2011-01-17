@@ -5,59 +5,46 @@ var win = Titanium.UI.currentWindow;
 var android = Ti.Platform.name == 'android';
 var data = [];
 
-var labelRow = Ti.UI.createTableViewRow();
-var inputRow = Ti.UI.createTableViewRow();
-var buttonRow = Ti.UI.createTableViewRow();
-
+// Items that go on the preferences page
 var titleLabel = Titanium.UI.createLabel({
     text:'Please enter your Drupal.org username and password.',
-    height:'auto',
+    height:50,
     width:300,
-    color:'#eee',
+    top: 10,
     textAlign:'left',
-    font:{fontSize:18},
-    top:5
+    font:{fontSize:18}
 });
-labelRow.add(titleLabel);
 
 var username = Ti.UI.createTextField({
   autocapitalization:Titanium.UI.TEXT_AUTOCAPITALIZATION_NONE,
   width:300,
-  top:5,
+  top: android ? 75 : 65,
   height: android ? 45 : 35,
   borderStyle:Titanium.UI.INPUT_BORDERSTYLE_ROUNDED,
   hintText:'Username'
 });
-inputRow.add(username);
 
 var password = Ti.UI.createTextField({
   autocapitalization:Titanium.UI.TEXT_AUTOCAPITALIZATION_NONE,
   width:300,
-  top:android ? 65 : 55,
+  top:android ? 125 : 105,
   height:android ? 45 : 35,
   borderStyle:Titanium.UI.INPUT_BORDERSTYLE_ROUNDED,
   passwordMask:true,
   hintText:'Password'
 });
-inputRow.add(password);
 
 var button = Titanium.UI.createButton({
   title:'Save',
   width:300,
-  height: android ? 45 : 40
+  top:android ? 175 : 145,
+  height: android ? 45 : 35
 });
-buttonRow.add(button);
 
-data.push(labelRow);
-data.push(inputRow);
-data.push(buttonRow);
-
-var tableView = Titanium.UI.createTableView({
-    data:data,
-    top:20
-    });
-
-win.add(tableView);
+win.add(titleLabel);
+win.add(username);
+win.add(password);
+win.add(button);
 
 button.addEventListener('click',function(e){
   var pass = password.value ? password.value : 'no password';
