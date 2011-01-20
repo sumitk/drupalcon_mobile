@@ -231,6 +231,23 @@ Drupal.entity.Datastore.prototype.remove = function(id) {
   return this.connection.rowsAffected;
 };
 
+Drupal.entity.Datastore.prototype.fetchUpdates = function(bundle) {
+  if (this.entityInfo.schema.fetchers && this.entityInfo.schema.fetchers[bundle]) {
+    this.entityInfo.schema.fetchers[bundle]();
+  }
+  else if (this.entityInfo.schema.defaultFetcher) {
+    this.entityInfo.schema.defaultFetcher(bundle);
+  }
+  else {
+    Ti.API.error('No fetcher found for entity: ' + this.entityType + ', bundle:' + bundle);
+    throw new Error('No fetcher found for entity: ' + this.entityType + ', bundle:' + bundle);
+  }
+};
+
+Drupal.entity.Datastore.prototype.defaultUpdater = function(bundle) {
+
+};
+
 /**
  * Reinitializes the schema for this datastore.
  * 
