@@ -9,9 +9,8 @@ Ti.include(
   "drupal/drupal.js",
   "drupal/services.js",
   "drupal/db.js",
-  "drupal/entity.js",
-  "lib/twitter_services.js",
-  "drupalcon/entity.js"
+  "drupal/entity.js"
+  // "lib/twitter_services.js"
 );
 
 
@@ -34,11 +33,12 @@ var tabGroup = Titanium.UI.createTabGroup({id:'tabGroup1'});
 //
 var win1 = Titanium.UI.createWindow({
   id:'win1',
+  title:'DrupalCon Chicago',
   backgroundImage:'background.png'
 });
 
-desc = "<p style='font-size: 12px;'>This app was produced by Patrick Teglia (Copyright 2010-2011). You may find updates ";
-desc += 'or news about the app on his website: <a href="http://patrickteglia.com">http://patrickteglia.com</a></p>';
+desc = "<p style='font-size: 12px;'>Something other than a copywrite notice that makes ABSOLUTELY no sense. ";
+desc += 'Ooooooh lookie, a link to my website!!: <a href="http://patrickteglia.com">http://patrickteglia.com</a></p>';
 
 var wb = Ti.UI.createWebView({
   html:desc,
