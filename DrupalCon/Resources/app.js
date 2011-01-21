@@ -3,7 +3,7 @@ var Ti, Titanium, Drupal, desc, menu, refresh, logout;
 
 // this sets the background color of the master UIView (when there are no windows/tab groups on it)
 Titanium.UI.setBackgroundColor('#000');
-/*
+
 // Include the Drupal connection libraries.
 Ti.include(
   "drupal/drupal.js",
@@ -25,7 +25,7 @@ Drupal.services.addConnectionInfo('main', {
 
 // Register our database information.
 Drupal.db.addConnectionInfo('main');
-*/
+
 // create tab group
 var tabGroup = Titanium.UI.createTabGroup({id:'tabGroup1'});
 

@@ -87,7 +87,7 @@ Drupal.db = {
     return this.connections[key];
   },
 
-  /**
+/**
    * Determines if there is an active connection.
    *
    * Note that this method will return FALSE if no connection has been
