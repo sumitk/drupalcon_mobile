@@ -201,7 +201,63 @@ Drupal.db.Connection.prototype.query = function(stmt, args) {
     Ti.API.debug('Executing query: ' + stmt + "\nArguments: " + args.toString());
   }
 
-  var result = this.connection.execute(stmt, args);
+  // This shouldn't be necessary.  However, the iOS implementation of Ti.Database
+  // doesn't support an array for parameters, only varargs, even though the
+  // documentation says both are supposed to work.  This is a serious bug in
+  // Titanium and has been reported:
+  // http://developer.appcelerator.com/question/60461/passing-an-array-into-titaniumdatabasedbexecute
+  // https://appcelerator.lighthouseapp.com/projects/32238-titanium-mobile/tickets/2917-api-doc-dbexecute
+
+  // The workaround here *should* be to use:
+  // this.connection.execute.apply(this.connection, arguments);
+  // However, for mysterious reasons I have not figured out both apply() and call()
+  // appear to be missing on Ti.Database.DB, if not all Titanium objects.  This
+  // is a critcal mega epic fail bug on Titanium's part and they should be ashamed
+  // to be shipping with it, but such is life.  If someone can demonstrate this
+  // paragraph wrong, please let me know and submit a patch.
+  var result;
+  switch (args.length) {
+    case 0:
+      result = this.connection.execute(stmt);
+      break;
+    case 1:
+      result = this.connection.execute(stmt, args[0]);
+      break;
+    case 2:
+      result = this.connection.execute(stmt, args[0], args[1]);
+      break;
+    case 3:
+      result = this.connection.execute(stmt, args[0], args[1], args[2]);
+      break;
+    case 4:
+      result = this.connection.execute(stmt, args[0], args[1], args[2], args[3]);
+      break;
+    case 5:
+      result = this.connection.execute(stmt, args[0], args[1], args[2], args[3], args[4]);
+      break;
+    case 6:
+      result = this.connection.execute(stmt, args[0], args[1], args[2], args[3], args[4], args[5]);
+      break;
+    case 7:
+      result = this.connection.execute(stmt, args[0], args[1], args[2], args[3], args[4], args[5], args[6]);
+      break;
+    case 8:
+      result = this.connection.execute(stmt, args[0], args[1], args[2], args[3], args[4], args[5], args[6], args[7]);
+      break;
+    case 9:
+      result = this.connection.execute(stmt, args[0], args[1], args[2], args[3], args[4], args[5], args[6], args[7], args[8]);
+      break;
+    case 10:
+      result = this.connection.execute(stmt, args[0], args[1], args[2], args[3], args[4], args[5], args[6], args[7], args[8], args[9]);
+      break;
+    default:
+      Ti.API.error('Too many query parameters: ' + args.length);
+      throw new Error('Too many query paramters: ' + args.length);
+  }
+
+
+  // This is the correct way to do it, if only the iOS implementation wasn't crap.
+  //var result = this.connection.execute(stmt, args);
   
   // So that we can still have access to this value.
   this.affectedRows = this.connection.affectedRows;
