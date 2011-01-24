@@ -215,6 +215,8 @@ Drupal.db.Connection.prototype.query = function(stmt, args) {
   // is a critcal mega epic fail bug on Titanium's part and they should be ashamed
   // to be shipping with it, but such is life.  If someone can demonstrate this
   // paragraph wrong, please let me know and submit a patch.
+  // Addendum: I already tried the method described here, and it didn't work:
+  // http://developer.appcelerator.com/question/14591/having-trouble-wrapping-a-db-object#105841
   var result;
   switch (args.length) {
     case 0:
