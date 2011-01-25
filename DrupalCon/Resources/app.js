@@ -77,7 +77,7 @@ Drupal.db.errorMode = Drupal.db.ERROR_LEVEL_DEBUG;
 // This is just for testing purposes. In practice we wouldn't
 // actually want to wipe the DB on every app start. :-)
 var store = Drupal.entity.db('main', 'node');
-store.initializeSchema();
+//store.initializeSchema();
 
 store.fetchUpdates('session');
 

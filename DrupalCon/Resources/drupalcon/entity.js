@@ -50,7 +50,7 @@ Drupal.entity.sites.main.types.node.schema = {
         store.save(nodes[i]);
       }
 
-      Ti.API.info('Number of nodes on file: ' + Drupal.entity.db('main', 'node').connection.query("SELECT COUNT(*) FROM node").rowCount);
+      Ti.API.info('Number of nodes on file: ' + Drupal.entity.db('main', 'node').connection.query("SELECT COUNT(*) FROM node").field(0));
     };
 
     //open the client and encode our URL
