@@ -198,7 +198,7 @@ Drupal.db.Connection.prototype.query = function(stmt, args) {
   }
 
   if (Drupal.db.errorMode >= Drupal.db.ERROR_LEVEL_DEBUG) {
-    Ti.API.debug('Executing query: ' + stmt + "\nArguments: " + args.toString());
+    Ti.API.debug('Executing query: ' + stmt + "\nArguments: " + args.join(', '));
   }
 
   // This shouldn't be necessary.  However, the iOS implementation of Ti.Database

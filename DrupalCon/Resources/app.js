@@ -81,10 +81,8 @@ store.initializeSchema();
 
 store.fetchUpdates('session');
 
-/*
-Drupal.entity.mirror('main', 'node', 464);
+//Drupal.entity.mirror('main', 'node', 464);
 
 // This will actually not have the updated number of records,
-// since the mirror request is synchronous.
-Ti.API.info('Number of nodes on file: ' + Drupal.entity.db('main', 'node').connection.query("SELECT COUNT(*) FROM node").field(0));
-*/
+// since the mirror request is asynchronous.
+//Ti.API.info('Number of nodes on file: ' + Drupal.entity.db('main', 'node').connection.query("SELECT COUNT(*) FROM node").field(0));

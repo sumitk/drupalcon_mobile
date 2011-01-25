@@ -233,10 +233,10 @@ Drupal.entity.Datastore.prototype.remove = function(id) {
 
 Drupal.entity.Datastore.prototype.fetchUpdates = function(bundle) {
   if (this.entityInfo.schema.fetchers && this.entityInfo.schema.fetchers[bundle]) {
-    this.entityInfo.schema.fetchers[bundle]();
+    this.entityInfo.schema.fetchers[bundle](this);
   }
   else if (this.entityInfo.schema.defaultFetcher) {
-    this.entityInfo.schema.defaultFetcher(bundle);
+    this.entityInfo.schema.defaultFetcher(bundle, this);
   }
   else {
     Ti.API.error('No fetcher found for entity: ' + this.entityType + ', bundle:' + bundle);

@@ -45,15 +45,12 @@ Drupal.entity.sites.main.types.node.schema = {
 
       var nodes = decoded.nodes;
 
-      Ti.API.info(payload);
-
       for (var i=0; i < nodes.length; i++) {
         Ti.API.info(nodes[i].node.nid);
-        //store.save(node);
+        store.save(nodes[i]);
       }
 
-      //Ti.API.info(payload);
-      //Ti.API.info(decoded);
+      Ti.API.info('Number of nodes on file: ' + Drupal.entity.db('main', 'node').connection.query("SELECT COUNT(*) FROM node").rowCount);
     };
 
     //open the client and encode our URL
