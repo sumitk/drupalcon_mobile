@@ -246,8 +246,8 @@ Drupal.entity.Datastore.prototype.fetchUpdates = function(bundle) {
     this.entityInfo.schema.defaultFetcher(bundle, this);
   }
   else {
-    Ti.API.error('No fetcher found for entity: ' + this.entityType + ', bundle:' + bundle);
-    throw new Error('No fetcher found for entity: ' + this.entityType + ', bundle:' + bundle);
+    Ti.API.error('No fetcher found for entity: ' + this.entityType + ', bundle: ' + bundle);
+    throw new Error('No fetcher found for entity: ' + this.entityType + ', bundle: ' + bundle);
   }
 };
 
