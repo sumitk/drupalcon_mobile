@@ -1,6 +1,9 @@
+// Declaring variables to prevent implied global error in jslint
+var Ti, Drupal;
+
 // Include the main Drupal library.
 if (!Drupal) {
-  Ti.include('drupal.js');
+  Ti.include('drupal/drupal.js');
 }
 
 /**
@@ -84,7 +87,7 @@ Drupal.db = {
     return this.connections[key];
   },
 
-  /**
+/**
    * Determines if there is an active connection.
    *
    * Note that this method will return FALSE if no connection has been
@@ -473,7 +476,7 @@ Drupal.db.Query.prototype.getComments = function() {
   return this.comments;
 };
 
-Ti.include('db.insert.js');
+Ti.include('/drupal/db.insert.js');
 
 
 /* Kinda sorta unit tests, ish. */

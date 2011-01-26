@@ -1,10 +1,13 @@
+// Declaring variables to prevent implied global error in jslint
+var Ti, Drupal;
+
 // Include the main Drupal library.
 if (!Drupal) {
-  Ti.include('drupal.js');
+  Ti.include('drupal/drupal.js');
 }
 
 if (!Drupal.db) {
-  Ti.include('db.js');
+  Ti.include('drupal/db.js');
 }
 
 /**
@@ -120,8 +123,7 @@ Drupal.entity = {
   }
 };
 
-
-Ti.include('entity.datastore.js');
+Ti.include('/drupal/entity.datastore.js');
 
 
 //These kinda sorta serve as a unit test, ish, maybe, for now.

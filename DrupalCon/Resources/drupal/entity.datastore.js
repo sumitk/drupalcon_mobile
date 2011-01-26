@@ -1,3 +1,5 @@
+// Declaring variables to prevent implied global error in jslint
+var Drupal, Ti;
 
 /**
  * Creates a Drupal Datastore object.
