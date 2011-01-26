@@ -61,7 +61,7 @@ button.addEventListener('click',function(e){
       width:250,
       top:270,
       borderRadius:10,
-      touchEnabled:false,
+      touchEnabled:false
     
 //      orientationModes : [
 //      Titanium.UI.PORTRAIT,
