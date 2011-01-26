@@ -42,23 +42,24 @@ if (Titanium.Platform.osname == 'android') {
   mainWindow.activity.onCreateOptionsMenu = function(e) {
     var menu = e.menu;
 
-    // @todo Switch this to the generic Titanium properties API, with a custom
-    // UI: http://developer.appcelerator.com/apidoc/mobile/latest/Titanium.App.Properties-module
-    var m1 = menu.add({title : 'Settings'});
-    m1.addEventListener('click', function(e) {
-      Titanium.UI.Android.openPreferences();
-    });
-
     // This is a placeholder for testing.  It will eventually get moved to a
     // more appropriate location within the App.
     var m2 = menu.add({title : 'Update sessions'});
     m2.addEventListener('click', function(e) {
-      var service = Drupal.services.createConnection();
-      service.loadHandler = function() {
-        Ti.API.info("Data was loaded, called from custom handler.");
-        Ti.API.info(this.responseText);
-      };
-      service.request({query: 'node/464'});
+      Drupal.entity.db('main', 'node').fetchUpdates('session');
+    });
+
+    // This is a placeholder for testing.  It will eventually get moved to a
+    // more appropriate location within the App.
+    var m3 = menu.add({title : 'Examine DB'});
+    m3.addEventListener('click', function(e) {
+      var conn = Drupal.db.getConnection('main');
+      var rows = conn.query("SELECT nid, title, changed, type FROM node ORDER BY nid, changed");
+      while (rows.isValidRow()) {
+	Titanium.API.info('Nid: ' + rows.fieldByName('nid') + ', Type: ' + rows.fieldByName('type')  + ', Changed: ' + rows.fieldByName('changed') + ', Title: ' + rows.fieldByName('title'));
+	rows.next();
+      }
+      rows.close();
     });
   };
 }
@@ -76,10 +77,11 @@ Drupal.db.errorMode = Drupal.db.ERROR_LEVEL_DEBUG;
 
 // This is just for testing purposes. In practice we wouldn't
 // actually want to wipe the DB on every app start. :-)
-var store = Drupal.entity.db('main', 'node');
-//store.initializeSchema();
+//var store = Drupal.entity.db('main', 'node').initializeSchema();
 
-store.fetchUpdates('session');
+//Drupal.entity.db('main', 'node').fetchUpdates('session');
+
+
 
 //Drupal.entity.mirror('main', 'node', 464);
 
