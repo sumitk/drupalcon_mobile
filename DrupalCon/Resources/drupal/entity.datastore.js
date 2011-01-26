@@ -102,14 +102,13 @@ Drupal.entity.Datastore.prototype.insert = function(entity) {
   // And finally, store the serialized entity object.
   fields.data = data;
 
-
   // Ensure that the schema table exists.
   if (!this.connection.tableExists(this.entityType)) {
     this.connection.createTable(this.entityType, this.getSchema());
   }
 
   this.connection.insert(this.entityType).fields(fields).execute();
-  
+
   return this.connection.rowsAffected;
 };
 
