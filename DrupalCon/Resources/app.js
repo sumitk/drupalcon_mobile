@@ -127,47 +127,46 @@ tabGroup.addEventListener('open',function()
 tabGroup.setActiveTab(0); 
 // open tab group with a transition animation
 tabGroup.open({
-	transition:Titanium.UI.iPhone.AnimationStyle.FLIP_FROM_LEFT
+  transition:Titanium.UI.iPhone.AnimationStyle.FLIP_FROM_LEFT
 });
 
 //
 //  TAB GROUP EVENTS
 //
 var messageWin = Titanium.UI.createWindow({
-	height:30,
-	width:250,
-	bottom:70,
-	borderRadius:10,
-	touchEnabled:false,
-
-	orientationModes : [
+  height:30,
+  width:250,
+  bottom:70,
+  borderRadius:10,
+  touchEnabled:false,
+  orientationModes : [
     Titanium.UI.PORTRAIT,
     Titanium.UI.UPSIDE_PORTRAIT,
     Titanium.UI.LANDSCAPE_LEFT,
     Titanium.UI.LANDSCAPE_RIGHT
-	]
+  ]
 });
 var messageView = Titanium.UI.createView({
-	id:'messageview',
-	height:30,
-	width:250,
-	borderRadius:10,
-	backgroundColor:'#000',
-	opacity:0.7,
-	touchEnabled:false
+  id:'messageview',
+  height:30,
+  width:250,
+  borderRadius:10,
+  backgroundColor:'#000',
+  opacity:0.7,
+  touchEnabled:false
 });
 
 var messageLabel = Titanium.UI.createLabel({
-	id:'messagelabel',
-	text:'',
-	color:'#fff',
-	width:250,
-	height:'auto',
-	font:{
-		fontFamily:'Helvetica Neue',
-		fontSize:13
-	},
-	textAlign:'center'
+  id:'messagelabel',
+  text:'',
+  color:'#fff',
+  width:250,
+  height:'auto',
+  font:{
+    fontFamily:'Helvetica Neue',
+    fontSize:13
+  },
+  textAlign:'center'
 });
 messageWin.add(messageView);
 messageWin.add(messageLabel);
@@ -177,52 +176,45 @@ messageWin.add(messageLabel);
 //
 
 // tab group close event
-tabGroup.addEventListener('close', function(e)
-{
-	messageLabel.text = 'tab group close event';
-	messageWin.open();
-	setTimeout(function()
-	{
-		messageWin.close({opacity:0,duration:500});
-		tabGroup.open();
-	},1000);
+tabGroup.addEventListener('close', function(e) {
+  messageLabel.text = 'tab group close event';
+  messageWin.open();
+  setTimeout(function() 	{
+    messageWin.close({opacity:0,duration:500});
+    tabGroup.open();
+  }, 1000);
 });
 
 
 // tab group open event
-tabGroup.addEventListener('open', function(e)
-{
-	messageLabel.text = 'tab group open event';
-	messageWin.open();
-	setTimeout(function()
-	{
-		messageWin.close({opacity:0,duration:500});
-	},1000);
-
+tabGroup.addEventListener('open', function(e) {
+  messageLabel.text = 'tab group open event';
+  messageWin.open();
+  setTimeout(function() 	{
+    messageWin.close({opacity:0,duration:500});
+  }, 1000);
 });
 
 // focus event listener for tracking tab changes
-tabGroup.addEventListener('focus', function(e)
-{
-	//messageLabel.text = 'tab changed to ' + e.index + ' old index ' + e.previousIndex;
-	//messageWin.open();
-	//setTimeout(function()
-	//{
-	//	Ti.API.info('tab ' + e.tab.title  + ' prevTab = ' + (e.previousTab ? e.previousTab.title : null));
-	//	messageLabel.text = 'active title ' + e.tab.title + ' old title ' + (e.previousTab ? e.previousTab.title : null);
-	//},1000);
-	//
-	//setTimeout(function()
-	//{
-	//	messageWin.close({opacity:0,duration:500});
-	//},2000);
+tabGroup.addEventListener('focus', function(e) {
+  //messageLabel.text = 'tab changed to ' + e.index + ' old index ' + e.previousIndex;
+  //messageWin.open();
+  //setTimeout(function()
+  //{
+  //	Ti.API.info('tab ' + e.tab.title  + ' prevTab = ' + (e.previousTab ? e.previousTab.title : null));
+  //	messageLabel.text = 'active title ' + e.tab.title + ' old title ' + (e.previousTab ? e.previousTab.title : null);
+  //},1000);
+  //
+  //setTimeout(function()
+  //{
+  //	messageWin.close({opacity:0,duration:500});
+  //},2000);
 
 });
 
 // blur event listener for tracking tab changes
-tabGroup.addEventListener('blur', function(e)
-{
-	//Titanium.API.info('tab blur - new index ' + e.index + ' old index ' + e.previousIndex);
+tabGroup.addEventListener('blur', function(e) {
+  //Titanium.API.info('tab blur - new index ' + e.index + ' old index ' + e.previousIndex);
 });
 
 
@@ -233,7 +225,7 @@ var checkButton = Titanium.UI.createButton({
   width:300,
   height: 40
 });
-checkButton.addEventListener('click',function(e){
+checkButton.addEventListener('click',function(e) {
   var pass = Titanium.App.Properties.getString("sitePassword");
   var user = Titanium.App.Properties.getString("siteUsername");
   alert("User: " + user + " and Pass: " + pass);
@@ -266,34 +258,6 @@ win1.activity.onCreateOptionsMenu = function(e) {
   });
 
 };
-
-//win1.activity.onCreateOptionsMenu = function(e) {
-//  var menu = e.menu;
-//
-//  var m1 = menu.add({title : 'Settings'});
-//  m1.addEventListener('click', function(e) {
-//    Ti.API.info("Clicked Settings.");
-//    var preferencesWindow = Titanium.UI.createWindow({
-//      url:'windows/preferences.js',
-//      title:'Preferences',
-//      backgroundColor: '#000'
-//    });
-//    preferencesWindow.open({modal:true});
-//
-//  });
-//  var m2 = menu.add({title : 'Update sessions'});
-//  m2.addEventListener('click', function(e) {
-//    Ti.API.info("Update button was clicked.");
-//    // Do stuff here to test downloading sessions.
-//    Ti.API.info("Requesting new service object.");
-//    var service = Drupal.createConnection({endpointUrl: 'http://chicago2011.garfield.sandbox/mobile/test'});
-//    service.loadHandler = function() {
-//      Ti.API.info("Data was loaded, called from custom handler.");
-//    };
-//    Ti.API.info("Making request.");
-//    service.request({method: 'GET', query: 'node/464', format: 'json'});
-//  });
-//};
 
 /*
 // Download tests, for now.  These must get moved eventually.
