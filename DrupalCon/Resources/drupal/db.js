@@ -416,7 +416,7 @@ Drupal.db.Connection.prototype.createKeySql = function(fields) {
 
 Drupal.db.Connection.prototype.tableExists = function(table) {
   var result = this.query('SELECT 1 FROM sqlite_master WHERE type = ? AND name = ?', ['table', table]);
-  var ret = Boolean(result.field(0));
+  var ret = Boolean(result.rowCount);
   result.close();
   return ret;
 };
