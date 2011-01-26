@@ -236,8 +236,6 @@ Drupal.db.InsertQuery.prototype.execute = function() {
   //  return $this->connection->query($sql, $this->fromQuery->getArguments(), $this->queryOptions);
   //}
 
-  var lastInsertId = 0;
-
   // @todo Handle transactions, somehow.
   // Each insert happens in its own query in the degenerate case. However,
   // we wrap it in a transaction so that it is atomic where possible. On many
@@ -248,7 +246,7 @@ Drupal.db.InsertQuery.prototype.execute = function() {
     var sql = this.sqlString();
     for (var i = 0; i < this.insertValues.length; i++) {
       Ti.API.debug('About to call query()....');
-      lastInsertId = this.connection.query(sql, this.insertValues[i]);
+      this.connection.query(sql, this.insertValues[i]);
     }
   }
   catch (e) {
@@ -263,8 +261,6 @@ Drupal.db.InsertQuery.prototype.execute = function() {
   this.insertValues = [];
 
   // Transaction commits here where $transaction looses scope.
-
-  return lastInsertId;
 };
 
 /**
