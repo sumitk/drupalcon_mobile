@@ -40,17 +40,16 @@ Drupal.entity.sites.main.types.node.schema = {
     var xhr = Titanium.Network.createHTTPClient();
     //xhr.onerror = options.errorHandler;
     xhr.onload = function() {
-      var payload = this.responseText;
-      var decoded = Ti.JSON.parse(payload);
+      var nodes = Ti.JSON.parse(this.responseText).nodes;
 
-      var nodes = decoded.nodes;
+      var length = nodes.length;
 
-      for (var i=0; i < nodes.length; i++) {
-        Ti.API.info(nodes[i].node.nid);
-        store.save(nodes[i]);
+      Ti.API.debug('Downloading ' + length + ' nodes.');
+
+      for (var i=0; i < length; i++) {
+        Ti.API.debug('Downloading node: ' + nodes[i].node.nid);
+        store.save(nodes[i].node);
       }
-
-      Ti.API.info('Number of nodes on file: ' + Drupal.entity.db('main', 'node').connection.query("SELECT COUNT(*) FROM node").field(0));
     };
 
     //open the client and encode our URL
@@ -58,7 +57,7 @@ Drupal.entity.sites.main.types.node.schema = {
     xhr.open('GET', url);
 
     //send the data
-    Ti.API.info("Sending request.");
+    Ti.API.debug("Sending request.");
 
     xhr.send();
   }
