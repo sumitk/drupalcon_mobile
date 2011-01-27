@@ -27,7 +27,14 @@ Drupal.services.addConnectionInfo('main', {
 Drupal.db.addConnectionInfo('main');
 
 
+// This is just for testing purposes. In practice we wouldn't
+// actually want to wipe the DB on every app start. :-)
+var store = Drupal.entity.db('main', 'node').initializeSchema();
+
+
 Ti.include('windows/main.js');
+
+
 
 
 /*
@@ -36,7 +43,7 @@ Drupal.db.errorMode = Drupal.db.ERROR_LEVEL_DEBUG;
 
 // This is just for testing purposes. In practice we wouldn't
 // actually want to wipe the DB on every app start. :-)
-//var store = Drupal.entity.db('main', 'node').initializeSchema();
+var store = Drupal.entity.db('main', 'node').initializeSchema();
 
 //Drupal.entity.db('main', 'node').fetchUpdates('session');
 

@@ -224,9 +224,9 @@
     var m3 = menu.add({title : 'Examine DB'});
     m3.addEventListener('click', function(e) {
       var conn = Drupal.db.getConnection('main');
-      var rows = conn.query("SELECT nid, title, changed, type FROM node ORDER BY nid, changed");
+      var rows = conn.query("SELECT nid, title, changed, room FROM node ORDER BY nid, changed");
       while (rows.isValidRow()) {
-        Titanium.API.info('Nid: ' + rows.fieldByName('nid') + ', Type: ' + rows.fieldByName('type')  + ', Changed: ' + rows.fieldByName('changed') + ', Title: ' + rows.fieldByName('title'));
+        Titanium.API.info('Nid: ' + rows.fieldByName('nid') + ', Room: ' + rows.fieldByName('room')  + ', Changed: ' + rows.fieldByName('changed') + ', Title: ' + rows.fieldByName('title'));
         rows.next();
       }
       rows.close();

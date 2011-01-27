@@ -39,3 +39,18 @@ Drupal.constructPrototype = function(o) {
   f.prototype = o.prototype;
   return new f();
 };
+
+Drupal.getISODate = function(date) {
+  return date.getFullYear() + '-' + date.getMonth() + '-' + date.getDate() + ' ' + date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds();
+};
+
+Drupal.getObjectKeys = function(o) {
+  var ret = [];
+  for (var key in o) {
+    //if (o.hasOwnProperty(key)) {
+      ret.push(key);
+    //}
+  }
+
+  return ret;
+};
