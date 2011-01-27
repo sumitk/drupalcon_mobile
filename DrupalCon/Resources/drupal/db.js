@@ -283,9 +283,9 @@ Drupal.db.Connection.prototype.insert = function(table) {
 };
 
 Drupal.db.Connection.prototype.dropTable = function(table) {
-  Ti.API.debug('In Connection.dropTable()');
+  //Ti.API.debug('In Connection.dropTable()');
   if (this.tableExists(table)) {
-    Ti.API.debug('Table exists, so drop it: ' + table);
+    //Ti.API.debug('Table exists, so drop it: ' + table);
     this.query("DROP TABLE IF EXISTS " + table);
     return true;
   }
@@ -294,7 +294,7 @@ Drupal.db.Connection.prototype.dropTable = function(table) {
 };
 
 Drupal.db.Connection.prototype.createTable = function(name, table) {
-  Ti.API.debug('In Connection.createTable()');
+  //Ti.API.debug('In Connection.createTable()');
   var queries = [];
   queries = queries
     .concat('CREATE TABLE ' + name + '(' + this.createColumnSql(name, table) + ')')
@@ -306,7 +306,7 @@ Drupal.db.Connection.prototype.createTable = function(name, table) {
 };
 
 Drupal.db.Connection.prototype.createColumnSql = function(tablename, schema) {
-  Ti.API.debug('In Connection.createColumnSql()');
+  //Ti.API.debug('In Connection.createColumnSql()');
   var sqlArray = [];
 
   // Add the SQL statement for each field.
@@ -336,7 +336,7 @@ Drupal.db.Connection.prototype.createColumnSql = function(tablename, schema) {
 };
 
 Drupal.db.Connection.prototype.createFieldSql = function(name, spec) {
-  Ti.API.debug('In Connection.createFieldSql()');
+  //Ti.API.debug('In Connection.createFieldSql()');
   var sql;
   
   spec.type = spec.type.toUpperCase();
@@ -383,7 +383,7 @@ Drupal.db.Connection.prototype.createFieldSql = function(name, spec) {
 
 
 Drupal.db.Connection.prototype.createIndexSql = function(table, schema) {
-  Ti.API.debug('In Connection.createIndexSql');
+  //Ti.API.debug('In Connection.createIndexSql');
   var sql = [];
   var key;
   
