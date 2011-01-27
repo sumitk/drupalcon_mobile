@@ -218,12 +218,12 @@ Drupal.db.InsertQuery.prototype.preExecute = function() {
 Drupal.db.InsertQuery.prototype.execute = function() {
   // If validation fails, simply return NULL. Note that validation routines
   // in preExecute() may throw exceptions instead.
-  Ti.API.debug('In InsertQuery.execute()');
+  //Ti.API.debug('In InsertQuery.execute()');
   if (!this.preExecute()) {
     return null;
   }
 
-  Ti.API.debug('InsertQuery.preExecute() passed all tests.');
+  //Ti.API.debug('InsertQuery.preExecute() passed all tests.');
 
   if (!this.insertFields) {
     return this.connection.query('INSERT INTO ' + this.table + ' DEFAULT VALUES');
@@ -247,7 +247,7 @@ Drupal.db.InsertQuery.prototype.execute = function() {
   try {
     var sql = this.sqlString();
     for (var i = 0; i < this.insertValues.length; i++) {
-      Ti.API.debug('About to call query()....');
+      //Ti.API.debug('About to call query()....');
       this.connection.query(sql, this.insertValues[i]);
     }
   }

@@ -29,12 +29,11 @@ Drupal.db.addConnectionInfo('main');
 
 // This is just for testing purposes. In practice we wouldn't
 // actually want to wipe the DB on every app start. :-)
-var store = Drupal.entity.db('main', 'node').initializeSchema();
+Drupal.entity.db('main', 'node').initializeSchema();
+Drupal.entity.db('main', 'user').initializeSchema();
 
 
 Ti.include('windows/main.js');
-
-
 
 
 /*

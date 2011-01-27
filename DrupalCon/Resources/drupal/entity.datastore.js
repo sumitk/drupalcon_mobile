@@ -239,11 +239,16 @@ Drupal.entity.Datastore.prototype.remove = function(id) {
 };
 
 Drupal.entity.Datastore.prototype.fetchUpdates = function(bundle) {
+  var callback = function() {
+    // Let other systems respond to the update completion.
+    Ti.fireEvent('drupal:entity:datastore:update_completed', {entity: this.entityType, bundle: bundle});
+  };
+
   if (this.entityInfo.schema.fetchers && this.entityInfo.schema.fetchers[bundle]) {
-    this.entityInfo.schema.fetchers[bundle](this);
+    this.entityInfo.schema.fetchers[bundle](this, callback);
   }
   else if (this.entityInfo.schema.defaultFetcher) {
-    this.entityInfo.schema.defaultFetcher(bundle, this);
+    this.entityInfo.schema.defaultFetcher(bundle, this, callback);
   }
   else {
     Ti.API.error('No fetcher found for entity: ' + this.entityType + ', bundle: ' + bundle);
