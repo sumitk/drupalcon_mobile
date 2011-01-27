@@ -237,6 +237,7 @@
     var m3 = menu.add({title : 'Update presenters'});
     m3.addEventListener('click', function(e) {
       Drupal.entity.db('main', 'user').fetchUpdates('user');
+      
     });
 
     // This is a placeholder for testing.  It will eventually get moved to a
@@ -254,4 +255,11 @@
 
   };
 
+
+  Ti.addEventListener('drupal:entity:datastore:update_completed', function(e) {
+    Drupal.createNoticeDialog('Update completed.').show(3000);
+  });
+
 })();
+
+

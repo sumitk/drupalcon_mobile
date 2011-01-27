@@ -95,7 +95,7 @@ Drupal.entity.sites.main.types.user.schema = {
    * @param Drupal.entity.Datastore store
    *   The datastore to which to save the retrieved entities.
    */
-  defaultFetcher: function(bundle, store) {
+  defaultFetcher: function(bundle, store, func) {
     var xhr = Titanium.Network.createHTTPClient();
     //xhr.onerror = options.errorHandler;
     xhr.onload = function() {
@@ -108,6 +108,11 @@ Drupal.entity.sites.main.types.user.schema = {
       for (var i=0; i < length; i++) {
         Ti.API.debug('Downloading user: ' + users[i].user.uid);
         store.save(users[i].user);
+      }
+
+      // Call our post-completion callback.
+      if (func) {
+        func();
       }
     };
 
