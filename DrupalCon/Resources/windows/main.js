@@ -214,19 +214,39 @@
 
     // This is a placeholder for testing.  It will eventually get moved to a
     // more appropriate location within the App.
-    var m2 = menu.add({title : 'Update sessions'});
-    m2.addEventListener('click', function(e) {
+    var m1 = menu.add({title : 'Update sessions'});
+    m1.addEventListener('click', function(e) {
       Drupal.entity.db('main', 'node').fetchUpdates('session');
     });
 
     // This is a placeholder for testing.  It will eventually get moved to a
     // more appropriate location within the App.
-    var m3 = menu.add({title : 'Examine DB'});
-    m3.addEventListener('click', function(e) {
+    var m2 = menu.add({title : 'Examine sessions'});
+    m2.addEventListener('click', function(e) {
       var conn = Drupal.db.getConnection('main');
       var rows = conn.query("SELECT nid, title, changed, type FROM node ORDER BY nid, changed");
       while (rows.isValidRow()) {
         Titanium.API.info('Nid: ' + rows.fieldByName('nid') + ', Type: ' + rows.fieldByName('type')  + ', Changed: ' + rows.fieldByName('changed') + ', Title: ' + rows.fieldByName('title'));
+        rows.next();
+      }
+      rows.close();
+    });
+
+    // This is a placeholder for testing.  It will eventually get moved to a
+    // more appropriate location within the App.
+    var m3 = menu.add({title : 'Update presenters'});
+    m3.addEventListener('click', function(e) {
+      Drupal.entity.db('main', 'user').fetchUpdates('user');
+    });
+
+    // This is a placeholder for testing.  It will eventually get moved to a
+    // more appropriate location within the App.
+    var m4 = menu.add({title : 'Examine presenters'});
+    m4.addEventListener('click', function(e) {
+      var conn = Drupal.db.getConnection('main');
+      var rows = conn.query("SELECT uid, name, full_name FROM user ORDER BY name, uid");
+      while (rows.isValidRow()) {
+        Titanium.API.info('Uid: ' + rows.fieldByName('uid') + ', Name: ' + rows.fieldByName('name') + ', Full Name: ' + rows.fieldByName('full_name'));
         rows.next();
       }
       rows.close();
