@@ -116,3 +116,29 @@ Drupal.NoticeDialog.prototype.show = function(time) {
     win.close({opacity:0,duration:2000});
   }, time);
 };
+
+
+function parseISO8601(str) {
+  // Parses "as is" without attempting timezone conversion
+
+  str = new String(str);
+Ti.API.info('About to try and parse: ' + str);
+
+  var parts = str.split('T'),
+  dateParts = parts[0].split('-'),
+  timeParts = parts[1].split('Z'),
+  timeSubParts = timeParts[0].split(':'),
+  timeSecParts = timeSubParts[2].split('.'),
+  timeHours = Number(timeSubParts[0]),
+  _date = new Date();
+
+  _date.setFullYear(Number(dateParts[0]));
+  _date.setMonth(Number(dateParts[1])-1);
+  _date.setDate(Number(dateParts[2]));
+  _date.setHours(Number(timeHours));
+  _date.setMinutes(Number(timeSubParts[1]));
+  _date.setSeconds(Number(timeSecParts[0]));
+  if (timeSecParts[1]) { _date.setMilliseconds(Number(timeSecParts[1])); };
+
+  return _date;
+};

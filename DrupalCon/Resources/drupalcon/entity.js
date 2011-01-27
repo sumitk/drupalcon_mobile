@@ -35,16 +35,16 @@ Drupal.entity.sites.main.types.node.schema = {
     if (entity.room) {
       var rooms = [];
       for (var key in entity.room) {
-        //if (entity.room.hasOwnProperty(key)) {
-          rooms.push(entity.room[key]);
-        //}
+        // We don't actually use hasOwnProperty() here because this is a
+        // JSON-derived object, so it doesn't exist. I don't get it either.
+        rooms.push(entity.room[key]);
       }
       values.room = rooms.join(', ');
     }
 
     if (entity.start_date) {
       Ti.API.info('Raw start date: ' + entity.start_date);
-      var start_date = new Date(entity.start_date);
+      var start_date = parseISO8601(entity.start_date);
       Ti.API.info('Start date: ' + start_date.toString());
       values.start_date = Drupal.getISODate(start_date);
     }
