@@ -54,10 +54,6 @@ Drupal.entity.sites.main.types.node.schema = {
       values.end_date = Drupal.getISODate(end_date);
     }
 
-    if (entity.nid == 389) {
-      Ti.API.info(values);
-    }
-
   },
 
   fetchers: {
