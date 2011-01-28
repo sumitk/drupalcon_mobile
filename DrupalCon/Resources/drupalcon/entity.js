@@ -32,9 +32,12 @@ Drupal.entity.sites.main.types.node.schema = {
 
     //Ti.API.info('Entity keys: ' + Drupal.getObjectProperties(entity).join(', '));
 
-    // The room is multi-value, so we fold it down to a single string.
+    // The room may be multi-value, so we fold it down to a single string.
     // This is because some sessions, like keynotes, are in multiple rooms.
-    if (entity.room) {
+    if (typeof entity.room == 'string') {
+      values.room = entity.room;
+    }
+    else if (typeof entity.room == 'object') {
       var rooms = [];
       for (var key in entity.room) {
         // We don't actually use hasOwnProperty() here because this is a
