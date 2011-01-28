@@ -44,16 +44,30 @@ Drupal.getISODate = function(date) {
   return date.getFullYear() + '-' + date.getMonth() + '-' + date.getDate() + ' ' + date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds();
 };
 
-Drupal.getObjectKeys = function(o) {
-  var ret = [];
-  for (var key in o) {
-    //if (o.hasOwnProperty(key)) {
-      ret.push(key);
-    //}
-  }
+Drupal.getObjectProperties = function(o) {
+  var properties = [];
+  var values = [];
 
-  return ret;
+  // Apparently hasOwnProperty() is sometimes missing from objects in Titanium.
+  // My best guess is that it's on objects deserialized from JSON, but I'm not
+  // really sure.  At this point I no longer care.
+  if(o.hasOwnProperty) {
+    for (var prop in o) {
+      if (o.hasOwnProperty(prop)) {
+        properties.push(prop);
+        values.push(o[prop]);
+      }
+    }
+  }
+  else {
+    for (var prop in o) {
+      properties.push(prop);
+      values.push(o[prop]);
+    }
+  }
+  return properties;
 };
+
 
 Drupal.createNoticeDialog = function(message) {
   return new Drupal.NoticeDialog(message);
