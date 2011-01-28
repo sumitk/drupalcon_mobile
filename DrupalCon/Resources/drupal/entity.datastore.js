@@ -77,7 +77,7 @@ Drupal.entity.Datastore.prototype.save = function(entity) {
  *   a successful insert or 0 if something went wrong.
  */
 Drupal.entity.Datastore.prototype.insert = function(entity) {
-  Ti.API.debug('In Datastore.insert()');
+  //Ti.API.debug('In Datastore.insert()');
   var data = Ti.JSON.stringify(entity);
 
   var fields = {};
