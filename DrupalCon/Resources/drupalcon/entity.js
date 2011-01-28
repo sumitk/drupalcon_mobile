@@ -3,6 +3,9 @@
 // Define our entity storage rules.
 
 Drupal.entity.sites.main.types.node.schema = {
+
+  bypassCache: true,
+
   fields: function() {
     return {
       fields: {
@@ -69,42 +72,22 @@ Drupal.entity.sites.main.types.node.schema = {
   /**
    * Retrieves updates for this entity type.
    *
-   * @param string bundle
+   * @param {string} bundle
    *   The bundle type we want to retrieve.
-   * @param Drupal.entity.Datastore store
+   * @param {Drupal.entity.Datastore} store
    *   The datastore to which to save the retrieved entities.
+   * @param func
+   *   A callback function to call after the fetching process has been completed.
    */
   defaultFetcher: function(bundle, store, func) {
-    var xhr = Titanium.Network.createHTTPClient();
-    //xhr.onerror = options.errorHandler;
-    xhr.onload = function() {
-      var nodes = Ti.JSON.parse(this.responseText).nodes;
-
-      var length = nodes.length;
-
-      Ti.API.debug('Downloading ' + length + ' nodes.');
-
-      for (var i=0; i < length; i++) {
-        Ti.API.debug('Downloading node: ' + nodes[i].node.nid);
-        store.save(nodes[i].node);
-      }
-
-      // Call our post-completion callback.
-      if (func) {
-        func();
-      }
-    };
-
-    //open the client and encode our URL
-    var url = 'http://chicago2011.drupal.org/mobile/fetch/' + bundle + '?junk=' + Math.random();
-    xhr.open('GET', url);
-
-    //send the data
-    Ti.API.debug("Sending request.");
-
-    xhr.send();
+    this.prototype.defaultFetcher.apply(this, [bundle, store, func, 'http://chicago2011.drupal.org/mobile/fetch/' + bundle]);
   }
 };
+
+// This defines the "parent" class, kinda.  This allows us to share functionality
+// between schemas, including defaults for functions/methods.
+Drupal.entity.sites.main.types.node.schema.prototype = Drupal.constructPrototype(Drupal.entity.DefaultSchema);
+
 
 
 Drupal.entity.sites.main.types.user.schema = {
@@ -139,34 +122,11 @@ Drupal.entity.sites.main.types.user.schema = {
    *   The datastore to which to save the retrieved entities.
    */
   defaultFetcher: function(bundle, store, func) {
-    var xhr = Titanium.Network.createHTTPClient();
-    //xhr.onerror = options.errorHandler;
-    xhr.onload = function() {
-      var users = Ti.JSON.parse(this.responseText).users;
-
-      var length = users.length;
-
-      Ti.API.debug('Downloading ' + length + ' users.');
-
-      for (var i=0; i < length; i++) {
-        Ti.API.debug('Downloading user: ' + users[i].user.uid);
-        store.save(users[i].user);
-      }
-
-      // Call our post-completion callback.
-      if (func) {
-        func();
-      }
-    };
-
-    //open the client and encode our URL
-    var url = 'http://chicago2011.drupal.org/mobile/fetch/presenters?junk=' + Math.random();
-    xhr.open('GET', url);
-
-    //send the data
-    Ti.API.debug("Sending request.");
-
-    xhr.send();
+    this.prototype.defaultFetcher.apply(this, [bundle, store, func, 'http://chicago2011.drupal.org/mobile/fetch/presenters']);
   }
+
 };
 
+// This defines the "parent" class, kinda.  This allows us to share functionality
+// between schemas, including defaults for functions/methods.
+Drupal.entity.sites.main.types.user.schema.prototype = Drupal.constructPrototype(Drupal.entity.DefaultSchema);

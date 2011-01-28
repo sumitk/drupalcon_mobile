@@ -123,6 +123,66 @@ Drupal.entity = {
   }
 };
 
+
+Drupal.entity.DefaultSchema = function() {
+
+  this.fetchUrl = null;
+
+  this.bypassCache = false;
+
+  this.fetchers = {};
+
+};
+
+
+Drupal.entity.DefaultSchema.prototype.fields = function() {
+  return {};
+};
+
+Drupal.entity.DefaultSchema.prototype.getFieldValues = function(entity, values) {
+  // Do nothing.
+};
+
+Drupal.entity.DefaultSchema.prototype.defaultFetcher = function(bundle, store, func, fetchUrl) {
+  var xhr = Titanium.Network.createHTTPClient();
+  //xhr.onerror = options.errorHandler;
+  xhr.onload = function() {
+    var entities = Ti.JSON.parse(this.responseText).entities;
+
+    var length = entities.length;
+
+    Ti.API.debug('Downloading ' + length + ' entities of type ' + store.entityType);
+
+    for (var i=0; i < length; i++) {
+      //Ti.API.debug('Downloading entity: ' + entities[i].entity);
+      store.save(entities[i].entity);
+    }
+
+    // Call our post-completion callback.
+    if (func) {
+      func();
+    }
+  };
+
+  //open the client and encode our URL
+  var url = fetchUrl || this.fetchUrl || null;
+  if (url) {
+    if (this.bypassCache) {
+      url += '?cacheBypass=' + Math.random();
+    }
+    xhr.open('GET', url);
+
+    //send the data
+    Ti.API.debug('Requesting data from: ' + url);
+    xhr.send();
+  }
+  else {
+    Ti.API.error('No fetching URL found. Unable to retrieve data.');
+  }
+}
+
+
+
 Ti.include('/drupal/entity.datastore.js');
 
 
