@@ -131,20 +131,35 @@ Drupal.NoticeDialog.prototype.show = function(time) {
   }, time);
 };
 
-
+/**
+ * Parse an ISO formatted date string into a date object.
+ * 
+ * This functionality is supposed to be in ES5, but is apparently missing in Ti 
+ * for some odd reason.
+ *
+ * Courtesy Xenc in #titanium_app.
+ *
+ * Note that this function MUST take the EXACT string:
+ * YYYY-MM-DDTHH:MM:SS
+ *
+ * If the seconds are missing, it will fatal out and the error message on Android
+ * will be on the wrong line entirely.
+ *
+ * @param str
+ *   A string in YYYY-MM-DDTHH:MM:SS format. It must be exactly that format,
+ *   including seconds.
+ * @return Date
+ */
 function parseISO8601(str) {
   // Parses "as is" without attempting timezone conversion
 
-  str = new String(str);
-Ti.API.info('About to try and parse: ' + str);
-
-  var parts = str.split('T'),
-  dateParts = parts[0].split('-'),
-  timeParts = parts[1].split('Z'),
-  timeSubParts = timeParts[0].split(':'),
-  timeSecParts = timeSubParts[2].split('.'),
-  timeHours = Number(timeSubParts[0]),
-  _date = new Date();
+  var parts = str.split('T');
+  var dateParts = parts[0].split('-');
+  var timeParts = parts[1].split('Z');
+  var timeSubParts = timeParts[0].split(':');
+  var timeSecParts = timeSubParts[2].split('.');
+  var timeHours = Number(timeSubParts[0]);
+  var _date = new Date();
 
   _date.setFullYear(Number(dateParts[0]));
   _date.setMonth(Number(dateParts[1])-1);
@@ -156,3 +171,4 @@ Ti.API.info('About to try and parse: ' + str);
 
   return _date;
 };
+
