@@ -30,6 +30,8 @@ Drupal.entity.sites.main.types.node.schema = {
     //values.created = entity.created;
     values.changed = entity.changed;
 
+    //Ti.API.info('Entity keys: ' + Drupal.getObjectProperties(entity).join(', '));
+
     // The room is multi-value, so we fold it down to a single string.
     // This is because some sessions, like keynotes, are in multiple rooms.
     if (entity.room) {
@@ -43,20 +45,16 @@ Drupal.entity.sites.main.types.node.schema = {
     }
 
     if (entity.start_date) {
-      Ti.API.info('Raw start date: ' + entity.start_date);
-      var start_date = parseISO8601(entity.start_date);
-      Ti.API.info('Start date: ' + start_date.toString());
+      var start_date = parseISO8601(entity.start_date + ':00');
       values.start_date = Drupal.getISODate(start_date);
     }
 
     if (entity.end_date) {
-      var end_date = new Date(entity.end_date);
-      //Ti.API.info('End date: ' + end_date.toString());
-      values.start_date = Drupal.getISODate(end_date);
+      var end_date = parseISO8601(entity.end_date + ':00');
+      values.end_date = Drupal.getISODate(end_date);
     }
 
     if (entity.nid == 389) {
-      Ti.API.info(Drupal.getObjectKeys(entity).join(', '));
       Ti.API.info(values);
     }
 
