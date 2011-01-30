@@ -116,7 +116,7 @@ Drupal.entity = {
   mirror: function(site, entityType, id) {
     var service = Drupal.services.createConnection('main');
     service.loadHandler = function() {
-      Drupal.entity.db(site, entityType).save(Ti.JSON.parse(this.responseText));
+      Drupal.entity.db(site, entityType).save(JSON.parse(this.responseText));
     };
 
     service.request({query: this.entityInfo(site, entityType).requestUrl(id)});
@@ -147,7 +147,8 @@ Drupal.entity.DefaultSchema.prototype.defaultFetcher = function(bundle, store, f
   var xhr = Titanium.Network.createHTTPClient();
   //xhr.onerror = options.errorHandler;
   xhr.onload = function() {
-    var entities = Ti.JSON.parse(this.responseText).entities;
+    Ti.API.info(this.responseText);
+    var entities = JSON.parse(this.responseText).entities;
 
     var length = entities.length;
 

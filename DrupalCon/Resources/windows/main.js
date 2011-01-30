@@ -206,46 +206,89 @@
     alert("User: " + user + " and Pass: " + pass);
   });
   win1.add(checkButton);
-
+  win1.open();
   Ti.API.info(win1.activity);
 
-  win1.activity.onCreateOptionsMenu = function(e) {
-    var menu = e.menu;
-
-    // This is a placeholder for testing.  It will eventually get moved to a
-    // more appropriate location within the App.
-    var m1 = menu.add({title : 'Update data'});
-    m1.addEventListener('click', function(e) {
-      Ti.fireEvent('drupalcon:update_data');
-    });
-
-    // This is a placeholder for testing.  It will eventually get moved to a
-    // more appropriate location within the App.
-    var m2 = menu.add({title : 'Examine sessions'});
-    m2.addEventListener('click', function(e) {
-      var conn = Drupal.db.getConnection('main');
-      var rows = conn.query("SELECT nid, title, changed, start_date, end_date FROM node ORDER BY nid, changed");
-      while (rows.isValidRow()) {
-        Titanium.API.info('Nid: ' + rows.fieldByName('nid') + ', Start: ' + rows.fieldByName('start_date') + ', End: ' + rows.fieldByName('end_date')  + ', Changed: ' + rows.fieldByName('changed') + ', Title: ' + rows.fieldByName('title'));
-        rows.next();
-      }
-      rows.close();
-    });
-
-    // This is a placeholder for testing.  It will eventually get moved to a
-    // more appropriate location within the App.
-    var m3 = menu.add({title : 'Examine presenters'});
-    m3.addEventListener('click', function(e) {
-      var conn = Drupal.db.getConnection('main');
-      var rows = conn.query("SELECT uid, name, full_name FROM user ORDER BY name, uid");
-      while (rows.isValidRow()) {
-        Titanium.API.info('Uid: ' + rows.fieldByName('uid') + ', Name: ' + rows.fieldByName('name') + ', Full Name: ' + rows.fieldByName('full_name'));
-        rows.next();
-      }
-      rows.close();
-    });
-
-  };
+  win1.addEventListener('open', function() {
+    Ti.include('windows/menu.js');
+    function createMenu() {
+      menu.setTiVersion(1.5);
+      menu.init({
+        win: win1,
+        buttons: [
+          {
+            title: "Update",
+            clickevent: function () {
+              Ti.fireEvent('drupalcon:update_data');
+            }
+          },
+          {
+            title: "Hit sessions",
+            clickevent: function () {
+              var conn = Drupal.db.getConnection('main');
+              var rows = conn.query("SELECT nid, title, changed, start_date, end_date FROM node ORDER BY nid, changed");
+              while (rows.isValidRow()) {
+                Titanium.API.info('Nid: ' + rows.fieldByName('nid') + ', Start: ' + rows.fieldByName('start_date') + ', End: ' + rows.fieldByName('end_date')  + ', Changed: ' + rows.fieldByName('changed') + ', Title: ' + rows.fieldByName('title'));
+                rows.next();
+              }
+              rows.close();
+            }
+          },
+          {
+            title: "Hit presenters",
+            clickevent: function () {
+              var conn = Drupal.db.getConnection('main');
+              var rows = conn.query("SELECT uid, name, full_name FROM user ORDER BY name, uid");
+              while (rows.isValidRow()) {
+                Titanium.API.info('Uid: ' + rows.fieldByName('uid') + ', Name: ' + rows.fieldByName('name') + ', Full Name: ' + rows.fieldByName('full_name'));
+                rows.next();
+              }
+              rows.close();
+            }
+          }
+        ]
+      });
+    }
+    createMenu();
+  });
+  
+//  win1.activity.onCreateOptionsMenu = function(e) {
+//    var menu = e.menu;
+//
+//    // This is a placeholder for testing.  It will eventually get moved to a
+//    // more appropriate location within the App.
+//    var m1 = menu.add({title : 'Update data'});
+//    m1.addEventListener('click', function(e) {
+//      Ti.fireEvent('drupalcon:update_data');
+//    });
+//
+//    // This is a placeholder for testing.  It will eventually get moved to a
+//    // more appropriate location within the App.
+//    var m2 = menu.add({title : 'Examine sessions'});
+//    m2.addEventListener('click', function(e) {
+//      var conn = Drupal.db.getConnection('main');
+//      var rows = conn.query("SELECT nid, title, changed, start_date, end_date FROM node ORDER BY nid, changed");
+//      while (rows.isValidRow()) {
+//        Titanium.API.info('Nid: ' + rows.fieldByName('nid') + ', Start: ' + rows.fieldByName('start_date') + ', End: ' + rows.fieldByName('end_date')  + ', Changed: ' + rows.fieldByName('changed') + ', Title: ' + rows.fieldByName('title'));
+//        rows.next();
+//      }
+//      rows.close();
+//    });
+//
+//    // This is a placeholder for testing.  It will eventually get moved to a
+//    // more appropriate location within the App.
+//    var m3 = menu.add({title : 'Examine presenters'});
+//    m3.addEventListener('click', function(e) {
+//      var conn = Drupal.db.getConnection('main');
+//      var rows = conn.query("SELECT uid, name, full_name FROM user ORDER BY name, uid");
+//      while (rows.isValidRow()) {
+//        Titanium.API.info('Uid: ' + rows.fieldByName('uid') + ', Name: ' + rows.fieldByName('name') + ', Full Name: ' + rows.fieldByName('full_name'));
+//        rows.next();
+//      }
+//      rows.close();
+//    });
+//
+//  };
 
 
   Ti.addEventListener('drupal:entity:datastore:update_completed', function(e) {

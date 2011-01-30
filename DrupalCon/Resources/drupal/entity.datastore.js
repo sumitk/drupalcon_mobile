@@ -78,7 +78,7 @@ Drupal.entity.Datastore.prototype.save = function(entity) {
  */
 Drupal.entity.Datastore.prototype.insert = function(entity) {
   //Ti.API.debug('In Datastore.insert()');
-  var data = Ti.JSON.stringify(entity);
+  var data = JSON.stringify(entity);
 
   var fields = {};
 
@@ -131,7 +131,7 @@ Drupal.entity.Datastore.prototype.insert = function(entity) {
  *   first place.
  */
 Drupal.entity.Datastore.prototype.update = function(entity) {
-  var data = Ti.JSON.stringify(entity);
+  var data = JSON.stringify(entity);
   this.connection.query("UPDATE " + this.entityType + " SET type=?, title=?, data=? WHERE nid=?", [entity.type, entity.title, data, entity[this.idField]]);
   return this.connection.rowsAffected;
 };
@@ -206,7 +206,7 @@ Drupal.entity.Datastore.prototype.loadMultiple = function(ids) {
   if (rows) {
     while (rows.isValidRow()) {
       var data = rows.fieldByName('data');
-      var entity = Ti.JSON.parse(data);
+      var entity = JSON.parse(data);
       entities.push(entity);
       rows.next();
     }
