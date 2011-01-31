@@ -10,8 +10,7 @@
   var win1 = Titanium.UI.createWindow({
     url:'windows/days.js',
     id:'win1',
-    title:'DrupalCon Chicago',
-    backgroundImage:'background.png'
+    title:'DrupalCon Chicago'
   });
 
   var tab1 = Titanium.UI.createTab({
@@ -184,18 +183,18 @@
 
 
   // Testing fetching preferences from the preferences.js file
-  var checkButton = Titanium.UI.createButton({
-    title:'Check user/pass',
-    top: 10,
-    width:300,
-    height: 40
-  });
-  checkButton.addEventListener('click',function(e) {
-    var pass = Titanium.App.Properties.getString("sitePassword");
-    var user = Titanium.App.Properties.getString("siteUsername");
-    alert("User: " + user + " and Pass: " + pass);
-  });
-  win1.add(checkButton);
+//  var checkButton = Titanium.UI.createButton({
+//    title:'Check user/pass',
+//    top: 10,
+//    width:300,
+//    height: 40
+//  });
+//  checkButton.addEventListener('click',function(e) {
+//    var pass = Titanium.App.Properties.getString("sitePassword");
+//    var user = Titanium.App.Properties.getString("siteUsername");
+//    alert("User: " + user + " and Pass: " + pass);
+//  });
+//  win1.add(checkButton);
 
   win1.addEventListener('open', function() {
     function createMenu() {
