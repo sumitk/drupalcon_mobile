@@ -9,7 +9,8 @@ Ti.include(
   "drupal/drupal.js",
   "drupal/services.js",
   "drupal/db.js",
-  "drupal/entity.js"
+  "drupal/entity.js",
+  "windows/menu.js"
   // "lib/twitter_services.js"
 );
 

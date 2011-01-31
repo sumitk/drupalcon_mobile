@@ -11,7 +11,6 @@ var menu = {
 
   init: function (params) {
     if (!menu.isAndroid) {
-      Ti.API.info(params);
       //create iphone menu.
       var index = 0;
       var win = params.win     
@@ -45,15 +44,29 @@ var menu = {
     }
     else {
       //create android menu.
-      var activity = Ti.Android.currentActivity;
-      activity.onCreateOptionsMenu = function (e) {
-        var optionsmenu = e.menu;
+      if (menu.tiVersion >= 1.5) {
+        var activity = Ti.Android.currentActivity;
+        activity.onCreateOptionsMenu = function (e) {
+          var optionsmenu = e.menu;
+          for (var k = 0; k < params.buttons.length; k++) {
+            menu.data[k] = optionsmenu.add({
+              title: params.buttons[k].title
+            })
+            menu.data[k].addEventListener("click", params.buttons[k].clickevent);
+          }
+        }
+      }
+      else {
+        //pre-ti 1.5 way to create menu.
+        var optionsmenu = Ti.UI.Android.OptionMenu.createMenu();
         for (var k = 0; k < params.buttons.length; k++) {
-          menu.data[k] = optionsmenu.add({
+          menu.data[k] = Ti.UI.Android.OptionMenu.createMenuItem({
             title: params.buttons[k].title
           })
           menu.data[k].addEventListener("click", params.buttons[k].clickevent);
+          optionsmenu.add(menu.data[k]);
         }
+        Ti.UI.Android.OptionMenu.setMenu(optionsmenu);
       }
     }
   },
