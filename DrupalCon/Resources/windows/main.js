@@ -8,21 +8,11 @@
   // create base UI tab and root window
   //
   var win1 = Titanium.UI.createWindow({
+    url:'windows/days.js',
     id:'win1',
     title:'DrupalCon Chicago',
     backgroundImage:'background.png'
   });
-
-  desc = "<p style='font-size: 12px;'>Something other than a copywrite notice that makes ABSOLUTELY no sense. ";
-  desc += 'Ooooooh lookie, a link to my website!!: <a href="http://patrickteglia.com">http://patrickteglia.com</a></p>';
-
-  var wb = Ti.UI.createWebView({
-    html:desc,
-    height: 150,
-    backgroundColor:'transparent'
-  });
-
-  win1.add(wb);
 
   var tab1 = Titanium.UI.createTab({
           id:'tab1',
