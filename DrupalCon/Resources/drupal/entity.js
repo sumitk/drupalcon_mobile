@@ -180,7 +180,7 @@ Drupal.entity.DefaultSchema.prototype.defaultFetcher = function(bundle, store, f
   else {
     Ti.API.error('No fetching URL found. Unable to retrieve data.');
   }
-}
+};
 
 
 
