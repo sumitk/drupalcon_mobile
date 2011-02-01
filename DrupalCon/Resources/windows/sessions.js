@@ -14,11 +14,10 @@
   var win = Titanium.UI.currentWindow;
 
   var data = [];
-  //var conn = Drupal.db.getConnection('main');
-  var db = Ti.Database.open('main');
-  var rows = db.execute("SELECT nid, title, changed, start_date, end_date FROM node ORDER BY nid, changed");
+  var conn = Drupal.db.getConnection('main');
+  var rows = conn.query("SELECT nid, title, changed, start_date, end_date FROM node WHERE start_date >= ? AND end_date <= ? ORDER BY nid, changed", [win.start_date, win.end_date]);
 
-  while (rows.isValidRow() && rows.fieldByName('start_date') >= win.date) {
+  while (rows.isValidRow()) {
     data.push({
       title: rows.fieldByName('title'),
       hasChild: true,
@@ -36,6 +35,9 @@
     data: data
   });
 
+
+
+/*
   // create table view event listener
   tableview.addEventListener('click', function(e) {
     Ti.API.info(e.rowData);
@@ -51,6 +53,7 @@
 
     Titanium.UI.currentTab.open(win,{animated:true});
   });
+*/
 
   // add table view to the window
   win.add(tableview);
