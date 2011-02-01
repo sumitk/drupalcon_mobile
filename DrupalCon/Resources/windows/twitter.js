@@ -359,8 +359,8 @@ var Ti;
           Ti.API.info(tweets[e.index].user.screen_name);
         });
       }
-      catch(E) {
-        alert(E);
+      catch(e) {
+        Ti.API.info(e);
       }
     };
     // Get the data
@@ -398,7 +398,7 @@ var Ti;
     }
   }
   else {
-    alert("No active network connection.  Please try again when you are connected.");
+    Ti.API.info("No active network connection.  Please try again when you are connected.");
   }
 
 })();

@@ -106,7 +106,7 @@ Drupal.DrupalService = function(settings) {
  */
 Drupal.DrupalService.prototype.defaultErrorHandler = function(e) {
   Ti.API.info("ERROR " + e.error);
-  alert(e.error);
+  //alert(e.error);
 };
 
 /**
