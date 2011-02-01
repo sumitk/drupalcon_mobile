@@ -31,12 +31,10 @@
 
   // create table view event listener
   tableview.addEventListener('click', function(e) {
-    Ti.API.info(e.rowData);
     // event data
     var index = e.index + 1;
     var start_date = e.rowData.start_date;
     var end_date = e.rowData.end_date;
-    Ti.API.info('detail ' + e.rowData.date);
     var win = Titanium.UI.createWindow({
       url: 'sessions.js',
       title: e.rowData.title,

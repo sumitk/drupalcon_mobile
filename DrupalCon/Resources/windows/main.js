@@ -241,6 +241,7 @@
 
   Ti.addEventListener('drupal:entity:datastore:update_completed', function(e) {
     Drupal.createNoticeDialog('Update completed.').show(3000);
+    Ti.API.info('Update completed.');
   });
 
   Ti.addEventListener('drupalcon:update_data', function(e) {

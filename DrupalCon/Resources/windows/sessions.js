@@ -1,5 +1,6 @@
 
 (function() {
+
   var rootPath = '../../../../../../../../../../';
   Ti.include(
     rootPath+"drupal/drupal.js",
