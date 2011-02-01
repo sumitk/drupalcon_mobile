@@ -13,9 +13,9 @@ var rows = conn.query("SELECT nid, title, changed, start_date, end_date FROM nod
 
 while (rows.isValidRow() && rows.fieldByName('start_date') >= win.date) {
   data.push({
-    title:rows.fieldByName('title'),
-    hasChild:true,
-    selectedColor:'#fff',
+    title: rows.fieldByName('title'),
+    hasChild: true,
+    selectedColor: '#fff',
     start_date: rows.fieldByName('start_date'),
     end_date: rows.fieldByName('end_date')
   });
@@ -26,22 +26,22 @@ rows.close();
 
 // create table view
 var tableview = Titanium.UI.createTableView({
-	data:data
+  data: data
 });
 
 // create table view event listener
-tableview.addEventListener('click', function(e)
-{
+tableview.addEventListener('click', function(e) {
   Ti.API.info(e.rowData);
-	// event data
-	var index = e.index+1;
+  // event data
+  var index = e.index+1;
   var date = e.rowData.date;
-	Ti.API.info('detail ' + e.rowData.date);
+  Ti.API.info('detail ' + e.rowData.date);
   var win = Titanium.UI.createWindow({
-    url:'sessions.js',
-    title:e.rowData.title,
-    date:date
+    url: 'sessions.js',
+    title: e.rowData.title,
+    date: date
   });
+  
   Titanium.UI.currentTab.open(win,{animated:true});
 });
 
