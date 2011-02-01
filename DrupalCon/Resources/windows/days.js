@@ -17,11 +17,11 @@
 
   // create table view data object
   var data = [
-    {title:'Monday, March 7', hasChild:true, selectedColor:'#fff', start_date:'2011-2-7 00:00:00', end_date:'2011-2-8 00:00:00'},
-    {title:'Tuesday, March 8', hasChild:true, selectedColor:'#fff', start_date:'2011-2-8 00:00:00', end_date:'2011-2-9 00:00:00'},
-    {title:'Wednesday, March 9', hasChild:true, selectedColor:'#fff', start_date:'2011-2-9 00:00:00', end_date:'2011-2-10 00:00:00'},
-    {title:'Thursday, March 10', hasChild:true, selectedColor:'#fff', start_date:'2011-2-10 00:00:00', end_date:'2011-2-11 00:00:00'},
-    {title:'Friday, March 11', hasChild:true, selectedColor:'#fff', start_date:'2011-2-11 00:00:00', end_date:'2011-2-12 00:00:00'}
+    {title:'Monday, March 7', hasChild:true, selectedColor:'#fff', start_date:'2011-03-07T00:00:00', end_date:'2011-03-08T00:00:00'},
+    {title:'Tuesday, March 8', hasChild:true, selectedColor:'#fff', start_date:'2011-03-08T00:00:00', end_date:'2011-03-09T00:00:00'},
+    {title:'Wednesday, March 9', hasChild:true, selectedColor:'#fff', start_date:'2011-03-09T00:00:00', end_date:'2011-03-10T00:00:00'},
+    {title:'Thursday, March 10', hasChild:true, selectedColor:'#fff', start_date:'2011-03-10T00:00:00', end_date:'2011-03-11T00:00:00'},
+    {title:'Friday, March 11', hasChild:true, selectedColor:'#fff', start_date:'2011-03-11T00:00:00', end_date:'2011-03-12T00:00:00'}
   ];
 
   // create table view
