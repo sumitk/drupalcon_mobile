@@ -31,8 +31,11 @@ Drupal.db.addConnectionInfo('main');
 
 // This is just for testing purposes. In practice we wouldn't
 // actually want to wipe the DB on every app start. :-)
-Drupal.entity.db('main', 'node').initializeSchema();
-Drupal.entity.db('main', 'user').initializeSchema();
+//Drupal.entity.db('main', 'node').initializeSchema();
+//Drupal.entity.db('main', 'user').initializeSchema();
+
+// Download tests, for now.  These must get moved eventually.
+Drupal.db.errorMode = Drupal.db.ERROR_LEVEL_DEBUG;
 
 
 Ti.include('windows/main.js');
