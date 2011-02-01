@@ -40,9 +40,31 @@ Drupal.constructPrototype = function(o) {
   return new f();
 };
 
+/**
+ * Format a date object ins ISO format.
+ *
+ * That this is missing from the Javascript date object is a crime against nature.
+ *
+ * @see
+ *   http://stackoverflow.com/questions/2573521/how-do-i-output-an-iso-8601-formatted-string-in-javascript
+ *
+ * @param {Date} date
+ *   The date object we want to format.
+ * @return {string}
+ *   The ISO formatted version of the date object.
+ */
 Drupal.getISODate = function(date) {
-  return date.getFullYear() + '-' + date.getMonth() + '-' + date.getDate() + ' ' + date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds();
+
+  function pad(n) {return n < 10 ? '0' + n : n}
+
+  return date.getFullYear() + '-'
+    + pad(date.getMonth() + 1) + '-'
+    + pad(date.getDate()) + 'T'
+    + pad(date.getHours()) + ':'
+    + pad(date.getMinutes()) + ':'
+    + pad(date.getSeconds());
 };
+
 
 Drupal.getObjectProperties = function(o) {
   var properties = [];
