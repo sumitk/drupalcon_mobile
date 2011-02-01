@@ -80,7 +80,7 @@ Drupal.db = {
       // By default, we want the active connection, set in setActiveConnection.
       key = this.activeKey;
     }
-alert(this.connections);
+
     if (!this.connections[key]) {
       // If necessary, a new connection is opened.
       this.connections[key] = this.openConnection(key);

@@ -1,6 +1,5 @@
 
 (function() {
-  var win = Titanium.UI.currentWindow;
   var rootPath = '../../../../../../../../../../';
   Ti.include(
     rootPath+"drupal/drupal.js",
@@ -9,9 +8,15 @@
     rootPath+"drupal/entity.js"
   );
 
+
+  Ti.API.info('Start of sessions.js: ' + Drupal.getObjectProperties(Drupal.db.connectionInfo));
+
+  var win = Titanium.UI.currentWindow;
+
   var data = [];
-  var conn = Drupal.db.getConnection('main');
-  var rows = conn.query("SELECT nid, title, changed, start_date, end_date FROM node ORDER BY nid, changed");
+  //var conn = Drupal.db.getConnection('main');
+  var db = Ti.Database.open('main');
+  var rows = db.execute("SELECT nid, title, changed, start_date, end_date FROM node ORDER BY nid, changed");
 
   while (rows.isValidRow() && rows.fieldByName('start_date') >= win.date) {
     data.push({
