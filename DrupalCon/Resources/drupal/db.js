@@ -154,8 +154,8 @@ Drupal.db = {
     // error.
     if (!this.databaseInfo[key]) {
       // @todo Turn this into a proper exception object, or whatever is appropriate in Javascript.
-      Ti.API.error('ERROR: The specified database connection is not defined: ' + key);
-      throw new Error('The specified database connection is not defined: ' + key);
+      //Ti.API.error('ERROR: The specified database connection is not defined: ' + key);
+      //throw new Error('The specified database connection is not defined: ' + key);
     }
     
     var newConnection = new Drupal.db.Connection(key);
