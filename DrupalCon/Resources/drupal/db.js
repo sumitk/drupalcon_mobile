@@ -1,9 +1,10 @@
 // Declaring variables to prevent implied global error in jslint
 var Ti, Drupal;
+var rootPath = '../../../../../../../../../../';
 
 // Include the main Drupal library.
 if (!Drupal) {
-  Ti.include('drupal/drupal.js');
+  Ti.include(rootPath+'drupal/drupal.js');
 }
 
 /**
@@ -79,7 +80,7 @@ Drupal.db = {
       // By default, we want the active connection, set in setActiveConnection.
       key = this.activeKey;
     }
-
+alert(this.connections);
     if (!this.connections[key]) {
       // If necessary, a new connection is opened.
       this.connections[key] = this.openConnection(key);
@@ -476,7 +477,7 @@ Drupal.db.Query.prototype.getComments = function() {
   return this.comments;
 };
 
-Ti.include('/drupal/db.insert.js');
+Ti.include(rootPath+'drupal/db.insert.js');
 
 
 /* Kinda sorta unit tests, ish. */

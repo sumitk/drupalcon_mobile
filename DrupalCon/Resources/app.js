@@ -10,11 +10,12 @@ Ti.include(
   "drupal/services.js",
   "drupal/db.js",
   "drupal/entity.js",
-  "windows/menu.js"
+  "windows/menu.js",
+  "drupalcon/entity.js"
   // "lib/twitter_services.js"
 );
 
-Ti.include('drupalcon/entity.js');
+//Ti.include('drupalcon/entity.js');
 
 // Define our connection information.  This is very similar to the DB layer's
 // $databases array in settings.php.
