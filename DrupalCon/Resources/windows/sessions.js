@@ -26,7 +26,8 @@
         title: lastTime.substr(11,8),
         hasChild: false,
         backgroundColor:'#7187A4',
-        color:'#fff'
+        color:'#fff',
+        height:20
       })
     }
     data.push({
@@ -42,31 +43,26 @@
   }
   rows.close();
   Ti.API.info(data);
+  
 
   // create table view
   var tableview = Titanium.UI.createTableView({
     data: data
   });
 
-
-
-/*
   // create table view event listener
   tableview.addEventListener('click', function(e) {
-    Ti.API.info(e.rowData);
     // event data
-    var index = e.index+1;
-    var date = e.rowData.date;
-    Ti.API.info('detail ' + e.rowData.date);
+    var index = e.index + 1;
+    var start_date = e.rowData.start_date;
+    var end_date = e.rowData.end_date;
     var win = Titanium.UI.createWindow({
-      url: 'sessions.js',
-      title: e.rowData.title,
-      date: date
+      url: 'session.js',
+      title: e.rowData.title + ' ' + e.rowData.nid,
+      nid:e.rowData.nid
     });
-
-    Titanium.UI.currentTab.open(win,{animated:true});
+    Titanium.UI.currentTab.open(win, {animated:true});
   });
-*/
 
   // add table view to the window
   win.add(tableview);
