@@ -34,6 +34,8 @@
       title: rows.fieldByName('title'),
       hasChild: true,
       selectedColor: '#fff',
+      backgroundColor: '#fff',
+      color: '#000',
       start_date: rows.fieldByName('start_date'),
       end_date: rows.fieldByName('end_date'),
       nid: rows.fieldByName('nid')
@@ -47,7 +49,8 @@
 
   // create table view
   var tableview = Titanium.UI.createTableView({
-    data: data
+    data: data,
+    top: 60
   });
 
   // create table view event listener
@@ -56,12 +59,12 @@
     var index = e.index + 1;
     var start_date = e.rowData.start_date;
     var end_date = e.rowData.end_date;
-    var win = Titanium.UI.createWindow({
+    var win1 = Titanium.UI.createWindow({
       url: 'session.js',
       title: e.rowData.title + ' ' + e.rowData.nid,
       nid:e.rowData.nid
     });
-    Titanium.UI.currentTab.open(win, {animated:true});
+    Titanium.UI.currentTab.open(win1, {animated:true});
   });
 
   // add table view to the window
