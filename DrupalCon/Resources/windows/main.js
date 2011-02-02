@@ -10,7 +10,7 @@
   var win1 = Titanium.UI.createWindow({
     url:'windows/days.js',
     id:'win1',
-    title:'DrupalCon Chicago',
+    title:'Sessions',
     backgroundColor:'#fff',
     tabGroup: tabGroup
   });
