@@ -13,20 +13,20 @@
   Ti.API.info('Start of session.js: ');
 
   var win = Titanium.UI.currentWindow;
-  var conn = Drupal.db.getConnection('main');
 
   // Build session data
+  var conn = Drupal.db.getConnection('main');
   var session = conn.query("SELECT data,nid FROM node WHERE nid = ?", [win.nid]);
   while (session.isValidRow()) {
     var sessionData = JSON.parse(session.fieldByName('data'));
     session.next();
   }
   session.close();
-
+  dpm(sessionData);
   // Build presenter data
   var presenterData = [];
   var sessionInstructors = sessionData.instructors;
-  // Instructors may be single (string) or multiple (array)
+  // Instructors may be single (string) or multiple (object), this part works.
   var type = typeof sessionInstructors;
   if (type === 'string') {
     var instructors = [];
@@ -39,10 +39,9 @@
   for(var i in instructors) {
     dpm(instructors[i]); // returns 'emmajane' 8 letters
     conn = Drupal.db.getConnection('main');
-    var rows = conn.query("SELECT uid, name FROM user WHERE name = ?", instructors[i]);
+    var rows = conn.query("SELECT uid,name,full_name FROM user WHERE name = ?", [instructors[i]]);
       // above line causes invalid parameter count (expected 1, but 8 were provided)'
     while (rows.isValidRow()) {
-      dpm(rows.fieldByName('full_name'));
       presenterData.push({
         'fullName':rows.fieldByName('full_name'),
         'uid':rows.fieldByName('uid')
@@ -51,10 +50,6 @@
     }
     rows.close();
   }
-  dpm(presenterData);
-
-
-
 
   // Build the page:
   var tvData = [];
@@ -78,19 +73,28 @@
     });
     textView.add(l1);
 
-    var l2 = Ti.UI.createLabel({
-      text:'text2',
-      top:10,
-      height:'auto'
-    });
-    textView.add(l2);
+    for (var i in presenterData) {
+      var presenterName = Ti.UI.createLabel({
+        text:presenterData[i].fullName,
+        height:'auto'
+      });
+      textView.add(presenterName);
+    }
 
-    var l3 = Ti.UI.createLabel({
-      text:'text3',
+    var room = Ti.UI.createLabel({
+      text:decodeURI(sessionData.room),
       top:10,
       height:'auto'
     });
-    textView.add(l3);
+    textView.add(room);
+
+
+    var body = Ti.UI.createLabel({
+      text:sessionData.body,
+      top:10,
+      height:'auto'
+    });
+    textView.add(body);
 
     row.add(textView);
 
