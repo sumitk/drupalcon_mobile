@@ -1,4 +1,6 @@
-
+/*
+ * Cleans up the timestamp and makes it in the format of 1:30PM
+ */
 function cleanTime(time) {
   var shortTime = time.substr(11,5);
   var mins = shortTime.substr(2,5);
@@ -8,7 +10,7 @@ function cleanTime(time) {
     hour -= 12;
     ampm = 'PM';
   }
-  return hour + "" + mins + " " + ampm;
+  return hour + "" + mins + "" + ampm;
 }
 
 (function() {
@@ -35,7 +37,7 @@ function cleanTime(time) {
     if (lastTime == '' || rows.fieldByName('start_date') != lastTime) {
       lastTime = rows.fieldByName('start_date');
       data.push({
-        title: cleanTime(lastTime),
+        title: cleanTime(lastTime) + " - " + cleanTime(rows.fieldByName('end_date')),
         hasChild: false,
         backgroundColor:'#7187A4',
         color:'#fff',
