@@ -16,3 +16,14 @@ function cleanTime(time) {
 function dpm(vars) {
   Ti.API.info(vars);
 }
+
+/*
+ * Clean up some of the special characters we are running into.
+ */
+function cleanSpecialChars(str) {
+  str = str.replace(/&quot;/g,'"');
+  str = str.replace(/&amp;/g,"&");
+  str = str.replace(/&lt;/g,"<");
+  str = str.replace(/&gt;/g,">");
+  return str;
+}

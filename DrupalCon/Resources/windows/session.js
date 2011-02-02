@@ -82,7 +82,7 @@
     }
 
     var room = Ti.UI.createLabel({
-      text:decodeURI(sessionData.room),
+      text:cleanSpecialChars(sessionData.room),
       top:10,
       height:'auto'
     });
