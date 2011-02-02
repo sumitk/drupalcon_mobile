@@ -50,7 +50,7 @@
   // create table view
   var tableview = Titanium.UI.createTableView({
     data: data,
-    top: 60
+    backgroundColor: '#fff'
   });
 
   // create table view event listener
