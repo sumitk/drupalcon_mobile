@@ -39,6 +39,7 @@
       url: 'sessions.js',
       title: e.rowData.title,
       start_date: start_date,
+      tabGroup: win.tabGroup,
       end_date: end_date
     });
     Titanium.UI.currentTab.open(win1, {animated:true});

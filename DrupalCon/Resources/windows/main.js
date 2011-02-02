@@ -11,7 +11,8 @@
     url:'windows/days.js',
     id:'win1',
     title:'DrupalCon Chicago',
-    backgroundColor:'#fff'
+    backgroundColor:'#fff',
+    tabGroup: tabGroup
   });
 
   var tab1 = Titanium.UI.createTab({
