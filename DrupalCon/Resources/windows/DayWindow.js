@@ -2,7 +2,6 @@
 (function() {
 
   DrupalCon.ui.createDayWindow = function(tabGroup) {
-    Ti.API.info('Start of days.js: ' + Drupal.getObjectProperties(Drupal.db.connectionInfo));
 
     // create table view data object
     var data = [
