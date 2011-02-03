@@ -4,23 +4,35 @@
   // create tab group
   var tabGroup = Titanium.UI.createTabGroup({id:'tabGroup1'});
 
+  dpm('A');
+
   //
   // create base UI tab and root window
   //
-  var win1 = Titanium.UI.createWindow({
+  var win1 = DrupalCon.ui.createDayWindow(tabGroup);
+
+  dpm('B');
+
+
+/*
+  Titanium.UI.createWindow({
     url:'windows/days.js',
     id:'win1',
     title:'Sessions',
     backgroundColor:'#fff',
     tabGroup: tabGroup
   });
+*/
 
   var tab1 = Titanium.UI.createTab({
     id:'tab1',
     icon:'images/tabs/KS_nav_ui.png',
     title:'Schedule',
-    window:win1
+    window: win1
   });
+
+  dpm('C');
+
 
   //
   // create controls tab and root window
@@ -198,6 +210,9 @@
 //  });
 //  win1.add(checkButton);
 
+  dpm('D');
+
+
   win1.addEventListener('open', function() {
     function createMenu() {
       // menu.setTiVersion(1.5);
@@ -239,7 +254,9 @@
     }
     createMenu();
   });
-  
+
+  dpm('E');
+
 
   Ti.addEventListener('drupal:entity:datastore:update_completed', function(e) {
     Drupal.createNoticeDialog('Update completed.').show(3000);

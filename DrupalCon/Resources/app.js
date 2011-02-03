@@ -6,6 +6,7 @@ Titanium.UI.setBackgroundColor('#000');
 
 // Include the Drupal connection libraries.
 Ti.include(
+  'lib/misc.js',
   "drupal/drupal.js",
   "drupal/services.js",
   "drupal/db.js",
@@ -37,8 +38,16 @@ Drupal.db.addConnectionInfo('main');
 // Download tests, for now.  These must get moved eventually.
 Drupal.db.errorMode = Drupal.db.ERROR_LEVEL_DEBUG;
 
+var DrupalCon = {
+  ui: {}
+};
 
-Ti.include('windows/main.js');
+  dpm('Before days.js');
+
+
+Ti.include('/windows/days.js');
+
+Ti.include('/windows/main.js');
 
 
 /*
