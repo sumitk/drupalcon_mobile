@@ -114,14 +114,14 @@
     textView.add(body);
 
 
-//    var imageView = Ti.UI.createImageView({
-//      url:'../images/custom_tableview/user.png',
-//      left:10,
-//      top:10,
-//      height:50,
-//      width:50
-//    });
-//    row.add(imageView);
+    var imageView = Ti.UI.createImageView({
+      url:'http://chicago2011.drupal.org/sites/default/files/imagecache/cropped_85x85/sites/all/default-profile-pic.png',
+      left:10,
+      top:10,
+      height:85,
+      width:85
+    });
+    textView.add(imageView);
 
 
     for (var i in presenterData) {
