@@ -50,7 +50,8 @@ Ti.include(
   '/windows/TwitterWindow.js',
   '/windows/StarredWindow.js',
   '/windows/MoreWindow.js',
-  '/windows/SessionsWindow.js'
+  '/windows/SessionsWindow.js',
+  '/windows/SessionDetailWindow.js'
 );
 
 Ti.include('/windows/main.js');

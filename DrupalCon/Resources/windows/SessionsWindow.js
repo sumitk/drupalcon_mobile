@@ -59,16 +59,11 @@
 
     // create table view event listener
     tableview.addEventListener('click', function(e) {
-      // event data
-      var index = e.index + 1;
-      var start_date = e.rowData.start_date;
-      var end_date = e.rowData.end_date;
-      var win1 = Titanium.UI.createWindow({
-        url: 'session.js',
-        title: e.rowData.title + ' ' + e.rowData.nid,
-        nid:e.rowData.nid
-      });
-      Titanium.UI.currentTab.open(win1, {animated:true});
+      Titanium.UI.currentTab.open(DrupalCon.ui.createSessionDetailWindow({
+        title: e.rowData.title,
+        nid: e.rowData.nid,
+        tabGroup: Titanium.UI.currentTab
+      }), {animated:true});
     });
 
     // add table view to the window
