@@ -5,45 +5,35 @@
   // create tab group
   var tabGroup = Titanium.UI.createTabGroup({id:'tabGroup1'});
 
-  var dayTab = Titanium.UI.createTab({
-    id: 'dayTab',
+  tabGroup.addTab(Titanium.UI.createTab({
     icon: 'images/tabs/KS_nav_ui.png',
     title: 'Schedule',
     window: DrupalCon.ui.createDayWindow(tabGroup)
-  });
+  }));
 
-  var mapTab = Titanium.UI.createTab({
+  tabGroup.addTab(Titanium.UI.createTab({
     icon: 'images/tabs/KS_nav_mashup.png',
     title: 'Maps',
     window: DrupalCon.ui.createMapWindow(tabGroup)
-  });
+  }));
 
-  var twitterTab = Titanium.UI.createTab({
+  tabGroup.addTab(Titanium.UI.createTab({
       icon: 'images/tabs/twitter.png',
       title: 'Twitter',
       window: DrupalCon.ui.createTwitterWindow(tabGroup)
-  });
+  }));
 
-  var starredTab = Titanium.UI.createTab({
+  tabGroup.addTab(Titanium.UI.createTab({
       icon: 'images/tabs/star.png',
       title: 'Starred',
       window: DrupalCon.ui.createStarredWindow(tabGroup)
-  });
+  }));
 
-  var moreTab = Titanium.UI.createTab({
+  tabGroup.addTab(Titanium.UI.createTab({
       icon: 'images/tabs/more.png',
       title: 'More',
       window: DrupalCon.ui.createMoreWindow(tabGroup)
-  });
-
-  //
-  //  add tabs
-  //
-  tabGroup.addTab(dayTab);
-  tabGroup.addTab(mapTab);
-  tabGroup.addTab(twitterTab);
-  tabGroup.addTab(starredTab);
-  tabGroup.addTab(moreTab);
+  }));
 
 
   tabGroup.addEventListener('open',function() {
@@ -51,6 +41,7 @@
     Titanium.UI.setBackgroundColor('#fff');
   });
 
+  // Display the tab group, thus kicking off the application.
   tabGroup.setActiveTab(0);
   // open tab group with a transition animation
   tabGroup.open({
