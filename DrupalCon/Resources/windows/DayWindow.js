@@ -1,15 +1,6 @@
 
 (function() {
 
-  var rootPath = '../../../../../../../../../../';
-  Ti.include(
-    rootPath + "drupal/drupal.js",
-    rootPath + "drupal/services.js",
-    rootPath + "drupal/db.js",
-    rootPath + "drupal/entity.js"
-  );
-
-
   DrupalCon.ui.createDayWindow = function(tabGroup) {
     Ti.API.info('Start of days.js: ' + Drupal.getObjectProperties(Drupal.db.connectionInfo));
 
