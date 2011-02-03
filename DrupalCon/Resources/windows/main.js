@@ -73,7 +73,4 @@
     Drupal.entity.db('main', 'user').fetchUpdates('user');
   });
 
-
 })();
-
-
