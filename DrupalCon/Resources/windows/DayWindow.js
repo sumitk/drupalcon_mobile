@@ -29,6 +29,7 @@
 
     // create table view event listener
     tableview.addEventListener('click', function(e) {
+      // @TODO - This line breaks in iOS, says currentTab is undefined.
       Titanium.UI.currentTab.open(DrupalCon.ui.createSessionsWindow({
         title: e.rowData.title,
         start_date: e.rowData.start_date,

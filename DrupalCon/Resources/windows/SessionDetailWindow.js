@@ -15,7 +15,7 @@
       tabGroup: settings.tabGroup
     });
 
-    var itemWidth = sessionDetailWindow.width - 40;
+    var itemWidth = Ti.UI.currentWindow.width - 40;
 
     // Build session data
     var sessionData = Drupal.entity.db('main', 'node').load(settings.nid);
@@ -77,6 +77,7 @@
     textView.add(l1);
 
     for (var i in presenterData) {
+      dpm(presenterData[i]);
       var presenterName = Ti.UI.createLabel({
         text: presenterData[i].fullName,
         backgroundColor: '#fff',
@@ -112,9 +113,20 @@
     });
     textView.add(body);
 
+
+//    var imageView = Ti.UI.createImageView({
+//      url:'../images/custom_tableview/user.png',
+//      left:10,
+//      top:10,
+//      height:50,
+//      width:50
+//    });
+//    row.add(imageView);
+
+
     for (var i in presenterData) {
       var presenterName2 = Ti.UI.createLabel({
-        text:presenterData[i].fullName + "(" + presenterData[i].data.name + ")",
+        text:presenterData[i].fullName + " (" + presenterData[i].data.name + ")",
         backgroundColor:'#fff',
         textAlign:'left',
         color:'#000',
@@ -159,18 +171,9 @@
       height:'auto'
     });
     textView.add(audience);
-
     row.add(textView);
 
-  //    var imageView = Ti.UI.createImageView({
-  //      url:'../images/custom_tableview/user.png',
-  //      left:10,
-  //      top:10,
-  //      height:50,
-  //      width:50
-  //    });
 
-  //    row.add(imageView);
 
     tvData.push(row);
     tv.setData(tvData);
