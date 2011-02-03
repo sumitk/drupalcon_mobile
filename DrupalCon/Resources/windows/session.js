@@ -33,8 +33,7 @@
   
   for(var i in instructors) {
     dpm(instructors[i]); // returns 'emmajane' 8 letters
-    conn = Drupal.db.getConnection('main');
-    var rows = conn.query("SELECT uid,name,full_name FROM user WHERE name = ?", [instructors[i]]);
+    var rows = Drupal.db.getConnection('main').query("SELECT uid, name, full_name FROM user WHERE name = ?", [instructors[i]]);
       // above line causes invalid parameter count (expected 1, but 8 were provided)'
     while (rows.isValidRow()) {
       presenterData.push({
