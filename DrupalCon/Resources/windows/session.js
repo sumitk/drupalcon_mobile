@@ -13,7 +13,10 @@
   Ti.API.info('Start of session.js: ');
 
   var win = Titanium.UI.currentWindow;
-
+  win.backgroundColor = '#fff';
+  win.color = '#000';
+  var itemWidth = win.width-40;
+  
   // Build session data
   var conn = Drupal.db.getConnection('main');
   var session = conn.query("SELECT data,nid FROM node WHERE nid = ?", [win.nid]);
@@ -53,50 +56,71 @@
 
   // Build the page:
   var tvData = [];
-  var tv = Ti.UI.createTableView({minRowHeight:50});
-    var row = Ti.UI.createTableViewRow({height:'auto',className:"row"});
+  var tv = Ti.UI.createTableView({
+    minRowHeight:50,
+    textAlign:'left'
+  });
+  var row = Ti.UI.createTableViewRow({height:'auto',className:"row"});
 
-    var textView = Ti.UI.createView({
+  var textView = Ti.UI.createView({
+    height:'auto',
+    layout:'vertical',
+    backgroundColor:'#fff',
+    textAlign:'left',
+    color:'#000',
+    left:10,
+    top:10,
+    bottom:10,
+    right:10
+  });
+
+  var l1 = Ti.UI.createLabel({
+    text:sessionData.title,
+    font:{fontSize:24, fontWeight:'bold'},
+    backgroundColor:'#fff',
+    textAlign:'left',
+    color:'#000',
+    height:'auto',
+    width:itemWidth
+  });
+  textView.add(l1);
+
+  for (var i in presenterData) {
+    var presenterName = Ti.UI.createLabel({
+      text:presenterData[i].fullName,
+      backgroundColor:'#fff',
+      textAlign:'left',
+      color:'#000',
       height:'auto',
-      layout:'vertical',
-      left:10,
-      top:10,
-      bottom:10,
-      right:10
+      width:itemWidth
     });
+    textView.add(presenterName);
+  }
 
-    var l1 = Ti.UI.createLabel({
-      text:sessionData.title,
-      font:{fontSize:24, fontWeight:'bold'},
-      height:'auto'
-
-    });
-    textView.add(l1);
-
-    for (var i in presenterData) {
-      var presenterName = Ti.UI.createLabel({
-        text:presenterData[i].fullName,
-        height:'auto'
-      });
-      textView.add(presenterName);
-    }
-
-    var room = Ti.UI.createLabel({
-      text:cleanSpecialChars(sessionData.room),
-      top:10,
-      height:'auto'
-    });
-    textView.add(room);
+  var room = Ti.UI.createLabel({
+    text:cleanSpecialChars(sessionData.room),
+    backgroundColor:'#fff',
+    textAlign:'left',
+    color:'#000',
+    top:10,
+    width:itemWidth,
+    height:'auto'
+  });
+  textView.add(room);
 
 
-    var body = Ti.UI.createLabel({
-      text:sessionData.body,
-      top:10,
-      height:'auto'
-    });
-    textView.add(body);
+  var body = Ti.UI.createLabel({
+    text:sessionData.body,
+    backgroundColor:'#fff',
+    textAlign:'left',
+    color:'#000',
+    top:10,
+    width:itemWidth,
+    height:'auto'
+  });
+  textView.add(body);
 
-    row.add(textView);
+  row.add(textView);
 
 //    var imageView = Ti.UI.createImageView({
 //      url:'../images/custom_tableview/user.png',
@@ -108,10 +132,10 @@
 
 //    row.add(imageView);
 
-    tvData.push(row);
-    tv.setData(tvData);
+  tvData.push(row);
+  tv.setData(tvData);
 
-    win.add(tv);
+  win.add(tv);
 
 
 })();
