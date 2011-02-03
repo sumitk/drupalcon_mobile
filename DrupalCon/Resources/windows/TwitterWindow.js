@@ -180,6 +180,22 @@
       getTweets(twitter_name);
 
       // Refresh menu item
+
+      // WTF?  Why doesn't this work?
+      /*
+      var buttons = [];
+      buttons.push({
+        title: "Refresh Tweets",
+        clickevent: function () {
+          getTweets(twitter_name);
+        }
+      });
+      menu.init({
+        win: twitterWindow,
+        buttons: buttons
+      });
+      */
+
       if (Ti.Platform.name == 'android') {
         twitterWindow.activity.onCreateOptionsMenu = function(e) {
           var menu = e.menu;
