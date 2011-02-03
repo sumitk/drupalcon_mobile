@@ -38,42 +38,44 @@
       }), {animated:true});
     });
 
-    // The following is broken, but I cannot for the life of me figure out why.
-    // It just doesn't hook up to the menu.
-    var buttons = [];
-    buttons.push({
-      title: "Update",
-      clickevent: function () {
-        Ti.fireEvent('drupalcon:update_data');
-      }
-    });
-    buttons.push({
-      title: "Hit sessions",
-      clickevent: function () {
-        var conn = Drupal.db.getConnection('main');
-        var rows = conn.query("SELECT nid, title, changed, start_date, end_date FROM node ORDER BY nid, changed");
-        while (rows.isValidRow()) {
-          Titanium.API.info('Nid: ' + rows.fieldByName('nid') + ', Start: ' + rows.fieldByName('start_date') + ', End: ' + rows.fieldByName('end_date')  + ', Changed: ' + rows.fieldByName('changed') + ', Title: ' + rows.fieldByName('title'));
-          rows.next();
+    dayWindow.addEventListener('open', function() {
+      // The following is broken, but I cannot for the life of me figure out why.
+      // It just doesn't hook up to the menu.
+      var buttons = [];
+      buttons.push({
+        title: "Update",
+        clickevent: function () {
+          Ti.fireEvent('drupalcon:update_data');
         }
-        rows.close();
-      }
-    });
-    buttons.push({
-      title: "Hit presenters",
-      clickevent: function () {
-        var conn = Drupal.db.getConnection('main');
-        var rows = conn.query("SELECT uid, name, full_name FROM user ORDER BY name, uid");
-        while (rows.isValidRow()) {
-          Titanium.API.info('Uid: ' + rows.fieldByName('uid') + ', Name: ' + rows.fieldByName('name') + ', Full Name: ' + rows.fieldByName('full_name'));
-          rows.next();
+      });
+      buttons.push({
+        title: "Hit sessions",
+        clickevent: function () {
+          var conn = Drupal.db.getConnection('main');
+          var rows = conn.query("SELECT nid, title, changed, start_date, end_date FROM node ORDER BY nid, changed");
+          while (rows.isValidRow()) {
+            Titanium.API.info('Nid: ' + rows.fieldByName('nid') + ', Start: ' + rows.fieldByName('start_date') + ', End: ' + rows.fieldByName('end_date')  + ', Changed: ' + rows.fieldByName('changed') + ', Title: ' + rows.fieldByName('title'));
+            rows.next();
+          }
+          rows.close();
         }
-        rows.close();
-      }
-    });
-    menu.init({
-      win: dayWindow,
-      buttons: buttons
+      });
+      buttons.push({
+        title: "Hit presenters",
+        clickevent: function () {
+          var conn = Drupal.db.getConnection('main');
+          var rows = conn.query("SELECT uid, name, full_name FROM user ORDER BY name, uid");
+          while (rows.isValidRow()) {
+            Titanium.API.info('Uid: ' + rows.fieldByName('uid') + ', Name: ' + rows.fieldByName('name') + ', Full Name: ' + rows.fieldByName('full_name'));
+            rows.next();
+          }
+          rows.close();
+        }
+      });
+      menu.init({
+        win: dayWindow,
+        buttons: buttons
+      });
     });
 
 
