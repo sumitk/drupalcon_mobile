@@ -24,17 +24,10 @@
       window: DrupalCon.ui.createTwitterWindow(tabGroup)
   });
 
-  //
-  // create platform tab and root window
-  //
-  var win4 = Titanium.UI.createWindow({
-      url:'windows/preferences.js',
-      title:'Starred'
-  });
-  var tab4 = Titanium.UI.createTab({
-      icon:'images/tabs/star.png',
-      title:'Starred',
-      window:win4
+  var starredTab = Titanium.UI.createTab({
+      icon: 'images/tabs/star.png',
+      title: 'Starred',
+      window: DrupalCon.ui.createStarredWindow(tabGroup)
   });
 
   //
@@ -56,7 +49,7 @@
   tabGroup.addTab(dayTab);
   tabGroup.addTab(mapTab);
   tabGroup.addTab(twitterTab);
-  tabGroup.addTab(tab4);
+  tabGroup.addTab(starredTab);
   tabGroup.addTab(tab5);
 
   tabGroup.addEventListener('open',function() {
