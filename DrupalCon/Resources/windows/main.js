@@ -30,17 +30,10 @@
       window: DrupalCon.ui.createStarredWindow(tabGroup)
   });
 
-  //
-  // create mashup tab and root window
-  //
-  var win5 = Titanium.UI.createWindow({
-      url:'windows/preferences.js',
-      title:'More'
-  });
-  var tab5 = Titanium.UI.createTab({
-      icon:'images/tabs/more.png',
-      title:'More',
-      window:win5
+  var moreTab = Titanium.UI.createTab({
+      icon: 'images/tabs/more.png',
+      title: 'More',
+      window: DrupalCon.ui.createMoreWindow(tabGroup)
   });
 
   //
@@ -50,7 +43,8 @@
   tabGroup.addTab(mapTab);
   tabGroup.addTab(twitterTab);
   tabGroup.addTab(starredTab);
-  tabGroup.addTab(tab5);
+  tabGroup.addTab(moreTab);
+
 
   tabGroup.addEventListener('open',function() {
     // set background color back to white after tab group transition

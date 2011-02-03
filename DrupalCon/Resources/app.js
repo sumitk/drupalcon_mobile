@@ -47,7 +47,8 @@ Ti.include(
   '/windows/DayWindow.js',
   '/windows/MapWindow.js',
   '/windows/TwitterWindow.js',
-  '/windows/StarredWindow.js'
+  '/windows/StarredWindow.js',
+  '/windows/MoreWindow.js'
 );
 
 Ti.include('/windows/main.js');
