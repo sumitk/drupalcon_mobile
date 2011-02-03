@@ -15,13 +15,8 @@
   var win = Titanium.UI.currentWindow;
 
   // Build session data
-  var conn = Drupal.db.getConnection('main');
-  var session = conn.query("SELECT data,nid FROM node WHERE nid = ?", [win.nid]);
-  while (session.isValidRow()) {
-    var sessionData = JSON.parse(session.fieldByName('data'));
-    session.next();
-  }
-  session.close();
+  var sessionData = Drupal.entity.db('main', 'node').load(win.nid);
+
   dpm(sessionData);
   // Build presenter data
   var presenterData = [];
