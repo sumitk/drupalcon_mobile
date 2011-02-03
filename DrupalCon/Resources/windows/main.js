@@ -1,34 +1,19 @@
 
 
 (function() {
-  // create tab group
-  var tabGroup = Titanium.UI.createTabGroup({id:'tabGroup1'});
-
   dpm('A');
 
-  //
-  // create base UI tab and root window
-  //
-  var win1 = DrupalCon.ui.createDayWindow(tabGroup);
+  // create tab group
+  var tabGroup = Titanium.UI.createTabGroup({id:'tabGroup1'});
 
   dpm('B');
 
 
-/*
-  Titanium.UI.createWindow({
-    url:'windows/days.js',
-    id:'win1',
-    title:'Sessions',
-    backgroundColor:'#fff',
-    tabGroup: tabGroup
-  });
-*/
-
-  var tab1 = Titanium.UI.createTab({
-    id:'tab1',
-    icon:'images/tabs/KS_nav_ui.png',
-    title:'Schedule',
-    window: win1
+  var dayTab = Titanium.UI.createTab({
+    id: 'dayTab',
+    icon: 'images/tabs/KS_nav_ui.png',
+    title: 'Schedule',
+    window: DrupalCon.ui.createDayWindow(tabGroup)
   });
 
   dpm('C');
@@ -90,7 +75,7 @@
   //
   //  add tabs
   //
-  tabGroup.addTab(tab1);
+  tabGroup.addTab(dayTab);
   tabGroup.addTab(tab2);
   tabGroup.addTab(tab3);
   tabGroup.addTab(tab4);
@@ -196,66 +181,7 @@
   });
 
 
-  // Testing fetching preferences from the preferences.js file
-//  var checkButton = Titanium.UI.createButton({
-//    title:'Check user/pass',
-//    top: 10,
-//    width:300,
-//    height: 40
-//  });
-//  checkButton.addEventListener('click',function(e) {
-//    var pass = Titanium.App.Properties.getString("sitePassword");
-//    var user = Titanium.App.Properties.getString("siteUsername");
-//    alert("User: " + user + " and Pass: " + pass);
-//  });
-//  win1.add(checkButton);
-
   dpm('D');
-
-/*
-  win1.addEventListener('open', function() {
-    function createMenu() {
-      // menu.setTiVersion(1.5);
-      menu.init({
-        win: win1,
-        buttons: [
-          {
-            title: "Update",
-            clickevent: function () {
-              Ti.fireEvent('drupalcon:update_data');
-            }
-          },
-          {
-            title: "Hit sessions",
-            clickevent: function () {
-              var conn = Drupal.db.getConnection('main');
-              var rows = conn.query("SELECT nid, title, changed, start_date, end_date FROM node ORDER BY nid, changed");
-              while (rows.isValidRow()) {
-                Titanium.API.info('Nid: ' + rows.fieldByName('nid') + ', Start: ' + rows.fieldByName('start_date') + ', End: ' + rows.fieldByName('end_date')  + ', Changed: ' + rows.fieldByName('changed') + ', Title: ' + rows.fieldByName('title'));
-                rows.next();
-              }
-              rows.close();
-            }
-          },
-          {
-            title: "Hit presenters",
-            clickevent: function () {
-              var conn = Drupal.db.getConnection('main');
-              var rows = conn.query("SELECT uid, name, full_name FROM user ORDER BY name, uid");
-              while (rows.isValidRow()) {
-                Titanium.API.info('Uid: ' + rows.fieldByName('uid') + ', Name: ' + rows.fieldByName('name') + ', Full Name: ' + rows.fieldByName('full_name'));
-                rows.next();
-              }
-              rows.close();
-            }
-          }
-        ]
-      });
-    }
-    createMenu();
-  });
-*/
-  dpm('E');
 
 
   Ti.addEventListener('drupal:entity:datastore:update_completed', function(e) {
