@@ -42,8 +42,6 @@ var DrupalCon = {
   ui: {}
 };
 
-  dpm('Before days.js');
-
 
 Ti.include('/windows/days.js');
 

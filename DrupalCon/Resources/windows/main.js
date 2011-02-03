@@ -212,7 +212,7 @@
 
   dpm('D');
 
-
+/*
   win1.addEventListener('open', function() {
     function createMenu() {
       // menu.setTiVersion(1.5);
@@ -254,7 +254,7 @@
     }
     createMenu();
   });
-
+*/
   dpm('E');
 
 
