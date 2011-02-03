@@ -16,20 +16,10 @@
     window: DrupalCon.ui.createDayWindow(tabGroup)
   });
 
-  dpm('C');
-
-
-  //
-  // create controls tab and root window
-  //
-  var win2 = Titanium.UI.createWindow({
-      url:'windows/preferences.js',
-      title:'Maps'
-  });
   var tab2 = Titanium.UI.createTab({
-      icon:'images/tabs/KS_nav_mashup.png',
-      title:'Maps',
-      window:win2
+    icon: 'images/tabs/KS_nav_mashup.png',
+    title: 'Maps',
+    window: DrupalCon.ui.createMapWindow(tabGroup)
   });
 
 

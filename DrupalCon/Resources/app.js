@@ -43,7 +43,9 @@ var DrupalCon = {
 };
 
 
-Ti.include('/windows/DayWindow.js');
+Ti.include(
+  '/windows/DayWindow.js', '/windows/MapWindow.js'
+);
 
 Ti.include('/windows/main.js');
 
