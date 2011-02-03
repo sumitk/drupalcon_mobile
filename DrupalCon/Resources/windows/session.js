@@ -2,14 +2,14 @@
 
   var rootPath = '../../../../../../../../../../';
   Ti.include(
-    rootPath+"drupal/drupal.js",
-    rootPath+"drupal/services.js",
-    rootPath+"drupal/db.js",
-    rootPath+"drupal/entity.js",
-    rootPath+"lib/platforms.js",
-    rootPath+"lib/misc.js"
+    rootPath + "drupal/drupal.js",
+    rootPath + "drupal/services.js",
+    rootPath + "drupal/db.js",
+    rootPath + "drupal/entity.js",
+    rootPath + "lib/platforms.js",
+    rootPath + "lib/misc.js"
   );
-  alert("in session");
+  //alert("in session");
   Ti.API.info('Start of session.js: ');
 
   var win = Titanium.UI.currentWindow;
@@ -18,31 +18,24 @@
   var itemWidth = win.width-40;
   
   // Build session data
-  var conn = Drupal.db.getConnection('main');
-  var session = conn.query("SELECT data,nid FROM node WHERE nid = ?", [win.nid]);
-  while (session.isValidRow()) {
-    var sessionData = JSON.parse(session.fieldByName('data'));
-    session.next();
-  }
-  session.close();
+  var sessionData = Drupal.entity.db('main', 'node').load(win.nid);
+
   dpm(sessionData);
   // Build presenter data
   var presenterData = [];
   var sessionInstructors = sessionData.instructors;
   // Instructors may be single (string) or multiple (object), this part works.
-  var type = typeof sessionInstructors;
-  if (type === 'string') {
-    var instructors = [];
+  var instructors = [];
+  if (typeof sessionInstructors === 'string') {
     instructors.push(sessionInstructors);
-  } 
-  else {
-    var instructors = sessionInstructors;
   }
-  
+  else {
+    instructors = sessionInstructors;
+  }
+
   for(var i in instructors) {
     dpm(instructors[i]); // returns 'emmajane' 8 letters
-    conn = Drupal.db.getConnection('main');
-    var rows = conn.query("SELECT uid,name,full_name FROM user WHERE name = ?", [instructors[i]]);
+    var rows = Drupal.db.getConnection('main').query("SELECT uid, name, full_name FROM user WHERE name = ?", [instructors[i]]);
       // above line causes invalid parameter count (expected 1, but 8 were provided)'
     while (rows.isValidRow()) {
       presenterData.push({
@@ -136,6 +129,5 @@
   tv.setData(tvData);
 
   win.add(tv);
-
 
 })();
