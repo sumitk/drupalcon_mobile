@@ -43,7 +43,7 @@ var DrupalCon = {
 };
 
 
-Ti.include('/windows/days.js');
+Ti.include('/windows/DayWindow.js');
 
 Ti.include('/windows/main.js');
 
