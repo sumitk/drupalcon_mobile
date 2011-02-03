@@ -59,10 +59,9 @@
   tabGroup.addTab(tab4);
   tabGroup.addTab(tab5);
 
-  tabGroup.addEventListener('open',function()
-  {
-          // set background color back to white after tab group transition
-          Titanium.UI.setBackgroundColor('#fff');
+  tabGroup.addEventListener('open',function() {
+    // set background color back to white after tab group transition
+    Titanium.UI.setBackgroundColor('#fff');
   });
 
   tabGroup.setActiveTab(0);
@@ -134,28 +133,6 @@
     setTimeout(function() 	{
       messageWin.close({opacity:0,duration:500});
     }, 1000);
-  });
-
-  // focus event listener for tracking tab changes
-  tabGroup.addEventListener('focus', function(e) {
-    //messageLabel.text = 'tab changed to ' + e.index + ' old index ' + e.previousIndex;
-    //messageWin.open();
-    //setTimeout(function()
-    //{
-    //	Ti.API.info('tab ' + e.tab.title  + ' prevTab = ' + (e.previousTab ? e.previousTab.title : null));
-    //	messageLabel.text = 'active title ' + e.tab.title + ' old title ' + (e.previousTab ? e.previousTab.title : null);
-    //},1000);
-    //
-    //setTimeout(function()
-    //{
-    //	messageWin.close({opacity:0,duration:500});
-    //},2000);
-
-  });
-
-  // blur event listener for tracking tab changes
-  tabGroup.addEventListener('blur', function(e) {
-    //Titanium.API.info('tab blur - new index ' + e.index + ' old index ' + e.previousIndex);
   });
 
   Ti.addEventListener('drupal:entity:datastore:update_completed', function(e) {
