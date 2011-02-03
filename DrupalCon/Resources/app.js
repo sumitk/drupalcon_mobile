@@ -12,7 +12,7 @@ Ti.include(
   'drupal/services.js',
   'drupal/db.js',
   'drupal/entity.js',
-  
+
   'drupalcon/entity.js'
   // "lib/twitter_services.js"
 );
@@ -49,7 +49,8 @@ Ti.include(
   '/windows/MapWindow.js',
   '/windows/TwitterWindow.js',
   '/windows/StarredWindow.js',
-  '/windows/MoreWindow.js'
+  '/windows/MoreWindow.js',
+  '/windows/SessionsWindow.js'
 );
 
 Ti.include('/windows/main.js');

@@ -29,18 +29,12 @@
 
     // create table view event listener
     tableview.addEventListener('click', function(e) {
-      // event data
-      var index = e.index + 1;
-      var start_date = e.rowData.start_date;
-      var end_date = e.rowData.end_date;
-      var win1 = Titanium.UI.createWindow({
-        url: 'sessions.js',
+      Titanium.UI.currentTab.open(DrupalCon.ui.createSessionsWindow({
         title: e.rowData.title,
-        start_date: start_date,
-        tabGroup: dayWindow.tabGroup,
-        end_date: end_date
-      });
-      Titanium.UI.currentTab.open(win1, {animated:true});
+        start_date: e.rowData.start_date,
+        end_date: e.rowData.end_date,
+        tabGroup: Titanium.UI.currentTab
+      }), {animated:true});
     });
 
     // The following is broken, but I cannot for the life of me figure out why.
