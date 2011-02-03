@@ -44,7 +44,9 @@ var DrupalCon = {
 
 
 Ti.include(
-  '/windows/DayWindow.js', '/windows/MapWindow.js'
+  '/windows/DayWindow.js',
+  '/windows/MapWindow.js',
+  '/windows/TwitterWindow.js'
 );
 
 Ti.include('/windows/main.js');

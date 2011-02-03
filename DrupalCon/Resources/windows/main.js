@@ -18,18 +18,10 @@
     window: DrupalCon.ui.createMapWindow(tabGroup)
   });
 
-
-  //
-  // create phone tab and root window
-  //
-  var win3 = Titanium.UI.createWindow({
-      url:'windows/twitter.js',
-      titleid:'twitter_win_title'
-  });
-  var tab3 = Titanium.UI.createTab({
-      icon:'images/tabs/twitter.png',
-      title:'Twitter',
-      window:win3
+  var twitterTab = Titanium.UI.createTab({
+      icon: 'images/tabs/twitter.png',
+      title: 'Twitter',
+      window: DrupalCon.ui.createTwitterWindow(tabGroup)
   });
 
   //
@@ -63,7 +55,7 @@
   //
   tabGroup.addTab(dayTab);
   tabGroup.addTab(mapTab);
-  tabGroup.addTab(tab3);
+  tabGroup.addTab(twitterTab);
   tabGroup.addTab(tab4);
   tabGroup.addTab(tab5);
 
