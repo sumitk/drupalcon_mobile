@@ -1,13 +1,9 @@
 
 
 (function() {
-  dpm('A');
 
   // create tab group
   var tabGroup = Titanium.UI.createTabGroup({id:'tabGroup1'});
-
-  dpm('B');
-
 
   var dayTab = Titanium.UI.createTab({
     id: 'dayTab',
@@ -16,7 +12,7 @@
     window: DrupalCon.ui.createDayWindow(tabGroup)
   });
 
-  var tab2 = Titanium.UI.createTab({
+  var mapTab = Titanium.UI.createTab({
     icon: 'images/tabs/KS_nav_mashup.png',
     title: 'Maps',
     window: DrupalCon.ui.createMapWindow(tabGroup)
@@ -66,7 +62,7 @@
   //  add tabs
   //
   tabGroup.addTab(dayTab);
-  tabGroup.addTab(tab2);
+  tabGroup.addTab(mapTab);
   tabGroup.addTab(tab3);
   tabGroup.addTab(tab4);
   tabGroup.addTab(tab5);
@@ -169,10 +165,6 @@
   tabGroup.addEventListener('blur', function(e) {
     //Titanium.API.info('tab blur - new index ' + e.index + ' old index ' + e.previousIndex);
   });
-
-
-  dpm('D');
-
 
   Ti.addEventListener('drupal:entity:datastore:update_completed', function(e) {
     Drupal.createNoticeDialog('Update completed.').show(3000);
