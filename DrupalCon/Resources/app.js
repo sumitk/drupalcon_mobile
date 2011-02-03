@@ -45,16 +45,16 @@ var DrupalCon = {
 
 
 Ti.include(
-  '/windows/DayWindow.js',
-  '/windows/MapWindow.js',
-  '/windows/TwitterWindow.js',
-  '/windows/StarredWindow.js',
-  '/windows/MoreWindow.js',
-  '/windows/SessionsWindow.js',
-  '/windows/SessionDetailWindow.js'
+  'windows/DayWindow.js',
+  'windows/MapWindow.js',
+  'windows/TwitterWindow.js',
+  'windows/StarredWindow.js',
+  'windows/MoreWindow.js',
+  'windows/SessionsWindow.js',
+  'windows/SessionDetailWindow.js'
 );
 
-Ti.include('/windows/main.js');
+Ti.include('windows/main.js');
 
 
 /*

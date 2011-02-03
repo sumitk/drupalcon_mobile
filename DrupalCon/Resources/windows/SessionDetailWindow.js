@@ -14,8 +14,13 @@
       backgroundColor: '#FFF',
       tabGroup: settings.tabGroup
     });
-
-    var itemWidth = Ti.UI.currentWindow.width - 40;
+    if (Ti.Platform.name == 'android') {
+      var itemWidth = Ti.UI.currentWindow.width - 40;
+    }
+    else {
+      var itemWidth = sessionDetailWindow.width - 40;
+    }
+    
 
     // Build session data
     var sessionData = Drupal.entity.db('main', 'node').load(settings.nid);

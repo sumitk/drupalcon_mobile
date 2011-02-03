@@ -30,7 +30,13 @@
     // create table view event listener
     tableview.addEventListener('click', function(e) {
       // @TODO - This line breaks in iOS, says currentTab is undefined.
-      Titanium.UI.currentTab.open(DrupalCon.ui.createSessionsWindow({
+      if (Ti.Platform.name == 'android') {
+        var currentTab = Titanium.UI.currentTab;
+      }
+      else {
+        var currentTab = dayWindow.tabGroup.activeTab;
+      }
+      currentTab.open(DrupalCon.ui.createSessionsWindow({
         title: e.rowData.title,
         start_date: e.rowData.start_date,
         end_date: e.rowData.end_date,
@@ -39,8 +45,6 @@
     });
 
     dayWindow.addEventListener('open', function() {
-      // The following is broken, but I cannot for the life of me figure out why.
-      // It just doesn't hook up to the menu.
       var buttons = [];
       buttons.push({
         title: "Update",
