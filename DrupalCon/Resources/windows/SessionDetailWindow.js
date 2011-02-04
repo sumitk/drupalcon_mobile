@@ -120,15 +120,27 @@
     });
     textView.add(body);
 
+    var presentersLabel = Ti.UI.createLabel({
+      text:"Presenters",
+      backgroundColor:'#fff',
+      font:{fontSize: 18, fontWeight: 'bold'},
+      textAlign:'left',
+      color:'#000',
+      top:20,
+      bottom:10,
+      width:itemWidth,
+      height:'auto'
+    });
+    textView.add(presentersLabel);
     row.add(textView);
     tvData.push(row);
 
     var presenterName2 = [];
-    var row2 = [];
+    var presRow = [];
     var twitter = [];
-    
+    var twitRow = [];
     for (var i in presenterData) {
-      row2[i] = Ti.UI.createTableViewRow({height:'auto',className:"row",borderColor:'#fff'});
+      presRow[i] = Ti.UI.createTableViewRow({height:'auto',className:"row",borderColor:'#fff'});
       presenterName2[i] = Ti.UI.createButton({
         title:presenterData[i].fullName + " (" + presenterData[i].data.name + ")",
         uid:presenterData[i].data.uid,
@@ -139,14 +151,16 @@
         right: 15,
         height: 50
       });
-      twitter[i] = Ti.UI.createLabel({
-        text:presenterData[i].data.twitter,
-        backgroundColor:'#fff',
-        textAlign:'left',
-        color:'#000',
-        height:'auto',
-        top: 70,
-        width:itemWidth
+
+      twitRow[i] = Ti.UI.createTableViewRow({height:'auto',className:"row",borderColor:'#fff'});
+      twitter[i] = Ti.UI.createButton({
+        title:presenterData[i].data.name + "'s Twitter Page",
+        twitter:presenterData[i].data.twitter,
+        top: 10,
+        bottom: 10,
+        left: 15,
+        right: 15,
+        height: 50
       });
 
       presenterName2[i].addEventListener('click', function(e) {
@@ -165,21 +179,30 @@
       });
 
       twitter[i].addEventListener('click', function(e) {
+        var webview = Titanium.UI.createWebView({url:e.source.twitter});
+        var webWindow = Titanium.UI.createWindow();
+        webWindow.add(webview);
+
         if (Ti.Platform.name == 'android') {
           var currentTab = Titanium.UI.currentTab;
         }
         else {
           var currentTab = sessionDetailWindow.tabGroup.activeTab;
+          var button = Ti.UI.createButton({
+            systemButton: Ti.UI.iPhone.SystemButton.DONE
+          });
+          button.addEventListener('click', function(e) {
+            webWindow.close();
+          });
+          webWindow.rightNavButton = button;
         }
-        var webview = Titanium.UI.createWebView({url:e.source.text});
-        var webWindow = Titanium.UI.createWindow();
-        webWindow.add(webview);
         webWindow.open({modal:true, animated:true});
       });
 
-      row2[i].add(presenterName2[i]);
-      row2[i].add(twitter[i]);
-      tvData.push(row2[i]);
+      presRow[i].add(presenterName2[i]);
+      twitRow[i].add(twitter[i]);
+      tvData.push(presRow[i]);
+      tvData.push(twitRow[i]);
     }
 
     var row3 = Ti.UI.createTableViewRow({height:'auto',className:"row",borderColor:"#fff"});
