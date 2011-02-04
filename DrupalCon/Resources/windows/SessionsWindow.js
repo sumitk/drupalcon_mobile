@@ -27,7 +27,7 @@
     var rowData = [];
     while (rows.isValidRow()) {
       rowData = ({
-        title: rows.fieldByName('title'),
+        title: cleanSpecialChars(rows.fieldByName('title')),
         hasChild: true,
         selectedColor: '#fff',
         backgroundColor: '#fff',

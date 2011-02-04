@@ -65,6 +65,40 @@
       width: itemWidth
     });
     textView.add(titleLabel);
+    var twitter = [];
+    var twitRow = [];
+
+//      twitRow[i] = Ti.UI.createTableViewRow({height:'auto',className:"row",borderColor:'#fff'});
+//      twitter[i] = Ti.UI.createButton({
+//        title:presenterData[i].data.name + "'s Twitter Page",
+//        twitter:presenterData[i].data.twitter,
+//        top: 10,
+//        bottom: 10,
+//        left: 15,
+//        right: 15,
+//        height: 50
+//      });
+
+//      twitter[i].addEventListener('click', function(e) {
+//        var webview = Titanium.UI.createWebView({url:e.source.twitter});
+//        var webWindow = Titanium.UI.createWindow();
+//        webWindow.add(webview);
+//
+//        if (Ti.Platform.name == 'android') {
+//          var currentTab = Titanium.UI.currentTab;
+//        }
+//        else {
+//          var currentTab = sessionDetailWindow.tabGroup.activeTab;
+//          var button = Ti.UI.createButton({
+//            systemButton: Ti.UI.iPhone.SystemButton.DONE
+//          });
+//          button.addEventListener('click', function(e) {
+//            webWindow.close();
+//          });
+//          webWindow.rightNavButton = button;
+//        }
+//        webWindow.open({modal:true, animated:true});
+//      });
 
     var bio = Ti.UI.createLabel({
       text:presenterData.data.bio,
