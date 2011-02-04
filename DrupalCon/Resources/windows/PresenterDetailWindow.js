@@ -25,28 +25,38 @@
     dpm(presenterData);
     var tvData = [];
     var blueBg = '#CAE2F4';
+    var	platformWidth = Ti.Platform.displayCaps.platformWidth;
+		var platformHeight = Ti.Platform.displayCaps.platformHeight;
 
     // Structure
     var tv = Ti.UI.createTableView({
       textAlign: 'left',
       layout:'vertical'
     });
-    var headerRow = Ti.UI.createTableViewRow({height:110,backgroundColor:blueBg});
+    var headerRow = Ti.UI.createTableViewRow({
+      height:110,
+      backgroundColor:blueBg,
+      left:0,
+      top:-5,
+      bottom:0,
+      layout:'vertical',
+      leftImage:'images/userpictdefault6-bigger.png'
+    });
     var twitterRow = Ti.UI.createTableViewRow({hasChild:true,height:40});
     var linkedinRow = Ti.UI.createTableViewRow({hasChild:true,height:40});
     var facebookRow = Ti.UI.createTableViewRow({hasChild:true,height:40});
     var bioRow = Ti.UI.createTableViewRow({hasChild:false,height:'auto'});
 
     // Content
-    var avatar = Ti.UI.createImageView({
-      height: 110,
-      width: 110,
-      image:'images/userpictdefault6-bigger.png',
-      top: 0,
-      left: 0
-    });
-    headerRow.add(avatar);
-
+//    var avatar = Ti.UI.createImageView({
+//      height: 110,
+//      width: 110,
+//      image:'images/userpictdefault6-bigger.png',
+//      top: 0,
+//      left: 0
+//    });
+//    headerRow.add(avatar);
+    
     var fullName = Ti.UI.createLabel({
       text:(presenterData.fullName != undefined) ? presenterData.fullName : presenterData.name,
       font:{fontSize: 20, fontWeight: 'bold'},
@@ -55,7 +65,8 @@
       height: 'auto',
       left: 120,
       top: 15,
-      width: itemWidth
+      ellipsize:true,
+      width: itemWidth - 120
     });
     headerRow.add(fullName);
 
@@ -66,7 +77,6 @@
       color: '#999',
       height: 'auto',
       left: 120,
-      top: 44,
       width: itemWidth
     });
     headerRow.add(name);
@@ -78,8 +88,7 @@
       color: '#999',
       height: 'auto',
       left: 120,
-      top: 64,
-      width: itemWidth
+      width: itemWidth - 120
     });
     headerRow.add(company);
     tvData.push(headerRow);
