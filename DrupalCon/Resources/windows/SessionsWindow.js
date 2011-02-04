@@ -32,6 +32,7 @@
         selectedColor: '#fff',
         backgroundColor: '#fff',
         color: '#000',
+        className: 'session-row',
         start_date: rows.fieldByName('start_date'),
         end_date: rows.fieldByName('end_date'),
         nid: rows.fieldByName('nid'),

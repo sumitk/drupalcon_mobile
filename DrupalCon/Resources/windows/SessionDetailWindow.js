@@ -135,7 +135,7 @@
         font:{fontSize:14, fontWeight:'normal'},
         left: 85,
         color:"#999",
-        top: 30,
+        top: 40,
         right: 15,
         height: 'auto'
       });
@@ -196,16 +196,11 @@
       height:'auto'
     });
     textViewBottom.add(audience);
-
     row3.add(textViewBottom);
-
-
-
     tvData.push(row3);
+    
     tv.setData(tvData);
-
     sessionDetailWindow.add(tv);
-
 
     return sessionDetailWindow;
   };

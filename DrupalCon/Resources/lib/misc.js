@@ -28,6 +28,16 @@ function getPresenterData(names) {
   return presenterData;
 }
 
+
+function isAndroid (){
+  if(Ti.Platform.name == 'android') {
+    return true;
+  }
+  else {
+    return false;
+  }
+}
+
 /*
  * Cleans up the timestamp and makes it in the format of 1:30PM
  */
