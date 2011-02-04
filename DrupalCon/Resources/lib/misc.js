@@ -1,3 +1,33 @@
+/* 
+ * Build presenter data blob
+ */
+function getPresenterData(names) {
+  var presenterData = [];
+
+  var sessionInstructors = names;
+  // Instructors may be single (string) or multiple (object), this part works.
+  var instructors = [];
+  if (typeof sessionInstructors === 'string') {
+    instructors.push(sessionInstructors);
+  }
+  else {
+    instructors = sessionInstructors;
+  }
+
+  for(var i in instructors) {
+    var rows = Drupal.db.getConnection('main').query("SELECT data,full_name FROM user WHERE name = ?", [instructors[i]]);
+    while (rows.isValidRow()) {
+      presenterData.push({
+        'data': JSON.parse(rows.fieldByName('data')),
+        'fullName': rows.fieldByName('full_name')
+      });
+      rows.next();
+    }
+    rows.close();
+  }
+  return presenterData;
+}
+
 /*
  * Cleans up the timestamp and makes it in the format of 1:30PM
  */
@@ -25,6 +55,7 @@ function cleanSpecialChars(str) {
   str = str.replace(/&amp;/g,"&");
   str = str.replace(/&lt;/g,"<");
   str = str.replace(/&gt;/g,">");
+  str = str.replace(/&#039;/g, "'");
   return str;
 }
 

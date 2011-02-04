@@ -26,29 +26,8 @@
     // Build session data
     var sessionData = Drupal.entity.db('main', 'node').load(settings.nid);
 
-    // Build presenter data
-    var presenterData = [];
-    var sessionInstructors = sessionData.instructors;
     // Instructors may be single (string) or multiple (object), this part works.
-    var instructors = [];
-    if (typeof sessionInstructors === 'string') {
-      instructors.push(sessionInstructors);
-    }
-    else {
-      instructors = sessionInstructors;
-    }
-
-    for(var i in instructors) {
-      var rows = Drupal.db.getConnection('main').query("SELECT data,full_name FROM user WHERE name = ?", [instructors[i]]);
-      while (rows.isValidRow()) {
-        presenterData.push({
-          'data': JSON.parse(rows.fieldByName('data')),
-          'fullName': rows.fieldByName('full_name')
-        });
-        rows.next();
-      }
-      rows.close();
-    }
+    var presenterData = getPresenterData(sessionData.instructors);
 
     // Build the page:
     var tvData = [];
@@ -119,18 +98,6 @@
     });
     textView.add(body);
 
-    var presentersLabel = Ti.UI.createLabel({
-      text:"Presenters",
-      backgroundColor:'#fff',
-      font:{fontSize: 18, fontWeight: 'bold'},
-      textAlign:'left',
-      color:'#000',
-      top:20,
-      bottom:10,
-      width:itemWidth,
-      height:'auto'
-    });
-    textView.add(presentersLabel);
     row.add(textView);
     tvData.push(row);
 
@@ -147,7 +114,7 @@
         className:"row",
         borderColor:'#fff',
         hasChild:true,
-        leftImage:'images/default-profile-pic.png'
+        leftImage:'images/userpictdefault2.png'
       });
       presenterFullName2[i] = Ti.UI.createLabel({
         text:presenterData[i].fullName,
