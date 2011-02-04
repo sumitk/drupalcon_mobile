@@ -26,7 +26,6 @@
     // Build session data
     var sessionData = Drupal.entity.db('main', 'node').load(settings.nid);
 
-    dpm(sessionData);
     // Build presenter data
     var presenterData = [];
     var sessionInstructors = sessionData.instructors;
@@ -58,7 +57,7 @@
       textAlign: 'left',
       borderColor:"#fff"
     });
-    var row = Ti.UI.createTableViewRow({height:'auto',className:"row",borderColor:"#fff"});
+    var row = Ti.UI.createTableViewRow({height:'auto',className:"row",borderColor:"#fff", bottom: 10});
 
     var textView = Ti.UI.createView({
       height: 'auto',
@@ -68,7 +67,8 @@
       color: '#000',
       left: 10,
       top: 10,
-      right: 10
+      right: 10,
+      bottom: 10
     });
 
     var titleLabel = Ti.UI.createLabel({
@@ -83,7 +83,6 @@
     textView.add(titleLabel);
 
     for (var i in presenterData) {
-      dpm(presenterData[i]);
       var presenterName = Ti.UI.createLabel({
         text: presenterData[i].fullName,
         backgroundColor: '#fff',
@@ -145,6 +144,7 @@
         title:presenterData[i].fullName + " (" + presenterData[i].data.name + ")",
         uid:presenterData[i].data.uid,
         name:presenterData[i].data.name,
+        data:presenterData[i],
         top: 10,
         bottom: 10,
         left: 15,
@@ -174,6 +174,7 @@
           title: e.source.name,
           uid: e.source.uid,
           name: e.source.name,
+          data: e.source.data,
           tabGroup: Titanium.UI.currentTab
         }), {animated:true});
       });
