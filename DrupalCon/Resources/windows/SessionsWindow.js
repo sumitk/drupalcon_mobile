@@ -1,4 +1,6 @@
-
+/*
+ * This is the page of session listings.
+ */
 (function() {
 
   DrupalCon.ui.createSessionsWindow = function(settings) {
@@ -21,20 +23,10 @@
 
     var conn = Drupal.db.getConnection('main');
     var rows = conn.query("SELECT nid, title, changed, start_date, end_date FROM node WHERE start_date >= ? AND end_date <= ? ORDER BY start_date, nid", [settings.start_date, settings.end_date]);
-
+    var header = '';
+    var rowData = [];
     while (rows.isValidRow()) {
-      // If it is a new time, start a new section.
-      if (lastTime == '' || rows.fieldByName('start_date') != lastTime) {
-        lastTime = rows.fieldByName('start_date');
-        data.push({
-          title: cleanTime(lastTime) + " - " + cleanTime(rows.fieldByName('end_date')),
-          hasChild: false,
-          backgroundColor:'#7187A4',
-          color:'#fff',
-          height:20
-        })
-      }
-      data.push({
+      rowData = ({
         title: rows.fieldByName('title'),
         hasChild: true,
         selectedColor: '#fff',
@@ -44,12 +36,15 @@
         end_date: rows.fieldByName('end_date'),
         nid: rows.fieldByName('nid')
       });
-      //Titanium.API.info('Nid: ' + rows.fieldByName('nid') + ', Start: ' + rows.fieldByName('start_date') + ', End: ' + rows.fieldByName('end_date')  + ', Changed: ' + rows.fieldByName('changed') + ', Title: ' + rows.fieldByName('title'));
+      // If there is a new session time, insert a header in the table.
+      if (lastTime == '' || rows.fieldByName('start_date') != lastTime) {
+        lastTime = rows.fieldByName('start_date');
+        rowData.header = cleanTime(lastTime) + " - " + cleanTime(rows.fieldByName('end_date'));
+      }
+      data.push(rowData);
       rows.next();
     }
     rows.close();
-    // Ti.API.info(data);
-
 
     // create table view
     var tableview = Titanium.UI.createTableView({

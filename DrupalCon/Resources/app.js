@@ -51,7 +51,8 @@ Ti.include(
   'windows/StarredWindow.js',
   'windows/MoreWindow.js',
   'windows/SessionsWindow.js',
-  'windows/SessionDetailWindow.js'
+  'windows/SessionDetailWindow.js',
+  'windows/PresenterDetailWindow.js'
 );
 
 Ti.include('windows/main.js');
