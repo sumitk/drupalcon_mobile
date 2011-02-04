@@ -31,7 +31,7 @@
       textAlign: 'left',
       layout:'vertical'
     });
-    var headerRow = Ti.UI.createTableViewRow({height:90,backgroundColor:blueBg});
+    var headerRow = Ti.UI.createTableViewRow({height:110,backgroundColor:blueBg});
     var twitterRow = Ti.UI.createTableViewRow({hasChild:true,height:40});
     var linkedinRow = Ti.UI.createTableViewRow({hasChild:true,height:40});
     var facebookRow = Ti.UI.createTableViewRow({hasChild:true,height:40});
@@ -39,9 +39,9 @@
 
     // Content
     var avatar = Ti.UI.createImageView({
-      height: 80,
-      width: 80,
-      image:'images/userpictdefault2.png',
+      height: 110,
+      width: 110,
+      image:'images/userpictdefault6-bigger.png',
       top: 0,
       left: 0
     });
@@ -53,7 +53,7 @@
       textAlign: 'left',
       color: '#000',
       height: 'auto',
-      left: 90,
+      left: 120,
       top: 15,
       width: itemWidth
     });
@@ -65,7 +65,7 @@
       textAlign: 'left',
       color: '#999',
       height: 'auto',
-      left: 90,
+      left: 120,
       top: 44,
       width: itemWidth
     });
@@ -74,11 +74,10 @@
     var company = Ti.UI.createLabel({
       text:presenterData.data.company,
       font:{fontSize: 14, fontWeight: 'bold'},
-      backgroundColor: '#fff',
       textAlign: 'left',
       color: '#999',
       height: 'auto',
-      left: 90,
+      left: 120,
       top: 64,
       width: itemWidth
     });

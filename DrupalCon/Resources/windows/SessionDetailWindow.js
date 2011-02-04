@@ -114,7 +114,7 @@
         className:"row",
         borderColor:'#fff',
         hasChild:true,
-        leftImage:'images/userpictdefault2.png'
+        leftImage:'images/userpictdefault6.png'
       });
       presenterFullName2[i] = Ti.UI.createLabel({
         text:presenterData[i].fullName,
