@@ -13,6 +13,7 @@ Ti.include(
   'drupal/db.js',
   'drupal/entity.js',
 
+  'drupalcon/drupalcon.js',
   'drupalcon/entity.js'
   // "lib/twitter_services.js"
 );
@@ -38,11 +39,6 @@ Drupal.db.addConnectionInfo('main');
 
 // Download tests, for now.  These must get moved eventually.
 Drupal.db.errorMode = Drupal.db.ERROR_LEVEL_DEBUG;
-
-var DrupalCon = {
-  ui: {}
-};
-
 
 Ti.include(
   'windows/DayWindow.js',

@@ -39,7 +39,6 @@ function getPresenterData(names) {
   return nameList;
 }
 
-
 function isAndroid (){
   if(Ti.Platform.name == 'android') {
     return true;
