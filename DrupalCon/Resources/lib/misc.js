@@ -72,12 +72,21 @@ function dpm(vars) {
  * Clean up some of the special characters we are running into.
  */
 function cleanSpecialChars(str) {
-  str = str.replace(/&quot;/g,'"');
-  str = str.replace(/&amp;/g,"&");
-  str = str.replace(/&lt;/g,"<");
-  str = str.replace(/&gt;/g,">");
-  str = str.replace(/&#039;/g, "'");
-  return str;
+  // Because otherwise the code below would explode.
+  if (str == null) {
+    return '';
+  }
+
+  if (typeof str === 'string') {
+    return  str
+      .replace(/&quot;/g,'"')
+      .replace(/&amp;/g,"&")
+      .replace(/&lt;/g,"<")
+      .replace(/&gt;/g,">")
+      .replace(/&#039;/g, "'")
+  }
+
+  return '';
 }
 
 /**
