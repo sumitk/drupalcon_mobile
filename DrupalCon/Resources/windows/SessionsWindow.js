@@ -31,11 +31,7 @@
     }
     rows.close();
 
-    var sessions = Drupal.entity.db('main', 'node').loadMultiple(nids, ['start_date', 'nid']);
-
-    var session;
-    for (var sessionNum = 0, numSessions = sessions.length; sessionNum < numSessions; sessionNum++) {
-      session = sessions[sessionNum];
+    function renderSession(session) {
       var sessionRow = Ti.UI.createTableViewRow({
         hasChild: true,
         selectedColor: '#fff',
@@ -111,6 +107,13 @@
       })
       sessionRow.add(sessionRoom);
 
+      return sessionRow;
+    }
+
+    var sessions = Drupal.entity.db('main', 'node').loadMultiple(nids, ['start_date', 'nid']);
+
+    for (var sessionNum = 0, numSessions = sessions.length; sessionNum < numSessions; sessionNum++) {
+      sessionRow = renderSession(sessions[sessionNum]);
       data.push(sessionRow);
     }
 
