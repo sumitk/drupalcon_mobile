@@ -87,8 +87,8 @@
       }
       else {
         // Force what is likely an object to an array.
-        for (var i in session.room) {
-          rooms.push(session.room[i]);
+        for (var r in session.room) {
+          rooms.push(session.room[r]);
         }
       }
       sessionRow.add(Ti.UI.createLabel({
