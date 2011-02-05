@@ -184,14 +184,17 @@ Drupal.entity.Datastore.prototype.load = function(id) {
  *
  * @todo Figure out some way to control the order
  *   in which the entities are returned.
- * @param Array ids
+ * @param {Array} ids
  *   An array of entity IDs to load.
- * @return Array
+ * @param {Array} order
+ *   The fields by which to order the query.  Each array element is a field by
+ *   which to order.  If Descending order, it should include DESC in the string.
+ * @return {Array}
  *   An array of loaded entity objects.  If none were found
  *   the array will be empty. Note that the order of entities
  *   in the array is undefined.
  */
-Drupal.entity.Datastore.prototype.loadMultiple = function(ids) {
+Drupal.entity.Datastore.prototype.loadMultiple = function(ids, order) {
 
   var entities = [];
 
@@ -201,7 +204,13 @@ Drupal.entity.Datastore.prototype.loadMultiple = function(ids) {
     placeholders.push('?');
   }
 
-  var rows = this.connection.query('SELECT data FROM ' + this.entityType + ' WHERE ' + this.idField + ' IN (' + placeholders.join(', ') + ')', ids);
+  var query = 'SELECT data FROM ' + this.entityType + ' WHERE ' + this.idField + ' IN (' + placeholders.join(', ') + ')';
+
+  if (order !== undefined) {
+    query += ' ORDER BY ' + order.join(', ');
+  }
+
+  var rows = this.connection.query(query, ids);
 
   if (rows) {
     while (rows.isValidRow()) {
