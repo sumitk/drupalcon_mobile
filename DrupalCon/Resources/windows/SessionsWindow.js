@@ -51,6 +51,8 @@
     rows.close();
 
     function renderSession(session) {
+      var sessionTitle = cleanSpecialChars(session.title);
+
       var sessionRow = Ti.UI.createTableViewRow({
         hasChild: true,
         selectedColor: '#fff',
@@ -60,7 +62,7 @@
         start_date: session.start_date,
         end_date: session.end_date,
         nid: session.nid,
-        sessionTitle: cleanSpecialChars(session.title),
+        sessionTitle: sessionTitle,
         height: 'auto',
         layout: 'vertical'
       });
@@ -72,7 +74,7 @@
       }
 
       sessionRow.add(Ti.UI.createLabel({
-        text: cleanSpecialChars(session.title),
+        text: sessionTitle,
         font: {fontSize:18, fontWeight:'bold'},
         left: 10,
         top: 10,
@@ -157,7 +159,6 @@
 
     // add table view to the window
     sessionsWindow.add(tableview);
-
 
     return sessionsWindow;
   };
