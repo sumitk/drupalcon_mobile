@@ -14,18 +14,7 @@ function getPresenterData(names) {
     instructors = sessionInstructors;
   }
 
-  for(var i in instructors) {
-    var rows = Drupal.db.getConnection('main').query("SELECT data,full_name FROM user WHERE name = ?", [instructors[i]]);
-    while (rows.isValidRow()) {
-      presenterData.push({
-        'data': JSON.parse(rows.fieldByName('data')),
-        'fullName': rows.fieldByName('full_name')
-      });
-      rows.next();
-    }
-    rows.close();
-  }
-  return presenterData;
+  return Drupal.entity.db('main', 'node').loadMultiple(instructors);
 }
 
 
