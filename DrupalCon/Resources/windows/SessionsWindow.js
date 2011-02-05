@@ -26,7 +26,6 @@
 
     var nids = [];
     while(rows.isValidRow()) {
-      Ti.API.info('Nid is: ' + rows.fieldByName('nid'));
       nids.push(rows.fieldByName('nid'));
       rows.next();
     }
@@ -35,7 +34,6 @@
     var sessions = Drupal.entity.db('main', 'node').loadMultiple(nids, ['start_date', 'nid']);
 
     var session;
-    Ti.API.info('Num sessions: ' + sessions.length);
     for (var sessionNum = 0, numSessions = sessions.length; sessionNum < numSessions; sessionNum++) {
       session = sessions[sessionNum];
       var sessionRow = Ti.UI.createTableViewRow({
@@ -78,20 +76,8 @@
       sessionRow.add(sessionTrack);
 
       // Some sessions have multiple presenters
-      var names = getPresenterData(session.instructors);
-
-      var nameList = '';
-      for(var i in names) {
-        if (names[i].fullName) {
-          nameList += names[i].fullName + ', ';
-        }
-        else {
-          nameList += names[i].data.name + ', ';
-        }
-      }
-      nameList = nameList.slice(0, nameList.length-2)
       var instructors = Ti.UI.createLabel({
-        text: nameList,
+        text: getPresenterData(session.instructors).join(', '),
         font: {fontSize:10, fontWeight:'normal'},
         left: 10,
         top: 'auto',

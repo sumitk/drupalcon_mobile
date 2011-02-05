@@ -4,17 +4,40 @@
 function getPresenterData(names) {
   var presenterData = [];
 
-  var sessionInstructors = names;
   // Instructors may be single (string) or multiple (object), this part works.
   var instructors = [];
-  if (typeof sessionInstructors === 'string') {
-    instructors.push(sessionInstructors);
+  if (typeof names === 'string') {
+    instructors.push(names);
   }
   else {
-    instructors = sessionInstructors;
+    // Force what is likely an object to an array.
+    for (var i in names) {
+      instructors.push(names[i]);
+    }
   }
 
-  return Drupal.entity.db('main', 'node').loadMultiple(instructors);
+  var numPlaceholders = instructors.length;
+  var placeholders = [];
+  for (var i=0; i < numPlaceholders; i++) {
+    placeholders.push('?');
+  }
+
+  var rows = Drupal.db.getConnection('main').query("SELECT name, full_name FROM user WHERE name IN (" + placeholders.join(', ') + ')', instructors);
+
+  var nameList = [];
+  if (rows) {
+    while (rows.isValidRow()) {
+      if (rows.fieldByName('full_name')) {
+        nameList.push(rows.fieldByName('full_name'));
+      }
+      else {
+        nameList.push(rows.fieldByName('name'));
+      }
+      rows.next();
+    }
+  }
+
+  return nameList;
 }
 
 
