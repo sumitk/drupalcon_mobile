@@ -78,7 +78,6 @@ Drupal.entity.Datastore.prototype.save = function(entity) {
  */
 Drupal.entity.Datastore.prototype.insert = function(entity) {
   //Ti.API.debug('In Datastore.insert()');
-  var data = JSON.stringify(entity);
 
   var fields = {};
 
@@ -102,7 +101,7 @@ Drupal.entity.Datastore.prototype.insert = function(entity) {
   }
 
   // And finally, store the serialized entity object.
-  fields.data = data;
+  fields.data = JSON.stringify(entity);
 
    // Ensure that the schema table exists.
   if (!this.connection.tableExists(this.entityType)) {
