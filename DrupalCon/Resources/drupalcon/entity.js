@@ -99,7 +99,8 @@ Drupal.entity.sites.main.types.user.schema = {
         }
       },
       indexes: {
-        full_name_idx: ['full_name']
+        full_name_idx: ['full_name'],
+        name_idx: ['name']
       }
     };
   },
