@@ -3,6 +3,25 @@
  */
 (function() {
 
+  // Pre-compute this list once, since it's not going to change in one run
+  // of the program (presumably).
+  var presenterList = {};
+  function getPresenterList() {
+    if (!Object.keys(presenterList).length) {
+      var rows = Drupal.db.getConnection('main').query('SELECT name, full_name FROM user');
+      while (rows.isValidRow()) {
+        presenterList[rows.fieldByName('name')] = rows.fieldByName('full_name');
+        rows.next();
+      }
+    }
+    return presenterList;
+  }
+
+  // Clear the presenter list cache when we update data.
+  Ti.addEventListener('drupal:entity:datastore:update_completed', function(e) {
+    presenterList= {};
+  });
+
   DrupalCon.ui.createSessionsWindow = function(settings) {
     Drupal.setDefaults(settings, {
       title: 'title here',
@@ -70,8 +89,18 @@
       }));
 
       // Some sessions have multiple presenters
+      var presenters = getPresenterList();
+      var instructorList = [];
+      if (typeof session.instructors == 'string') {
+        instructorList.push(session.instructors);
+      }
+      else {
+        for (var i in session.instructors) {
+          instructorList.push(presenters[session.instructors[i]]);
+        }
+      }
       sessionRow.add(Ti.UI.createLabel({
-        text: getPresenterData(session.instructors).join(', '),
+        text: instructorList.join(', '),
         font: {fontSize:10, fontWeight:'normal'},
         left: 10,
         top: 'auto',
