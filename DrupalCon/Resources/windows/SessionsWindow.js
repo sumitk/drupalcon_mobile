@@ -10,7 +10,7 @@
       end_date: '',
       tabGroup: undefined
     });
-  
+
     var sessionsWindow = Titanium.UI.createWindow({
       id: 'sessionsWindow',
       title: 'Sessions',

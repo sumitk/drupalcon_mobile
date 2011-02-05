@@ -2,7 +2,6 @@
  * Build presenter data blob
  */
 function getPresenterData(names) {
-  var presenterData = [];
 
   // Instructors may be single (string) or multiple (object), this part works.
   var instructors = [];
