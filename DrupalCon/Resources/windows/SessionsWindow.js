@@ -91,18 +91,8 @@
       }));
 
       // Some sessions have multiple presenters
-      var presenters = getPresenterList();
-      var instructorList = [];
-      if (typeof session.instructors == 'string') {
-        instructorList.push(session.instructors);
-      }
-      else {
-        for (var i in session.instructors) {
-          instructorList.push(presenters[session.instructors[i]]);
-        }
-      }
       sessionRow.add(Ti.UI.createLabel({
-        text: instructorList.join(', '),
+        text: session.instructors.join(', '),
         font: {fontSize:10, fontWeight:'normal'},
         left: 10,
         top: 'auto',
@@ -112,18 +102,8 @@
       }));
 
       // Some things, like keynote, have multiple rooms
-      var rooms = [];
-      if (typeof session.room === 'string') {
-        rooms.push(session.room);
-      }
-      else {
-        // Force what is likely an object to an array.
-        for (var r in session.room) {
-          rooms.push(session.room[r]);
-        }
-      }
       sessionRow.add(Ti.UI.createLabel({
-        text: rooms.map(cleanSpecialChars).join(', '),
+        text: session.room.map(cleanSpecialChars).join(', '),
         font: {fontSize:12, fontWeight:'bold'},
         left: 10,
         top: 'auto',
