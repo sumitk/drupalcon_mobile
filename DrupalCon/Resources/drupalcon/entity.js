@@ -106,10 +106,14 @@ Drupal.entity.sites.main.types.user.schema = {
   },
 
   getFieldValues: function(entity, values) {
-    //values.created = entity.created;
 
+    // We always need a full name field for display, so normalize it here
+    // rather than on display.
     if (entity.full_name) {
       values.full_name = entity.full_name;
+    }
+    else {
+      values.full_name = entity.name;
     }
 
   },
