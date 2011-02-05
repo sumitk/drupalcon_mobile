@@ -52,27 +52,25 @@
         sessionRow.header = cleanTime(lastTime) + " - " + cleanTime(session.end_date);
       }
 
-      var sessionTitle = Ti.UI.createLabel({
+      sessionRow.add(Ti.UI.createLabel({
         text: cleanSpecialChars(session.title),
         font: {fontSize:18, fontWeight:'bold'},
         left: 10,
         top: 10,
         right: 10,
         height: 'auto'
-      })
-      sessionRow.add(sessionTitle);
+      }));
 
-      var sessionTrack = Ti.UI.createLabel({
+      sessionRow.add(Ti.UI.createLabel({
         text: session.track + " track",
         font: {fontSize:12, fontWeight:'bold'},
         left: 10,
         right: 10,
         height: 'auto'
-      })
-      sessionRow.add(sessionTrack);
+      }));
 
       // Some sessions have multiple presenters
-      var instructors = Ti.UI.createLabel({
+      sessionRow.add(Ti.UI.createLabel({
         text: getPresenterData(session.instructors).join(', '),
         font: {fontSize:10, fontWeight:'normal'},
         left: 10,
@@ -80,8 +78,7 @@
         bottom: 10,
         right: 10,
         height: 'auto'
-      })
-      sessionRow.add(instructors);
+      }));
 
       // Some things, like keynote, have multiple rooms
       var room = [];
@@ -96,7 +93,7 @@
         roomNames += cleanSpecialChars(room[i]) + ', ';
       }
       roomNames = roomNames.slice(0, roomNames.length-2)
-      var sessionRoom = Ti.UI.createLabel({
+      sessionRow.add(Ti.UI.createLabel({
         text:roomNames,
         font:{fontSize:12, fontWeight:'bold'},
         left: 10,
@@ -104,8 +101,7 @@
         bottom: 10,
         right: 10,
         height: 'auto'
-      })
-      sessionRow.add(sessionRoom);
+      }));
 
       return sessionRow;
     }
