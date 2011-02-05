@@ -222,45 +222,50 @@ Drupal.db.Connection.prototype.query = function(stmt, args) {
   // Addendum: I already tried the method described here, and it didn't work:
   // http://developer.appcelerator.com/question/14591/having-trouble-wrapping-a-db-object#105841
   var result;
-  switch (args.length) {
-    case 0:
-      result = this.connection.execute(stmt);
-      break;
-    case 1:
-      result = this.connection.execute(stmt, args[0]);
-      break;
-    case 2:
-      result = this.connection.execute(stmt, args[0], args[1]);
-      break;
-    case 3:
-      result = this.connection.execute(stmt, args[0], args[1], args[2]);
-      break;
-    case 4:
-      result = this.connection.execute(stmt, args[0], args[1], args[2], args[3]);
-      break;
-    case 5:
-      result = this.connection.execute(stmt, args[0], args[1], args[2], args[3], args[4]);
-      break;
-    case 6:
-      result = this.connection.execute(stmt, args[0], args[1], args[2], args[3], args[4], args[5]);
-      break;
-    case 7:
-      result = this.connection.execute(stmt, args[0], args[1], args[2], args[3], args[4], args[5], args[6]);
-      break;
-    case 8:
-      result = this.connection.execute(stmt, args[0], args[1], args[2], args[3], args[4], args[5], args[6], args[7]);
-      break;
-    case 9:
-      result = this.connection.execute(stmt, args[0], args[1], args[2], args[3], args[4], args[5], args[6], args[7], args[8]);
-      break;
-    case 10:
-      result = this.connection.execute(stmt, args[0], args[1], args[2], args[3], args[4], args[5], args[6], args[7], args[8], args[9]);
-      break;
-    default:
-      Ti.API.error('Too many query parameters: ' + args.length);
-      throw new Error('Too many query paramters: ' + args.length);
-  }
 
+  if (isAndroid()) {
+    result = this.connection.execute(stmt, args);
+  }
+  else {
+      switch (args.length) {
+        case 0:
+          result = this.connection.execute(stmt);
+          break;
+        case 1:
+          result = this.connection.execute(stmt, args[0]);
+          break;
+        case 2:
+          result = this.connection.execute(stmt, args[0], args[1]);
+          break;
+        case 3:
+          result = this.connection.execute(stmt, args[0], args[1], args[2]);
+          break;
+        case 4:
+          result = this.connection.execute(stmt, args[0], args[1], args[2], args[3]);
+          break;
+        case 5:
+          result = this.connection.execute(stmt, args[0], args[1], args[2], args[3], args[4]);
+          break;
+        case 6:
+          result = this.connection.execute(stmt, args[0], args[1], args[2], args[3], args[4], args[5]);
+          break;
+        case 7:
+          result = this.connection.execute(stmt, args[0], args[1], args[2], args[3], args[4], args[5], args[6]);
+          break;
+        case 8:
+          result = this.connection.execute(stmt, args[0], args[1], args[2], args[3], args[4], args[5], args[6], args[7]);
+          break;
+        case 9:
+          result = this.connection.execute(stmt, args[0], args[1], args[2], args[3], args[4], args[5], args[6], args[7], args[8]);
+          break;
+        case 10:
+          result = this.connection.execute(stmt, args[0], args[1], args[2], args[3], args[4], args[5], args[6], args[7], args[8], args[9]);
+          break;
+        default:
+          Ti.API.error('Too many query parameters: ' + args.length);
+          throw new Error('Too many query paramters: ' + args.length);
+      }
+  }
 
   // This is the correct way to do it, if only the iOS implementation wasn't crap.
   //var result = this.connection.execute(stmt, args);
