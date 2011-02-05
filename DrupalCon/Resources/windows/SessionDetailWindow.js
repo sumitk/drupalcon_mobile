@@ -61,11 +61,11 @@
     });
     textView.add(titleLabel);
 
-    for (var i in presenterData) {
+    for (var i = 0, numPresenters = sessionData.instructors.length; i < numPresenters; i++) {
       var presenterName = Ti.UI.createLabel({
-        text: presenterData[i].fullName,
+        text: DrupalCon.util.getPresenterName(sessionData.instructors[i]),
         backgroundColor: '#fff',
-        font:{fontSize: 18, fontWeight: 'bold'},
+        font: {fontSize: 18, fontWeight: 'bold'},
         textAlign: 'left',
         color: '#000',
         height: 'auto',
