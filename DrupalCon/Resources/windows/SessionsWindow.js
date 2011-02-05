@@ -122,12 +122,7 @@
 
     // create table view event listener
     tableview.addEventListener('click', function(e) {
-      if (Ti.Platform.name == 'android') {
-        var currentTab = Titanium.UI.currentTab;
-      }
-      else {
-        var currentTab = sessionsWindow.tabGroup.activeTab;
-      }
+      var currentTab = (Ti.Platform.name == 'android') ? currentTab = Titanium.UI.currentTab : sessionsWindow.tabGroup.activeTab;
       currentTab.open(DrupalCon.ui.createSessionDetailWindow({
         title: e.rowData.sessionTitle,
         nid: e.rowData.nid,
