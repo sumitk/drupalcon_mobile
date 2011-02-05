@@ -81,21 +81,19 @@
       }));
 
       // Some things, like keynote, have multiple rooms
-      var room = [];
+      var rooms = [];
       if (typeof session.room === 'string') {
-        room.push(session.room);
+        rooms.push(session.room);
       }
       else {
-        room = session.room;
+        // Force what is likely an object to an array.
+        for (var i in session.room) {
+          rooms.push(session.room[i]);
+        }
       }
-      var roomNames = '';
-      for(var i in room) {
-        roomNames += cleanSpecialChars(room[i]) + ', ';
-      }
-      roomNames = roomNames.slice(0, roomNames.length-2)
       sessionRow.add(Ti.UI.createLabel({
-        text:roomNames,
-        font:{fontSize:12, fontWeight:'bold'},
+        text: rooms.map(cleanSpecialChars).join(', '),
+        font: {fontSize:12, fontWeight:'bold'},
         left: 10,
         top: 'auto',
         bottom: 10,
