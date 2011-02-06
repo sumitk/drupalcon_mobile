@@ -54,8 +54,6 @@
       var user = sortedNames[i].split(':');
       var uid = user[1];
       var name = user[0];
-      dpm("Name: " + name + ", Uid: " + uid);
-
       presenterRow = Ti.UI.createTableViewRow({
         title:name,
         hasChild: true,
@@ -79,9 +77,11 @@
     
 
     // Create the table view
+    var search = Titanium.UI.createSearchBar();
     var tableview = Titanium.UI.createTableView({
       backgroundColor: '#fff',
-      data: data
+      data: data,
+      search: search
     });
     tableview.index = index;
 
