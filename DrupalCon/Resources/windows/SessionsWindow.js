@@ -92,13 +92,13 @@
       height: 'auto'
     }));
 
-    sessionRow.add(Ti.UI.createLabel({
-      text: session.track + " track",
-      font: {fontSize:12, fontWeight:'bold'},
-      left: 10,
-      right: 10,
-      height: 'auto'
-    }));
+//      sessionRow.add(Ti.UI.createLabel({
+//        text: session.track + " track",
+//        font: {fontSize:12, fontWeight:'bold'},
+//        left: 10,
+//        right: 10,
+//        height: 'auto'
+//      }));
 
     // Some sessions have multiple presenters
     sessionRow.add(Ti.UI.createLabel({

@@ -24,10 +24,10 @@
           var names = rows.fieldByName('full_name').split(' ');
           var lastName = names[names.length -1];
           var firstName = full.substr(0,full.length - (lastName.length + 1));
-          nameList.push(lastName + ', ' + firstName + ':' + rows.fieldByName('uid'));
+          nameList.push(lastName + ', ' + firstName + ':' + rows.fieldByName('uid') + ':' + rows.fieldByName('name'));
         }
         else {
-          nameList.push(rows.fieldByName('name') + ':' + rows.fieldByName('uid'));
+          nameList.push(rows.fieldByName('name') + ':' + rows.fieldByName('uid') + ':' + rows.fieldByName('name'));
         }
         rows.next();
       }
@@ -36,7 +36,7 @@
     // I want our list of names to have the usernames mixed in, and they usually
     // start with lowercase, so we need to create a custom sortorder that ignores case.
     function charOrdA(a, b) {
-      a = a.toLowerCase(); b = b.toLowerCase();
+      a = a.toLowerCase();b = b.toLowerCase();
       if (a > b) return 1;
       if (a < b) return -1;
       return 0;
@@ -52,19 +52,38 @@
 
     for (var i in sortedNames) {
       var user = sortedNames[i].split(':');
-      var uid = user[1];
-      var name = user[0];
-      dpm("Name: " + name + ", Uid: " + uid);
+      var uid = parseInt(user[1])+0;
+      var fullName = user[0] + '';
+      var shortName = user[2] + '';
+      var name = shortName;
+      if (fullName.charAt(fullName.length-2) == ',') {
+        fullName = fullName.slice(0, fullName.length - 2);
+      }
+      else {
+        name = fullName;
+      }
 
+      // dpm("Name: " + shortName + "  fullName: " + fullName + "  uid: " + uid + " -- Equal? : " + (fullName == name));
+      
       presenterRow = Ti.UI.createTableViewRow({
-        title:name,
         hasChild: true,
         selectedColor: '#fff',
         backgroundColor: '#fff',
+        selectedBackgroundColor:'#0779BE',
         color: '#000',
+        name: name,
         uid:uid
       });
 
+      presenterRow.add(Ti.UI.createLabel({
+        text: (fullName != shortName) ? fullName + ' - ' + shortName : shortName,
+        fontFamily:'sans-serif',
+        left: 10,
+        color: '#000'
+      }));
+
+      
+      
       // If there is a new last name first letter, insert a header in the table.
       // We also push a new index so we can create a right side index for iphone.
       if (headerLetter == '' || name.charAt(0).toUpperCase() != headerLetter) {
