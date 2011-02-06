@@ -28,7 +28,7 @@
 
     // Instructors may be single (string) or multiple (object), this part works.
     var presenterData = getPresenterData(sessionData.instructors);
-
+    dpm(presenterData);
     // Build the page:
     var tvData = [];
     var tv = Ti.UI.createTableView({
@@ -108,9 +108,8 @@
     for (var i in presenterData) {
       presRow[i] = Ti.UI.createTableViewRow({
         height:80,
-        uid:presenterData[i].data.uid,
-        name:presenterData[i].data.name,
-        data:presenterData[i],
+        uid:presenterData[i].uid,
+        name:DrupalCon.util.getPresenterName(sessionData.instructors[i]),
         className:"row",
         borderColor:'#fff',
         hasChild:true,
@@ -118,9 +117,8 @@
       });
       presenterFullName2[i] = Ti.UI.createLabel({
         text:presenterData[i].fullName,
-        uid:presenterData[i].data.uid,
-        name:presenterData[i].data.name,
-        data:presenterData[i],
+        uid:presenterData[i].uid,
+        name:presenterData[i].name,
         font:{fontSize:18, fontWeight:'bold'},
         left: 85,
         top: 10,
@@ -128,10 +126,9 @@
         height: 'auto'
       });
       presenterName2[i] = Ti.UI.createLabel({
-        text:presenterData[i].data.name,
-        uid:presenterData[i].data.uid,
-        name:presenterData[i].data.name,
-        data:presenterData[i],
+        text:presenterData[i].name,
+        uid:presenterData[i].uid,
+        name:presenterData[i].name,
         font:{fontSize:14, fontWeight:'normal'},
         left: 85,
         color:"#999",
@@ -151,7 +148,6 @@
           title: e.source.name,
           uid: e.source.uid,
           name: e.source.name,
-          data: e.source.data,
           tabGroup: Titanium.UI.currentTab
         }), {animated:true});
       });

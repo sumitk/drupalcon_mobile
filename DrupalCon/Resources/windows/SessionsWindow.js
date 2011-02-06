@@ -38,6 +38,7 @@
         hasChild: true,
         selectedColor: '#fff',
         backgroundColor: '#fff',
+        selectedBackgroundColor:'#0779BE',
         color: '#000',
         className: 'session-row',
         start_date: session.start_date,
@@ -53,46 +54,50 @@
         lastTime = session.start_date;
         sessionRow.header = cleanTime(lastTime) + " - " + cleanTime(session.end_date);
       }
+//
+//      sessionRow.add(Ti.UI.createLabel({
+//        text: session.track + " track",
+//        font: {fontSize:12, fontWeight:'bold'},
+//        left: 10,
+//        right: 10,
+//        height: 'auto'
+//      }));
 
+      // Some things, like keynote, have multiple rooms
       sessionRow.add(Ti.UI.createLabel({
-        text: sessionTitle,
-        font: {fontSize:18, fontWeight:'bold'},
-        left: 10,
-        top: 10,
-        right: 10,
-        height: 'auto'
-      }));
-
-      sessionRow.add(Ti.UI.createLabel({
-        text: session.track + " track",
+        text: session.room.map(cleanSpecialChars).join(', '),
         font: {fontSize:12, fontWeight:'bold'},
+        color:'#666',
         left: 10,
+        top: 5,
+        bottom: 10,
         right: 10,
-        height: 'auto'
+        height: 15,
+        width: 100
       }));
 
       // Some sessions have multiple presenters
       sessionRow.add(Ti.UI.createLabel({
         text: session.instructors.map(DrupalCon.util.getPresenterName).join(', '),
         font: {fontSize:10, fontWeight:'normal'},
-        left: 10,
-        top: 'auto',
+        color:'#666',
+        left: 110,
+        top: 5,
         bottom: 10,
         right: 10,
-        height: 'auto'
+        height: 15,
+        width: 100
       }));
 
-      // Some things, like keynote, have multiple rooms
       sessionRow.add(Ti.UI.createLabel({
-        text: session.room.map(cleanSpecialChars).join(', '),
-        font: {fontSize:12, fontWeight:'bold'},
+        text: sessionTitle,
+        font: {fontSize:18, fontWeight:'bold'},
+        color:'#000',
         left: 10,
-        top: 'auto',
-        bottom: 10,
+        top: 30,
         right: 10,
         height: 'auto'
       }));
-
       return sessionRow;
     }
 

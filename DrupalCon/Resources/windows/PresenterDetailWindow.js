@@ -10,7 +10,12 @@
 
     // var presenterData = settings.data;
     var presenterData = Drupal.entity.db('main', 'user').load(settings.uid);
-    presenterData.fullName = presenterData['full_name'];
+    if (presenterData['full_name']) {
+      presenterData.fullName = presenterData['full_name'];
+    }
+    else {
+      presenterData.fullName = '';
+    }
     var presenterDetailWindow = Titanium.UI.createWindow({
       id: 'presenterDetailWindow',
       title: presenterData.name,
