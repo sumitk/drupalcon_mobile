@@ -31,7 +31,7 @@
 
   tabGroup.addTab(Titanium.UI.createTab({
       icon: 'images/tabs/more.png',
-      title: 'More',
+      title: 'Presenters',
       window: DrupalCon.ui.createMoreWindow(tabGroup)
   }));
 

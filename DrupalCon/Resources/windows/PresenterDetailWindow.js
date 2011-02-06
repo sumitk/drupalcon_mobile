@@ -8,9 +8,12 @@
       tabGroup: undefined
     });
 
+    // var presenterData = settings.data;
+    var presenterData = Drupal.entity.db('main', 'user').load(settings.uid);
+    presenterData.fullName = presenterData['full_name'];
     var presenterDetailWindow = Titanium.UI.createWindow({
       id: 'presenterDetailWindow',
-      title: settings.title,
+      title: presenterData.name,
       backgroundColor: '#FFF',
       tabGroup: settings.tabGroup
     });
@@ -21,7 +24,8 @@
     else {
       var itemWidth = presenterDetailWindow.width - 40;
     }
-    var presenterData = settings.data;
+
+
     dpm(presenterData);
     var tvData = [];
     var blueBg = '#CAE2F4';
@@ -71,7 +75,7 @@
     headerRow.add(fullName);
 
     var name = Ti.UI.createLabel({
-      text:(presenterData.fullName != undefined) ? presenterData.data.name : '',
+      text:(presenterData.fullName != undefined) ? presenterData.name : '',
       font:{fontSize: 14, fontWeight: 'bold'},
       textAlign: 'left',
       color: '#999',
@@ -82,7 +86,7 @@
     headerRow.add(name);
 
     var company = Ti.UI.createLabel({
-      text:presenterData.data.company,
+      text:presenterData.company,
       font:{fontSize: 14, fontWeight: 'bold'},
       textAlign: 'left',
       color: '#999',
@@ -93,10 +97,10 @@
     headerRow.add(company);
     tvData.push(headerRow);
 
-    if (presenterData.data.twitter != undefined){
+    if (presenterData.twitter != undefined){
       var twitter = Ti.UI.createLabel({
-        text:"twitter: " + presenterData.data.name,
-        twitter:presenterData.data.twitter,
+        text:"twitter: " + presenterData.name,
+        twitter:presenterData.twitter,
         color:'#000',
         font:{fontSize: 14, fontWeight: 'bold'},
         left: 15,
@@ -120,16 +124,16 @@
       tvData.push(twitterRow);
     }
 
-    if (presenterData.data.linkedin != undefined){
-
-    }
-
-    if (presenterData.data.facebook != undefined){
-
-    }
+//    if (presenterData.data.linkedin != undefined){
+//
+//    }
+//
+//    if (presenterData.data.facebook != undefined){
+//
+//    }
 
     var bio = Ti.UI.createLabel({
-      text:presenterData.data.bio,
+      text:presenterData.bio,
       backgroundColor:'#fff',
       textAlign:'left',
       color:'#000',
