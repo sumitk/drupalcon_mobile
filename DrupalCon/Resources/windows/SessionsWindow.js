@@ -3,6 +3,8 @@
  */
 (function() {
 
+   var lastTime = '';
+
   DrupalCon.ui.createSessionsWindow = function(settings) {
     Drupal.setDefaults(settings, {
       title: 'title here',
@@ -18,7 +20,6 @@
       tabGroup: settings.tabGroup
     });
 
-    var lastTime = '';
     var data = [];
 
     var conn = Drupal.db.getConnection('main');
@@ -30,71 +31,6 @@
       rows.next();
     }
     rows.close();
-
-    function renderSession(session) {
-      var sessionTitle = cleanSpecialChars(session.title);
-
-      var sessionRow = Ti.UI.createTableViewRow({
-        hasChild: true,
-        selectedColor: '#fff',
-        backgroundColor: '#fff',
-        color: '#000',
-        className: 'session-row',
-        start_date: session.start_date,
-        end_date: session.end_date,
-        nid: session.nid,
-        sessionTitle: sessionTitle,
-        height: 'auto',
-        layout: 'vertical'
-      });
-
-      // If there is a new session time, insert a header in the table.
-      if (lastTime == '' || session.start_date != lastTime) {
-        lastTime = session.start_date;
-        sessionRow.header = cleanTime(lastTime) + " - " + cleanTime(session.end_date);
-      }
-
-      sessionRow.add(Ti.UI.createLabel({
-        text: sessionTitle,
-        font: {fontSize:18, fontWeight:'bold'},
-        left: 10,
-        top: 10,
-        right: 10,
-        height: 'auto'
-      }));
-
-      sessionRow.add(Ti.UI.createLabel({
-        text: session.track + " track",
-        font: {fontSize:12, fontWeight:'bold'},
-        left: 10,
-        right: 10,
-        height: 'auto'
-      }));
-
-      // Some sessions have multiple presenters
-      sessionRow.add(Ti.UI.createLabel({
-        text: session.instructors.map(DrupalCon.util.getPresenterName).join(', '),
-        font: {fontSize:10, fontWeight:'normal'},
-        left: 10,
-        top: 'auto',
-        bottom: 10,
-        right: 10,
-        height: 'auto'
-      }));
-
-      // Some things, like keynote, have multiple rooms
-      sessionRow.add(Ti.UI.createLabel({
-        text: session.room.map(cleanSpecialChars).join(', '),
-        font: {fontSize:12, fontWeight:'bold'},
-        left: 10,
-        top: 'auto',
-        bottom: 10,
-        right: 10,
-        height: 'auto'
-      }));
-
-      return sessionRow;
-    }
 
     var sessions = Drupal.entity.db('main', 'node').loadMultiple(nids, ['start_date', 'nid']);
 
@@ -123,6 +59,71 @@
 
     return sessionsWindow;
   };
+
+  function renderSession(session) {
+    var sessionTitle = cleanSpecialChars(session.title);
+
+    var sessionRow = Ti.UI.createTableViewRow({
+      hasChild: true,
+      selectedColor: '#fff',
+      backgroundColor: '#fff',
+      color: '#000',
+      className: 'session-row',
+      start_date: session.start_date,
+      end_date: session.end_date,
+      nid: session.nid,
+      sessionTitle: sessionTitle,
+      height: 'auto',
+      layout: 'vertical'
+    });
+
+    // If there is a new session time, insert a header in the table.
+    if (lastTime == '' || session.start_date != lastTime) {
+      lastTime = session.start_date;
+      sessionRow.header = cleanTime(lastTime) + " - " + cleanTime(session.end_date);
+    }
+
+    sessionRow.add(Ti.UI.createLabel({
+      text: sessionTitle,
+      font: {fontSize:18, fontWeight:'bold'},
+      left: 10,
+      top: 10,
+      right: 10,
+      height: 'auto'
+    }));
+
+    sessionRow.add(Ti.UI.createLabel({
+      text: session.track + " track",
+      font: {fontSize:12, fontWeight:'bold'},
+      left: 10,
+      right: 10,
+      height: 'auto'
+    }));
+
+    // Some sessions have multiple presenters
+    sessionRow.add(Ti.UI.createLabel({
+      text: session.instructors.map(DrupalCon.util.getPresenterName).join(', '),
+      font: {fontSize:10, fontWeight:'normal'},
+      left: 10,
+      top: 'auto',
+      bottom: 10,
+      right: 10,
+      height: 'auto'
+    }));
+
+    // Some things, like keynote, have multiple rooms
+    sessionRow.add(Ti.UI.createLabel({
+      text: session.room.map(cleanSpecialChars).join(', '),
+      font: {fontSize:12, fontWeight:'bold'},
+      left: 10,
+      top: 'auto',
+      bottom: 10,
+      right: 10,
+      height: 'auto'
+    }));
+
+    return sessionRow;
+  }
 
 })();
 
