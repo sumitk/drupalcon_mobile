@@ -39,7 +39,7 @@ Drupal.db.addConnectionInfo('main');
 Titanium.App.Properties.setString('drupalcon:fetcher:lastNodeUpdate:session', '2011-02-06T12:00:00');
 
 // Download tests, for now.  These must get moved eventually.
-Drupal.db.errorMode = Drupal.db.ERROR_LEVEL_DEBUG;
+//Drupal.db.errorMode = Drupal.db.ERROR_LEVEL_DEBUG;
 
 Ti.include(
   'windows/DayWindow.js',
