@@ -19,18 +19,9 @@
 
     // Build session data
     var sessionData = Drupal.entity.db('main', 'node').load(settings.nid);
-    var presenterData = [];
-    var instructors = sessionData['instructors'];
-    
-    for (var i in instructors) {
-      presenterData.push(Drupal.entity.db('main', 'user').load(instructors[i]));
-      dpm("presenterData[" + i + "]: " +presenterData[i]);
-    }
 
-    // Instructors may be single (string) or multiple (object), this part works.
-    //
-    // This getPresenterData() function only returns presenters full names
-    // var presenterData = getPresenterData(sessionData.instructors);
+    // Get the presenter information.
+    var presenterData = Drupal.entity.db('main', 'user').loadByField('name', sessionData.instructors);
     
     // Build the page:
     var tvData = [];
@@ -64,9 +55,9 @@
     });
     textView.add(titleLabel);
 
-    for (var i = 0, numPresenters = sessionData.instructors.length; i < numPresenters; i++) {
+    for (var i = 0, numPresenters = presenterData.length; i < numPresenters; i++) {
       var presenterName = Ti.UI.createLabel({
-        text: DrupalCon.util.getPresenterName(sessionData.instructors[i]),
+        text: presenterData[i].full_name,
         backgroundColor: '#fff',
         font: {fontSize: 18, fontWeight: 'bold'},
         textAlign: 'left',
@@ -110,40 +101,35 @@
 
     for (var i in presenterData) {
       presRow[i] = Ti.UI.createTableViewRow({
-        height:80,
-        uid:presenterData[i].uid,
-        name:DrupalCon.util.getPresenterName(sessionData.instructors[i]),
-        className:"row",
-        borderColor:'#fff',
-        hasChild:true,
-        leftImage:'images/userpictdefault6.png'
+        height: 80,
+        uid: presenterData[i].uid,
+        name: presenterData[i].full_name,
+        className: "row",
+        borderColor: '#fff',
+        hasChild: true,
+        leftImage: 'images/userpictdefault6.png'
       });
       presenterFullName2[i] = Ti.UI.createLabel({
-        text:presenterData[i].fullName,
-        font:{fontSize:18, fontWeight:'bold'},
+        text: presenterData[i].full_name,
+        font: {fontSize:18, fontWeight:'bold'},
         left: 85,
         top: 10,
         right: 15,
         height: 'auto'
       });
       presenterName2[i] = Ti.UI.createLabel({
-        text:presenterData[i].name,
+        text: presenterData[i].name,
         font:{fontSize:14, fontWeight:'normal'},
         left: 85,
-        color:"#999",
+        color: "#999",
         top: 40,
         right: 15,
         height: 'auto'
       });
 
       presRow[i].addEventListener('click', function(e) {
-        if (Ti.Platform.name == 'android') {
-          var currentTab = Titanium.UI.currentTab;
-        }
-        else {
-          var currentTab = sessionDetailWindow.tabGroup.activeTab;
-        }
-        dpm("e.source = " + e.source);
+        var currentTab = (Ti.Platform.name == 'android') ? Titanium.UI.currentTab : sessionDetailWindow.tabGroup.activeTab;
+        dpm("e.source = " + e.source.toString());
         currentTab.open(DrupalCon.ui.createPresenterDetailWindow({
           title: e.source.name,
           uid: e.source.uid,
