@@ -194,33 +194,7 @@ Drupal.entity.Datastore.prototype.load = function(id) {
  *   in the array is undefined.
  */
 Drupal.entity.Datastore.prototype.loadMultiple = function(ids, order) {
-
-  var entities = [];
-
-  var numPlaceholders = ids.length;
-  var placeholders = [];
-  for (var i=0; i < numPlaceholders; i++) {
-    placeholders.push('?');
-  }
-
-  var query = 'SELECT data FROM ' + this.entityType + ' WHERE ' + this.idField + ' IN (' + placeholders.join(', ') + ')';
-
-  if (order !== undefined) {
-    query += ' ORDER BY ' + order.join(', ');
-  }
-
-  var rows = this.connection.query(query, ids);
-
-  if (rows) {
-    while (rows.isValidRow()) {
-      var data = rows.fieldByName('data');
-      var entity = JSON.parse(data);
-      entities.push(entity);
-      rows.next();
-    }
-  }
-
-  return entities;
+  return this.loadByField(this.idField, ids, order);
 };
 
 /**
