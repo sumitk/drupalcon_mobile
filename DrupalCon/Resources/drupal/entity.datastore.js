@@ -224,6 +224,55 @@ Drupal.entity.Datastore.prototype.loadMultiple = function(ids, order) {
 };
 
 /**
+ * Load multiple entities from the datastore by a non-primary-key field.
+ *
+ * This function will return all records for which the "field" field is equal to
+ * one of the values in "values".
+ *
+ * @param {string} field
+ *   The field by which we want to load.  This must be a denormalized field,
+ *   either one of the standard fields or one specific to the entity being
+ *   requested.
+ * @param {Array} values
+ *   An array of values for records we want to retrieve.
+ * @param {Array} order
+ *   The fields by which to order the query.  Each array element is a field by
+ *   which to order.  If Descending order, it should include DESC in the string.
+ *   If no order is specified then the order of results is undefined.
+ * @return {Array}
+ *   An array of loaded entity objects.  If none were found the array will be
+ *   empty.
+ */
+Drupal.entity.Datastore.prototype.loadByField = function(field, values, order) {
+
+  var entities = [];
+
+  var placeholders = [];
+  for (var i=0, numPlaceholders = values.length; i < numPlaceholders; i++) {
+    placeholders.push('?');
+  }
+
+  var query = 'SELECT data FROM ' + this.entityType + ' WHERE ' + field + ' IN (' + placeholders.join(', ') + ')';
+
+  if (order !== undefined) {
+    query += ' ORDER BY ' + order.join(', ');
+  }
+
+  var rows = this.connection.query(query, values);
+
+  if (rows) {
+    while (rows.isValidRow()) {
+      var data = rows.fieldByName('data');
+      var entity = JSON.parse(data);
+      entities.push(entity);
+      rows.next();
+    }
+  }
+
+  return entities;
+}
+
+/**
  * Remove an entity from the datastore.
  *
  * This would be called delete(), but that's a reserved word
