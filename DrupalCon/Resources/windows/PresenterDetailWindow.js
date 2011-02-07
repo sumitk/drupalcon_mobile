@@ -16,6 +16,9 @@
     else {
       presenterData.fullName = '';
     }
+
+    var sessions = getRelatedSessions(presenterData.name);
+
     var presenterDetailWindow = Titanium.UI.createWindow({
       id: 'presenterDetailWindow',
       title: presenterData.name,
@@ -145,6 +148,22 @@
     presenterDetailWindow.add(tv);
     return presenterDetailWindow;
   };
+
+  function getRelatedSessions(name) {
+    var conn = Drupal.db.getConnection('main');
+    var rows = conn.query("SELECT nid, title FROM node WHERE instructors LIKE ? ORDER BY start_date, nid", ['%' + name + '%']);
+
+    var nids = [];
+    while(rows.isValidRow()) {
+      nids.push(rows.fieldByName('nid'));
+      rows.next();
+    }
+    rows.close();
+
+    var sessions = Drupal.entity.db('main', 'node').loadMultiple(nids, ['start_date', 'nid']);
+
+    return sessions;
+  }
 
 })();
 
