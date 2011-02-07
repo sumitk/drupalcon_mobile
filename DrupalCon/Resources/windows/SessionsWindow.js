@@ -70,7 +70,6 @@
   };
 
   function renderSession(session) {
-    dpm(session);
     var sessionTitle = cleanSpecialChars(session.title);
 
     var sessionRow = Ti.UI.createTableViewRow({
