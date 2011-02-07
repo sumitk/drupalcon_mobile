@@ -107,7 +107,21 @@ Drupal.entity.sites.main.types.node.schema = {
    *   A callback function to call after the fetching process has been completed.
    */
   defaultFetcher: function(bundle, store, func) {
-    this.prototype.defaultFetcher.apply(this, [bundle, store, func, 'http://chicago2011.drupal.org/mobile/fetch/' + bundle]);
+    // Set the base URL.
+    var url = 'http://chicago2011.drupal.org/mobile/fetch/' + bundle;
+
+    //Only get those nodes that have been updated since we last requested an update.
+    // This is bound to the view we're pulling from and configured there.
+    // Note that we're using an ISO date rather than a unix timestamp because
+    // the view doesn't work with a timestamp for some odd reason.
+    var lastUpdated = Titanium.App.Properties.getString('drupalcon:fetcher:lastNodeUpdate:' + bundle, '');
+    url += '?changed=' + lastUpdated;
+
+    this.prototype.defaultFetcher.apply(this, [bundle, store, func, url]);
+
+    // We need the date in UTC format, because that's what Drupal uses on its
+    // side for the updated timestamp.
+    Ti.App.Properties.setString('drupalcon:fetcher:lastNodeUpdate:' + bundle, Drupal.getISODate(new Date(), true));
   }
 };
 
