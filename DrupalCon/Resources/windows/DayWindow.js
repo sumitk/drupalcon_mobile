@@ -1,6 +1,8 @@
 
 (function() {
 
+  var uiEnabled = true;
+
   DrupalCon.ui.createDayWindow = function(tabGroup) {
 
     // create table view data object
@@ -27,21 +29,22 @@
     // add table view to the window
     dayWindow.add(tableview);
 
+    dayWindow.addEventListener('focus', function() {
+      uiEnabled = true;
+    });
+
     // create table view event listener
     tableview.addEventListener('click', function(e) {
-      // @TODO - This line breaks in iOS, says currentTab is undefined.
-      if (Ti.Platform.name == 'android') {
-        var currentTab = Titanium.UI.currentTab;
+      if (uiEnabled) {
+        uiEnabled = false;
+        var currentTab = (Ti.Platform.name == 'android') ? Titanium.UI.currentTab : dayWindow.tabGroup.activeTab;
+        currentTab.open(DrupalCon.ui.createSessionsWindow({
+          title: e.rowData.title,
+          start_date: e.rowData.start_date,
+          end_date: e.rowData.end_date,
+          tabGroup: Titanium.UI.currentTab
+        }), {animated:true});
       }
-      else {
-        var currentTab = dayWindow.tabGroup.activeTab;
-      }
-      currentTab.open(DrupalCon.ui.createSessionsWindow({
-        title: e.rowData.title,
-        start_date: e.rowData.start_date,
-        end_date: e.rowData.end_date,
-        tabGroup: Titanium.UI.currentTab
-      }), {animated:true});
     });
 
     dayWindow.addEventListener('open', function() {

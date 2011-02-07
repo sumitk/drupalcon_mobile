@@ -1,6 +1,9 @@
 
 (function() {
 
+  var uiEnabled = true;
+
+
   DrupalCon.ui.createMoreWindow = function(tabGroup) {
     var moreWindow = Titanium.UI.createWindow({
       id: 'moreWindow',
@@ -104,19 +107,27 @@
     });
     tableview.index = index;
 
+    moreWindow.addEventListener('focus', function() {
+      uiEnabled = true;
+    });
+
     // create table view event listener
     tableview.addEventListener('click', function(e) {
-    	if (e.index == 0)
-      tableview.index = index2;
-      // event data
-      var index = e.index;
-      var currentTab = (Ti.Platform.name == 'android') ? currentTab = Titanium.UI.currentTab : moreWindow.tabGroup.activeTab;
-      currentTab.open(DrupalCon.ui.createPresenterDetailWindow({
+      if (uiEnabled) {
+        uiEnabled = false;
+        if (e.index == 0) {
+          tableview.index = index2;
+        }
+        // event data
+        var index = e.index;
+        var currentTab = (Ti.Platform.name == 'android') ? currentTab = Titanium.UI.currentTab : moreWindow.tabGroup.activeTab;
+        currentTab.open(DrupalCon.ui.createPresenterDetailWindow({
           title: e.rowData.name,
           uid: e.rowData.uid,
           name: e.rowData.name,
           tabGroup: Titanium.UI.currentTab
         }), {animated:true});
+      }
     });
 
     // add table view to the window
