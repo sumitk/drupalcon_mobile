@@ -72,7 +72,7 @@
         hasChild: true,
         selectedColor: '#fff',
         backgroundColor: '#fff',
-        selectedBackgroundColor:'#0779BE',
+        backgroundSelectedColor:'#0779BE',
         color: '#000',
         name: name,
         uid:uid
