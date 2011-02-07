@@ -25,9 +25,18 @@
 
     // Build session data
     var sessionData = Drupal.entity.db('main', 'node').load(settings.nid);
+    var presenterData = [];
+    var instructors = sessionData['instructors'];
+    
+    for (var i in instructors) {
+      presenterData.push(Drupal.entity.db('main', 'user').load(instructors[i]));
+      dpm("presenterData[" + i + "]: " +presenterData[i]);
+    }
 
     // Instructors may be single (string) or multiple (object), this part works.
-    var presenterData = getPresenterData(sessionData.instructors);
+    //
+    // This getPresenterData() function only returns presenters full names
+    // var presenterData = getPresenterData(sessionData.instructors);
     
     // Build the page:
     var tvData = [];

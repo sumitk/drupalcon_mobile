@@ -17,7 +17,7 @@ var Twitter = {
     // new twitter.com when we already have twitter.com?
     var webview = Ti.UI.createWebView({url:'http://mobile.twitter.com/drupalcon'});
     twitterWindow.add(webview);
-    
+  
     twitterWindow.addEventListener('focus', function() {
       var webview = Ti.UI.createWebView({url:'http://mobile.twitter.com/drupalcon'});
       twitterWindow.add(webview);

@@ -9,7 +9,7 @@
     });
 
     // var presenterData = settings.data;
-    var presenterData = Drupal.entity.db('main', 'user').load(settings.uid);
+    var presenterData = Drupal.entity.db('main', 'user').load(settings.name);
     if (presenterData['full_name']) {
       presenterData.fullName = presenterData['full_name'];
     }
