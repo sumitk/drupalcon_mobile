@@ -23,13 +23,7 @@
       tabGroup: settings.tabGroup
     });
 
-    if (Ti.Platform.name == 'android') {
-      var itemWidth = Ti.UI.currentWindow.width - 40;
-    }
-    else {
-      var itemWidth = presenterDetailWindow.width - 40;
-    }
-
+    var itemWidth = (Ti.Platform.name == 'android') ? (Ti.UI.currentWindow.width - 40) : (presenterDetailWindow.width - 40);
 
     dpm(presenterData);
     var tvData = [];
@@ -116,14 +110,8 @@
       twitter.addEventListener('click', function(e) {
         var webview = Titanium.UI.createWebView({url:e.source.twitter});
         var webWindow = Titanium.UI.createWindow();
+        var currentTab = (Ti.Platform.name == 'android') ? Titanium.UI.currentTab : presenterDetailWindow.tabGroup.activeTab;
         webWindow.add(webview);
-
-        if (Ti.Platform.name == 'android') {
-          var currentTab = Titanium.UI.currentTab;
-        }
-        else {
-          var currentTab = presenterDetailWindow.tabGroup.activeTab;
-        }
         currentTab.open(webWindow);
       });
       twitterRow.add(twitter);
