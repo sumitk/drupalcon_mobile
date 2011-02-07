@@ -97,10 +97,8 @@
       color: '#000',
       left: 10,
       top: 10,
-      right: 10,
-      height: 'auto'
+      right: 10
     });
-    sessionRow.add(titleLabel);
 
 //      sessionRow.add(Ti.UI.createLabel({
 //        text: session.track + " track",
@@ -118,10 +116,8 @@
       left: 10,
       top: titleLabel.toImage().height+10,
       bottom: 10,
-      right: 10,
-      height: 'auto'
+      right: 10
     });
-    sessionRow.add(presLabel);
 
     // Some things, like keynote, have multiple rooms
     var roomLabel = Ti.UI.createLabel({
@@ -129,13 +125,14 @@
       font: {fontSize:12, fontWeight:'bold'},
       color: '#000',
       left: 10,
-      top: titleLabel.toImage().height+10+presLabel.toImage().height+10,
+      top: titleLabel.toImage().width+10+presLabel.toImage().height+10,
       bottom: 10,
-      right: 10,
-      height: 'auto'
+      right: 10
     });
-    dpm("Title toImage height: " + titleLabel.toImage().height + "presLabel: " +presLabel.toImage().height );
+    sessionRow.add(titleLabel);
+    sessionRow.add(presLabel);
     sessionRow.add(roomLabel);
+    dpm("Title toImage height: " + titleLabel.toImage().height + "presLabel: " +presLabel.toImage().height );
 
     return sessionRow;
   }
