@@ -28,7 +28,7 @@
 
     // Instructors may be single (string) or multiple (object), this part works.
     var presenterData = getPresenterData(sessionData.instructors);
-    dpm(presenterData);
+    
     // Build the page:
     var tvData = [];
     var tv = Ti.UI.createTableView({

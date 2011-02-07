@@ -19,22 +19,23 @@
 
   tabGroup.addTab(Titanium.UI.createTab({
       icon: 'images/tabs/twitter.png',
-      title: 'Twitter',
+      title: 'News',
       window: DrupalCon.ui.createTwitterWindow(tabGroup)
   }));
 
-  tabGroup.addTab(Titanium.UI.createTab({
-      icon: 'images/tabs/star.png',
-      title: 'Starred',
-      window: DrupalCon.ui.createStarredWindow(tabGroup)
-  }));
+  
+// Implement starred later
+//  tabGroup.addTab(Titanium.UI.createTab({
+//      icon: 'images/tabs/star.png',
+//      title: 'Starred',
+//      window: DrupalCon.ui.createStarredWindow(tabGroup)
+//  }));
 
   tabGroup.addTab(Titanium.UI.createTab({
       icon: 'images/tabs/more.png',
       title: 'Presenters',
       window: DrupalCon.ui.createPresentersWindow(tabGroup)
   }));
-
 
   tabGroup.addEventListener('open',function() {
     // set background color back to white after tab group transition
