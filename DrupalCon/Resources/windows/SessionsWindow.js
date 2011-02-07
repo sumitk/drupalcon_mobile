@@ -74,7 +74,7 @@
       nid: session.nid,
       sessionTitle: sessionTitle,
       height: 'auto',
-      layout: 'vertical'
+      layout: 'auto'
     });
 
     // If there is a new session time, insert a header in the table.
@@ -83,14 +83,16 @@
       sessionRow.header = cleanTime(lastTime) + " - " + cleanTime(session.end_date);
     }
 
-    sessionRow.add(Ti.UI.createLabel({
+    var titleLabel = Ti.UI.createLabel({
       text: sessionTitle,
       font: {fontSize:18, fontWeight:'bold'},
+      color: '#000',
       left: 10,
       top: 10,
       right: 10,
       height: 'auto'
-    }));
+    });
+    sessionRow.add(titleLabel);
 
 //      sessionRow.add(Ti.UI.createLabel({
 //        text: session.track + " track",
@@ -101,26 +103,31 @@
 //      }));
 
     // Some sessions have multiple presenters
-    sessionRow.add(Ti.UI.createLabel({
+    var presLabel = Ti.UI.createLabel({
       text: session.instructors.map(DrupalCon.util.getPresenterName).join(', '),
       font: {fontSize:10, fontWeight:'normal'},
+      color: '#000',
       left: 10,
-      top: 'auto',
+      top: titleLabel.toImage().height+10,
       bottom: 10,
       right: 10,
       height: 'auto'
-    }));
+    });
+    sessionRow.add(presLabel);
 
     // Some things, like keynote, have multiple rooms
-    sessionRow.add(Ti.UI.createLabel({
+    var roomLabel = Ti.UI.createLabel({
       text: session.room.map(cleanSpecialChars).join(', '),
       font: {fontSize:12, fontWeight:'bold'},
+      color: '#000',
       left: 10,
-      top: 'auto',
+      top: titleLabel.toImage().height+10+presLabel.toImage().height+10,
       bottom: 10,
       right: 10,
       height: 'auto'
-    }));
+    });
+    dpm("Title toImage height: " + titleLabel.toImage().height + "presLabel: " +presLabel.toImage().height );
+    sessionRow.add(roomLabel);
 
     return sessionRow;
   }
