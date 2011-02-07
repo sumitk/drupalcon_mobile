@@ -1,5 +1,5 @@
 (function() {
-  
+
   DrupalCon.ui.createPresenterDetailWindow = function(settings) {
     Drupal.setDefaults(settings, {
       title: 'title here',
@@ -32,7 +32,7 @@
     var tvData = [];
     var blueBg = '#CAE2F4';
     var	platformWidth = Ti.Platform.displayCaps.platformWidth;
-		var platformHeight = Ti.Platform.displayCaps.platformHeight;
+    var platformHeight = Ti.Platform.displayCaps.platformHeight;
 
     // Structure
     var tv = Ti.UI.createTableView({
