@@ -10,12 +10,6 @@
 
     // var presenterData = settings.data;
     var presenterData = Drupal.entity.db('main', 'user').load(settings.uid);
-    if (presenterData['full_name']) {
-      presenterData.fullName = presenterData['full_name'];
-    }
-    else {
-      presenterData.fullName = '';
-    }
 
     var sessions = getRelatedSessions(presenterData.name);
 
@@ -64,8 +58,8 @@
 //    headerRow.add(avatar);
     
     var fullName = Ti.UI.createLabel({
-      text:(presenterData.fullName != undefined) ? presenterData.fullName : presenterData.name,
-      font:{fontSize: 20, fontWeight: 'bold'},
+      text: presenterData.full_name,
+      font: {fontSize: 20, fontWeight: 'bold'},
       textAlign: 'left',
       color: '#000',
       height: 'auto',
@@ -77,8 +71,8 @@
     headerRow.add(fullName);
 
     var name = Ti.UI.createLabel({
-      text:(presenterData.fullName != undefined) ? presenterData.name : '',
-      font:{fontSize: 14, fontWeight: 'bold'},
+      text: (presenterData.full_name !== presenterData.name) ? presenterData.name : '',
+      font: {fontSize: 14, fontWeight: 'bold'},
       textAlign: 'left',
       color: '#999',
       height: 'auto',
