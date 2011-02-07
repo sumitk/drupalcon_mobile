@@ -117,8 +117,6 @@
       });
       presenterFullName2[i] = Ti.UI.createLabel({
         text:presenterData[i].fullName,
-        uid:presenterData[i].uid,
-        name:presenterData[i].name,
         font:{fontSize:18, fontWeight:'bold'},
         left: 85,
         top: 10,
@@ -127,8 +125,6 @@
       });
       presenterName2[i] = Ti.UI.createLabel({
         text:presenterData[i].name,
-        uid:presenterData[i].uid,
-        name:presenterData[i].name,
         font:{fontSize:14, fontWeight:'normal'},
         left: 85,
         color:"#999",
@@ -144,6 +140,7 @@
         else {
           var currentTab = sessionDetailWindow.tabGroup.activeTab;
         }
+        dpm("e.source = " + e.source);
         currentTab.open(DrupalCon.ui.createPresenterDetailWindow({
           title: e.source.name,
           uid: e.source.uid,

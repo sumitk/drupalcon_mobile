@@ -110,6 +110,7 @@
         font:{fontSize: 14, fontWeight: 'bold'},
         left: 15,
         right: 15,
+        height: 'auto'
       });
 
       twitter.addEventListener('click', function(e) {

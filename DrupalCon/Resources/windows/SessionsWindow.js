@@ -42,7 +42,8 @@
     // create table view
     var tableview = Titanium.UI.createTableView({
       data: data,
-      backgroundColor: '#fff'
+      backgroundColor: '#fff',
+      layout:'vertical'
     });
 
     sessionsWindow.addEventListener('focus', function() {
@@ -69,6 +70,7 @@
   };
 
   function renderSession(session) {
+    dpm(session);
     var sessionTitle = cleanSpecialChars(session.title);
 
     var sessionRow = Ti.UI.createTableViewRow({
@@ -76,13 +78,12 @@
       selectedColor: '#fff',
       backgroundColor: '#fff',
       color: '#000',
-      className: 'session-row',
       start_date: session.start_date,
       end_date: session.end_date,
       nid: session.nid,
       sessionTitle: sessionTitle,
       height: 'auto',
-      layout: 'auto'
+      layout: 'vertical'
     });
 
     // If there is a new session time, insert a header in the table.
@@ -96,8 +97,9 @@
       font: {fontSize:18, fontWeight:'bold'},
       color: '#000',
       left: 10,
-      top: 10,
-      right: 10
+      top: 'auto',
+      right: 10,
+      height: 'auto'
     });
 
 //      sessionRow.add(Ti.UI.createLabel({
@@ -114,9 +116,10 @@
       font: {fontSize:10, fontWeight:'normal'},
       color: '#000',
       left: 10,
-      top: titleLabel.toImage().height+10,
+      top: 'auto',
       bottom: 10,
-      right: 10
+      right: 10,
+      height: 'auto'
     });
 
     // Some things, like keynote, have multiple rooms
@@ -125,14 +128,14 @@
       font: {fontSize:12, fontWeight:'bold'},
       color: '#000',
       left: 10,
-      top: titleLabel.toImage().width+10+presLabel.toImage().height+10,
+      top: 'auto',
       bottom: 10,
-      right: 10
+      right: 10,
+      height: 'auto'
     });
     sessionRow.add(titleLabel);
     sessionRow.add(presLabel);
     sessionRow.add(roomLabel);
-    dpm("Title toImage height: " + titleLabel.toImage().height + "presLabel: " +presLabel.toImage().height );
 
     return sessionRow;
   }

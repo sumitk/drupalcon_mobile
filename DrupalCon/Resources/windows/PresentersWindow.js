@@ -4,9 +4,9 @@
   var uiEnabled = true;
 
 
-  DrupalCon.ui.createMoreWindow = function(tabGroup) {
-    var moreWindow = Titanium.UI.createWindow({
-      id: 'moreWindow',
+  DrupalCon.ui.createPresentersWindow = function(tabGroup) {
+    var PresentersWindow = Titanium.UI.createWindow({
+      id: 'presentersWindow',
       title: 'Presenters',
       backgroundColor: '#FFF',
       tabGroup: tabGroup
@@ -107,7 +107,7 @@
     });
     tableview.index = index;
 
-    moreWindow.addEventListener('focus', function() {
+    PresentersWindow.addEventListener('focus', function() {
       uiEnabled = true;
     });
 
@@ -120,7 +120,7 @@
         }
         // event data
         var index = e.index;
-        var currentTab = (Ti.Platform.name == 'android') ? currentTab = Titanium.UI.currentTab : moreWindow.tabGroup.activeTab;
+        var currentTab = (Ti.Platform.name == 'android') ? currentTab = Titanium.UI.currentTab : PresentersWindow.tabGroup.activeTab;
         currentTab.open(DrupalCon.ui.createPresenterDetailWindow({
           title: e.rowData.name,
           uid: e.rowData.uid,
@@ -131,9 +131,9 @@
     });
 
     // add table view to the window
-    moreWindow.add(tableview);
+    PresentersWindow.add(tableview);
 
-    return moreWindow;
+    return PresentersWindow;
   };
 
 })();

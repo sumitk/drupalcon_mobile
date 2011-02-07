@@ -45,7 +45,7 @@ Ti.include(
   'windows/MapWindow.js',
   'windows/TwitterWindow.js',
   'windows/StarredWindow.js',
-  'windows/MoreWindow.js',
+  'windows/PresentersWindow.js',
   'windows/SessionsWindow.js',
   'windows/SessionDetailWindow.js',
   'windows/PresenterDetailWindow.js'
