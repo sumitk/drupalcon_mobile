@@ -77,7 +77,7 @@ Drupal.entity.sites.main.types.node.schema = {
         instructors.push(entity.instructors);
       }
       else if (typeof entity.instructors == 'object') {
-        for (var key in entity.room) {
+        for (var key in entity.instructors) {
           // We don't actually use hasOwnProperty() here because this is a
           // JSON-derived object, so it doesn't exist. I don't get it either.
           instructors.push(entity.instructors[key]);
@@ -85,8 +85,6 @@ Drupal.entity.sites.main.types.node.schema = {
       }
       entity.instructors = instructors;
     }
-
-
   },
 
   fetchers: {
