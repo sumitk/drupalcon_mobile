@@ -3,7 +3,8 @@
  */
 (function() {
 
-   var lastTime = '';
+  var lastTime = '';
+  var uiEnabled = true;
 
   DrupalCon.ui.createSessionsWindow = function(settings) {
     Drupal.setDefaults(settings, {
@@ -44,14 +45,21 @@
       backgroundColor: '#fff'
     });
 
+    sessionsWindow.addEventListener('focus', function() {
+      uiEnabled = true;
+    });
+
     // create table view event listener
     tableview.addEventListener('click', function(e) {
-      var currentTab = (Ti.Platform.name == 'android') ? currentTab = Titanium.UI.currentTab : sessionsWindow.tabGroup.activeTab;
-      currentTab.open(DrupalCon.ui.createSessionDetailWindow({
-        title: e.rowData.sessionTitle,
-        nid: e.rowData.nid,
-        tabGroup: Titanium.UI.currentTab
-      }), {animated:true});
+      if (uiEnabled) {
+        uiEnabled = false;
+        var currentTab = (Ti.Platform.name == 'android') ? currentTab = Titanium.UI.currentTab : sessionsWindow.tabGroup.activeTab;
+        currentTab.open(DrupalCon.ui.createSessionDetailWindow({
+          title: e.rowData.sessionTitle,
+          nid: e.rowData.nid,
+          tabGroup: Titanium.UI.currentTab
+        }), {animated:true});
+      }
     });
 
     // add table view to the window
