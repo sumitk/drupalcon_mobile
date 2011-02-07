@@ -36,6 +36,7 @@ Drupal.db.addConnectionInfo('main');
 // actually want to wipe the DB on every app start. :-)
 //Drupal.entity.db('main', 'node').initializeSchema();
 //Drupal.entity.db('main', 'user').initializeSchema();
+Titanium.App.Properties.setString('drupalcon:fetcher:lastNodeUpdate:session', '2011-02-06T12:00:00');
 
 // Download tests, for now.  These must get moved eventually.
 Drupal.db.errorMode = Drupal.db.ERROR_LEVEL_DEBUG;
