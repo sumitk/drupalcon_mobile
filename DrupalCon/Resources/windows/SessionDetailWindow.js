@@ -45,8 +45,8 @@
     });
 
     var titleLabel = Ti.UI.createLabel({
-      text:cleanSpecialChars(sessionData.title),
-      font:{fontSize: 24, fontWeight: 'bold'},
+      text: cleanSpecialChars(sessionData.title),
+      font: {fontSize: 24, fontWeight: 'bold'},
       backgroundColor: '#fff',
       textAlign: 'left',
       color: '#000',
