@@ -22,6 +22,7 @@
     var nameList = [];
     if (rows) {
       while (rows.isValidRow()) {
+        //dpm(rows.fieldByName('full_name'));
         var full = rows.fieldByName('full_name');
         if (full) {
           var names = rows.fieldByName('full_name').split(' ');
@@ -57,6 +58,7 @@
       var user = sortedNames[i].split(':');
       var uid = parseInt(user[1])+0;
       var fullName = user[0] + '';
+      
       var shortName = user[2] + '';
       var name = shortName;
       if (fullName.charAt(fullName.length-2) == ',') {
@@ -66,25 +68,83 @@
         name = fullName;
       }
 
-      // dpm("Name: " + shortName + "  fullName: " + fullName + "  uid: " + uid + " -- Equal? : " + (fullName == name));
       
+
       presenterRow = Ti.UI.createTableViewRow({
         hasChild: true,
         selectedColor: '#fff',
         backgroundColor: '#fff',
-        backgroundSelectedColor:'#0779BE',
+        backgroundSelectedColor: '#0779BE',
         color: '#000',
         name: name,
-        uid:uid
+        uid: uid,
+        height: 40,
+        layout: 'auto'
       });
 
-      presenterRow.add(Ti.UI.createLabel({
-        text: (fullName != shortName) ? fullName + ' - ' + shortName : shortName,
-        fontFamily:'sans-serif',
-        left: 10,
-        color: '#000'
-      }));
+      if (fullName == shortName) {
+        fullName = '';
+      }
+      else {
+        var firstLastName = fullName.split(', ');
+        fullName = firstLastName[1] + ' ' + firstLastName[0];
+        shortName = "(" + shortName + ")";
+        var lastName = firstLastName[0];
+        var firstName = firstLastName[1];
+        dpm("Firstname: " + firstName + "  Lastname: " + lastName);
+      }
+      
 
+      // Android can't handle some of this label manipulation
+      if (isAndroid()) {
+        presenterRow.add(Ti.UI.createLabel({
+        text: fullName + '  ' + shortName,
+        fontFamily:'sans-serif',
+        left: (fullName != '') ? 9 : 0,
+        height: 40,
+        color: '#000'
+        }));
+      }
+      else {
+        // iPhone - make it fancy
+        var firstLeft = 0;
+        var lastLeft = 0;
+
+        if (fullName != '') {
+          var firstNameLabel = Ti.UI.createLabel({
+            text: firstName,
+            font:'Helvetica',
+            left: 10,
+            height: 40,
+            color: '#000'
+          });
+          presenterRow.add(firstNameLabel);
+          firstLeft = firstNameLabel.toImage().width+10;
+        
+          var lastNameLabel = Ti.UI.createLabel({
+            text: lastName,
+            font:'Helvetica-Bold',
+            left: firstLeft + 5,
+            height: 40,
+            color: '#000'
+          });
+          presenterRow.add(lastNameLabel);
+          lastLeft = firstLeft + lastNameLabel.toImage().width;
+        }
+
+        if (shortName != '') {
+          var shortNameLabel = Ti.UI.createLabel({
+            text: shortName,
+            font:'Helvetica',
+            left: lastLeft+10,
+            height: 40,
+            color: '#666'
+          });
+          presenterRow.add(shortNameLabel);
+        }
+        
+      }
+      
       
       
       // If there is a new last name first letter, insert a header in the table.
