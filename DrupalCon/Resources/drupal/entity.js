@@ -169,7 +169,12 @@ Drupal.entity.DefaultSchema.prototype.defaultFetcher = function(bundle, store, f
   var url = fetchUrl || this.fetchUrl || null;
   if (url) {
     if (this.bypassCache) {
-      url += '?cacheBypass=' + Math.random();
+      if (strpos(url, '?') === false) {
+        url += '?cacheBypass=' + Math.random();
+      }
+      else {
+        url += '&cacheBypass=' + Math.random();
+      }
     }
     xhr.open('GET', url);
 
