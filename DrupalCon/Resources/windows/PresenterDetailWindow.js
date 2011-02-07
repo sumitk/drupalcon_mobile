@@ -143,12 +143,12 @@
       backgroundColor:'#fff',
       textAlign:'left',
       color:'#000',
-      top:20,
+      height:'auto',
+      width:'auto',
       left:10,
-      right:15,
-      bottom:10,
-      width:itemWidth,
-      height:'auto'
+      right:10,
+      top:10,
+      bottom:10
     });
     bioRow.add(bio);
     tvData.push(bioRow);
