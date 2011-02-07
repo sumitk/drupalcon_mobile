@@ -20,6 +20,9 @@ Drupal.entity.sites.main.types.node.schema = {
         },
         end_date: {
           type: 'VARCHAR'
+        },
+        instructors: {
+          type: 'VARCHAR'
         }
       },
       indexes: {
@@ -84,6 +87,7 @@ Drupal.entity.sites.main.types.node.schema = {
         }
       }
       entity.instructors = instructors;
+      values.instructors = instructors.join(', ');
     }
   },
 
