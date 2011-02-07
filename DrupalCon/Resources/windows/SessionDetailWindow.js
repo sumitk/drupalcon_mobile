@@ -69,7 +69,7 @@
     }
 
     var room = Ti.UI.createLabel({
-      text: cleanSpecialChars(sessionData.room),
+      text: sessionData.room.map(cleanSpecialChars).join(', '),
       backgroundColor: '#fff',
       textAlign: 'left',
       color: '#000',
