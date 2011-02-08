@@ -86,6 +86,7 @@
         fullName = '';
       }
       else {
+        fullName = cleanSpecialChars(fullName);
         var firstLastName = fullName.split(', ');
         fullName = firstLastName[1] + ' ' + firstLastName[0];
         shortName = "(" + shortName + ")";

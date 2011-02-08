@@ -6,19 +6,19 @@
   var tabGroup = Titanium.UI.createTabGroup({id:'tabGroup1'});
 
   tabGroup.addTab(Titanium.UI.createTab({
-    icon: 'images/tabs/KS_nav_ui.png',
+    icon: 'images/tabs/schedule.png',
     title: 'Schedule',
     window: DrupalCon.ui.createDayWindow(tabGroup)
   }));
 
   tabGroup.addTab(Titanium.UI.createTab({
-    icon: 'images/tabs/KS_nav_mashup.png',
+    icon: 'images/tabs/maps.png',
     title: 'Maps',
     window: DrupalCon.ui.createMapWindow(tabGroup)
   }));
 
   tabGroup.addTab(Titanium.UI.createTab({
-      icon: 'images/tabs/twitter.png',
+      icon: 'images/tabs/news.png',
       title: 'News',
       window: DrupalCon.ui.createTwitterWindow(tabGroup)
   }));
@@ -32,7 +32,7 @@
 //  }));
 
   tabGroup.addTab(Titanium.UI.createTab({
-      icon: 'images/tabs/more.png',
+      icon: 'images/tabs/bofs.png',
       title: 'Presenters',
       window: DrupalCon.ui.createPresentersWindow(tabGroup)
   }));
