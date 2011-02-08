@@ -1,5 +1,5 @@
 (function() {
-  
+
   DrupalCon.ui.createPresenterDetailWindow = function(settings) {
     Drupal.setDefaults(settings, {
       title: 'title here',
@@ -10,12 +10,9 @@
 
     // var presenterData = settings.data;
     var presenterData = Drupal.entity.db('main', 'user').load(settings.uid);
-    if (presenterData['full_name']) {
-      presenterData.fullName = presenterData['full_name'];
-    }
-    else {
-      presenterData.fullName = '';
-    }
+
+    var sessions = getRelatedSessions(presenterData.name);
+
     var presenterDetailWindow = Titanium.UI.createWindow({
       id: 'presenterDetailWindow',
       title: presenterData.name,
@@ -23,19 +20,13 @@
       tabGroup: settings.tabGroup
     });
 
-    if (Ti.Platform.name == 'android') {
-      var itemWidth = Ti.UI.currentWindow.width - 40;
-    }
-    else {
-      var itemWidth = presenterDetailWindow.width - 40;
-    }
-
+    var itemWidth = (Ti.Platform.name == 'android') ? (Ti.UI.currentWindow.width - 40) : (presenterDetailWindow.width - 40);
 
     dpm(presenterData);
     var tvData = [];
     var blueBg = '#CAE2F4';
     var	platformWidth = Ti.Platform.displayCaps.platformWidth;
-		var platformHeight = Ti.Platform.displayCaps.platformHeight;
+    var platformHeight = Ti.Platform.displayCaps.platformHeight;
 
     // Structure
     var tv = Ti.UI.createTableView({
@@ -67,8 +58,8 @@
 //    headerRow.add(avatar);
     
     var fullName = Ti.UI.createLabel({
-      text:(presenterData.fullName != undefined) ? presenterData.fullName : presenterData.name,
-      font:{fontSize: 20, fontWeight: 'bold'},
+      text: presenterData.full_name,
+      font: {fontSize: 20, fontWeight: 'bold'},
       textAlign: 'left',
       color: '#000',
       height: 'auto',
@@ -80,8 +71,8 @@
     headerRow.add(fullName);
 
     var name = Ti.UI.createLabel({
-      text:(presenterData.fullName != undefined) ? presenterData.name : '',
-      font:{fontSize: 14, fontWeight: 'bold'},
+      text: (presenterData.full_name !== presenterData.name) ? presenterData.name : '',
+      font: {fontSize: 14, fontWeight: 'bold'},
       textAlign: 'left',
       color: '#999',
       height: 'auto',
@@ -116,14 +107,8 @@
       twitter.addEventListener('click', function(e) {
         var webview = Titanium.UI.createWebView({url:e.source.twitter});
         var webWindow = Titanium.UI.createWindow();
+        var currentTab = (Ti.Platform.name == 'android') ? Titanium.UI.currentTab : presenterDetailWindow.tabGroup.activeTab;
         webWindow.add(webview);
-
-        if (Ti.Platform.name == 'android') {
-          var currentTab = Titanium.UI.currentTab;
-        }
-        else {
-          var currentTab = presenterDetailWindow.tabGroup.activeTab;
-        }
         currentTab.open(webWindow);
       });
       twitterRow.add(twitter);
@@ -157,6 +142,22 @@
     presenterDetailWindow.add(tv);
     return presenterDetailWindow;
   };
+
+  function getRelatedSessions(name) {
+    var conn = Drupal.db.getConnection('main');
+    var rows = conn.query("SELECT nid, title FROM node WHERE instructors LIKE ? ORDER BY start_date, nid", ['%' + name + '%']);
+
+    var nids = [];
+    while(rows.isValidRow()) {
+      nids.push(rows.fieldByName('nid'));
+      rows.next();
+    }
+    rows.close();
+
+    var sessions = Drupal.entity.db('main', 'node').loadMultiple(nids, ['start_date', 'nid']);
+
+    return sessions;
+  }
 
 })();
 
