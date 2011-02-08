@@ -31,6 +31,14 @@ Drupal.services.addConnectionInfo('main', {
 // Register our database information.
 Drupal.db.addConnectionInfo('main');
 
+// If we haven't created the tables yet, make empty ones to ensure that the
+// app doesn't crash.
+if (!Drupal.db.getConnection('main').tableExists('node')) {
+  Drupal.entity.db('main', 'node').initializeSchema();
+}
+if (!Drupal.db.getConnection('main').tableExists('user')) {
+  Drupal.entity.db('main', 'user').initializeSchema();
+}
 
 // This is just for testing purposes. In practice we wouldn't
 // actually want to wipe the DB on every app start. :-)
