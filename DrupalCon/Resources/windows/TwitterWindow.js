@@ -18,10 +18,10 @@ var Twitter = {
     var webview = Ti.UI.createWebView({url:'http://mobile.twitter.com/drupalcon'});
     twitterWindow.add(webview);
   
-    twitterWindow.addEventListener('focus', function() {
-      var webview = Ti.UI.createWebView({url:'http://mobile.twitter.com/drupalcon'});
-      twitterWindow.add(webview);
-    });
+//    twitterWindow.addEventListener('focus', function() {
+//      var webview = Ti.UI.createWebView({url:'http://mobile.twitter.com/drupalcon'});
+//      twitterWindow.add(webview);
+//    });
 
     
     return twitterWindow;

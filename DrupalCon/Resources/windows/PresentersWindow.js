@@ -91,7 +91,6 @@
         shortName = "(" + shortName + ")";
         var lastName = firstLastName[0];
         var firstName = firstLastName[1];
-        dpm("Firstname: " + firstName + "  Lastname: " + lastName);
       }
       
 
