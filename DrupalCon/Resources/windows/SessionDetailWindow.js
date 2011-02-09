@@ -158,7 +158,7 @@
       className: "row",
       borderColor: '#fff',
       hasChild: true,
-      leftImage: 'images/userpictdefault6.png',
+      leftImage: 'images/userpict-medium.png',
       layout:'vertical'
     });
     var presenterFullName2 = Ti.UI.createLabel({

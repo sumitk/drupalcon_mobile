@@ -36,6 +36,7 @@
       var mapImage = Ti.UI.createImageView({
         image: e.rowData.image
       });
+
       var map = Ti.UI.createWindow({
         title: e.rowData.title
       });
@@ -44,7 +45,12 @@
       if (uiEnabled) {
         uiEnabled = false;
         var currentTab = (Ti.Platform.name == 'android') ? Titanium.UI.currentTab : mapWindow.tabGroup.activeTab;
-        currentTab.open(map);
+        currentTab.open(DrupalCon.ui.createMapDetailWindow({
+          title: e.rowData.title,
+          mapName: e.rowData.title,
+          image: e.rowData.image,
+          tabGroup: Titanium.UI.currentTab
+        }), {animated:true});
       }
     });
 

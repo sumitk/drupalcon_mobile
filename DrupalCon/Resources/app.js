@@ -64,6 +64,7 @@ if ('' == Titanium.App.Properties.getString('drupalcon:fetcher:lastNodeUpdate:se
 Ti.include(
   'windows/DayWindow.js',
   'windows/MapWindow.js',
+  'windows/MapDetailWindow.js',
   'windows/TwitterWindow.js',
   'windows/StarredWindow.js',
   'windows/PresentersWindow.js',

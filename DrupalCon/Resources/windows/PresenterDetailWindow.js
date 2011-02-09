@@ -40,7 +40,7 @@
       top:-5,
       bottom:0,
       layout:'vertical',
-      leftImage:'images/userpictdefault6-bigger.png'
+      leftImage:'images/userpict-large.png'
     });
     var twitterRow = Ti.UI.createTableViewRow({hasChild:true,height:40});
     var linkedinRow = Ti.UI.createTableViewRow({hasChild:true,height:40});
