@@ -45,11 +45,18 @@ if (!Drupal.db.getConnection('main').tableExists('user')) {
   Drupal.entity.db('main', 'user').initializeSchema();
 }
 
+// If there's no record of having synchronized data with the site before, default
+// to 1 Feb as the oldest to pull from.  That avoids ever downloading the entire
+// site, since we have a pre-loaded database.
+if ('' == Titanium.App.Properties.getString('drupalcon:fetcher:lastNodeUpdate:session', '')) {
+  Titanium.App.Properties.setString('drupalcon:fetcher:lastNodeUpdate:session', '2011-02-01T12:00:00');
+}
+
 // This is just for testing purposes. In practice we wouldn't
 // actually want to wipe the DB on every app start. :-)
 //Drupal.entity.db('main', 'node').initializeSchema();
 //Drupal.entity.db('main', 'user').initializeSchema();
-Titanium.App.Properties.setString('drupalcon:fetcher:lastNodeUpdate:session', '2010-02-06T12:00:00');
+
 
 // Download tests, for now.  These must get moved eventually.
 //Drupal.db.errorMode = Drupal.db.ERROR_LEVEL_DEBUG;
