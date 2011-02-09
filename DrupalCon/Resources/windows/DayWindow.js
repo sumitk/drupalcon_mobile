@@ -55,6 +55,7 @@
           Ti.fireEvent('drupalcon:update_data');
         }
       });
+      /*
       buttons.push({
         title: "Hit sessions",
         clickevent: function () {
@@ -79,6 +80,7 @@
           rows.close();
         }
       });
+      */
       menu.init({
         win: dayWindow,
         buttons: buttons
