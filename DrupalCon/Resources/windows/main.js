@@ -65,10 +65,8 @@
   });
 
   Ti.addEventListener('drupalcon:update_data', function(e) {
+    Drupal.createNoticeDialog('Updating session and presenter data.').show(3000);
     Drupal.entity.db('main', 'node').fetchUpdates('session');
-  });
-
-  Ti.addEventListener('drupalcon:update_data', function(e) {
     Drupal.entity.db('main', 'user').fetchUpdates('user');
   });
 
