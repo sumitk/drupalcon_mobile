@@ -3,7 +3,6 @@
 
   var uiEnabled = true;
 
-
   DrupalCon.ui.createPresentersWindow = function(tabGroup) {
     var PresentersWindow = Titanium.UI.createWindow({
       id: 'presentersWindow',
@@ -12,43 +11,13 @@
       tabGroup: tabGroup
     });
 
-    var conn = Drupal.db.getConnection('main');
-    var rows = conn.query("SELECT uid, name, full_name FROM user");
-
-    // As far as I can tell, objects aren't allowed to be sorted, so even though
-    // I can write a sort on say a.lastName - it won't stay sorted (yes I tried)
-    // so I have to build an array, sort it, then decompile it to use it.
-    // Have I mentioned lately that javascript is not my favorite language right now?
-    var nameList = [];
-    if (rows) {
-      while (rows.isValidRow()) {
-        //dpm(rows.fieldByName('full_name'));
-        var full = rows.fieldByName('full_name');
-        if (full) {
-          var names = rows.fieldByName('full_name').split(' ');
-          var lastName = names[names.length -1];
-          var firstName = full.substr(0,full.length - (lastName.length + 1));
-          nameList.push(lastName + ', ' + firstName + ':' + rows.fieldByName('uid') + ':' + rows.fieldByName('name'));
-        }
-        else {
-          nameList.push(rows.fieldByName('name') + ':' + rows.fieldByName('uid') + ':' + rows.fieldByName('name'));
-        }
-        rows.next();
-      }
-    }
+    var nameList = getNameList();
 
     // I want our list of names to have the usernames mixed in, and they usually
     // start with lowercase, so we need to create a custom sortorder that ignores case.
-    /*
-    function charOrdA(a, b) {
-      a = a.toLowerCase();b = b.toLowerCase();
-      if (a > b) { return 1; }
-      if (a < b) { return -1; }
-      return 0;
-    }
-    */
     var sortedNames = nameList.sort(function(a, b) {
-      a = a.toLowerCase();b = b.toLowerCase();
+      a = a.toLowerCase();
+      b = b.toLowerCase();
       if (a > b) { return 1; }
       if (a < b) { return -1; }
       return 0;
@@ -74,8 +43,6 @@
       else {
         name = fullName;
       }
-
-      
 
       presenterRow = Ti.UI.createTableViewRow({
         hasChild: true,
@@ -200,5 +167,35 @@
 
     return PresentersWindow;
   };
+
+
+  function getNameList() {
+    var conn = Drupal.db.getConnection('main');
+    var rows = conn.query("SELECT uid, name, full_name FROM user");
+
+    // As far as I can tell, objects aren't allowed to be sorted, so even though
+    // I can write a sort on say a.lastName - it won't stay sorted (yes I tried)
+    // so I have to build an array, sort it, then decompile it to use it.
+    // Have I mentioned lately that javascript is not my favorite language right now?
+    var nameList = [];
+    if (rows) {
+      while (rows.isValidRow()) {
+        //dpm(rows.fieldByName('full_name'));
+        var full = rows.fieldByName('full_name');
+        if (full) {
+          var names = rows.fieldByName('full_name').split(' ');
+          var lastName = names[names.length -1];
+          var firstName = full.substr(0,full.length - (lastName.length + 1));
+          nameList.push(lastName + ', ' + firstName + ':' + rows.fieldByName('uid') + ':' + rows.fieldByName('name'));
+        }
+        else {
+          nameList.push(rows.fieldByName('name') + ':' + rows.fieldByName('uid') + ':' + rows.fieldByName('name'));
+        }
+        rows.next();
+      }
+    }
+
+    return nameList;
+  }
 
 })();
