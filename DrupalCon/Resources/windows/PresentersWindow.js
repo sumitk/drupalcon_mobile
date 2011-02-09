@@ -41,8 +41,8 @@
     // start with lowercase, so we need to create a custom sortorder that ignores case.
     function charOrdA(a, b) {
       a = a.toLowerCase();b = b.toLowerCase();
-      if (a > b) return 1;
-      if (a < b) return -1;
+      if (a > b) { return 1; }
+      if (a < b) { return -1; }
       return 0;
     }
     var sortedNames = nameList.sort(charOrdA);
@@ -56,7 +56,7 @@
 
     for (var i in sortedNames) {
       var user = sortedNames[i].split(':');
-      var uid = parseInt(user[1])+0;
+      var uid = parseInt(user[1]) + 0;
       var fullName = user[0] + '';
       
       var shortName = user[2] + '';

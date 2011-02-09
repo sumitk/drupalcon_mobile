@@ -244,7 +244,7 @@ Drupal.entity.Datastore.prototype.loadByField = function(field, values, order) {
   }
 
   return entities;
-}
+};
 
 /**
  * Remove an entity from the datastore.

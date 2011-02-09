@@ -57,7 +57,7 @@ Drupal.constructPrototype = function(o) {
  */
 Drupal.getISODate = function(date, utc) {
 
-  function pad(n) {return n < 10 ? '0' + n : n}
+  function pad(n) {return n < 10 ? '0' + n : n;}
 
   if (utc) {
     return date.getUTCFullYear() + '-'
@@ -75,20 +75,20 @@ Drupal.getISODate = function(date, utc) {
       + pad(date.getMinutes()) + ':'
       + pad(date.getSeconds());
   }
-
-}
+};
 
 
 
 Drupal.getObjectProperties = function(o) {
   var properties = [];
   var values = [];
+  var prop;
 
   // Apparently hasOwnProperty() is sometimes missing from objects in Titanium.
   // My best guess is that it's on objects deserialized from JSON, but I'm not
   // really sure.  At this point I no longer care.
   if(o.hasOwnProperty) {
-    for (var prop in o) {
+    for (prop in o) {
       if (o.hasOwnProperty(prop)) {
         properties.push(prop);
         values.push(o[prop]);
@@ -96,7 +96,7 @@ Drupal.getObjectProperties = function(o) {
     }
   }
   else {
-    for (var prop in o) {
+    for (prop in o) {
       properties.push(prop);
       values.push(o[prop]);
     }
@@ -208,3 +208,14 @@ function parseISO8601(str) {
   return _date;
 };
 
+function strpos (haystack, needle, offset) {
+    // http://kevin.vanzonneveld.net
+    // +   original by: Kevin van Zonneveld (http://kevin.vanzonneveld.net)
+    // +   improved by: Onno Marsman
+    // +   bugfixed by: Daniel Esteban
+    // +   improved by: Brett Zamir (http://brett-zamir.me)
+    // *     example 1: strpos('Kevin van Zonneveld', 'e', 5);
+    // *     returns 1: 14
+    var i = (haystack + '').indexOf(needle, (offset || 0));
+    return i === -1 ? false : i;
+}

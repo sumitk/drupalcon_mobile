@@ -80,10 +80,10 @@ Drupal.entity.sites.main.types.node.schema = {
         instructors.push(entity.instructors);
       }
       else if (typeof entity.instructors == 'object') {
-        for (var key in entity.instructors) {
+        for (var insKey in entity.instructors) {
           // We don't actually use hasOwnProperty() here because this is a
           // JSON-derived object, so it doesn't exist. I don't get it either.
-          instructors.push(entity.instructors[key]);
+          instructors.push(entity.instructors[insKey]);
         }
       }
       entity.instructors = instructors;
@@ -164,10 +164,12 @@ Drupal.entity.sites.main.types.user.schema = {
   /**
    * Retrieves updates for this entity type.
    *
-   * @param string bundle
+   * @param {string} bundle
    *   The bundle type we want to retrieve.
-   * @param Drupal.entity.Datastore store
+   * @param {Drupal.entity.Datastore} store
    *   The datastore to which to save the retrieved entities.
+   * @param {function} func
+   *   A callback functino that will be called when the fetch is complete.
    */
   defaultFetcher: function(bundle, store, func) {
     this.prototype.defaultFetcher.apply(this, [bundle, store, func, 'http://chicago2011.drupal.org/mobile/fetch/presenters']);

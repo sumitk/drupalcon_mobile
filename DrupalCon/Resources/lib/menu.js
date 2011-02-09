@@ -52,7 +52,7 @@ var menu = {
           for (k = 0; k < params.buttons.length; k++) {
             menu.data[k] = optionsmenu.add({
               title: params.buttons[k].title
-            })
+            });
             menu.data[k].addEventListener("click", params.buttons[k].clickevent);
           }
         };

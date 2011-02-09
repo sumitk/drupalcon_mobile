@@ -11,13 +11,14 @@ function getPresenterData(names) {
   else {
     // Force what is likely an object to an array.
     for (var i in names) {
+      // We don't use hasOwnProperty() here because that doesn't exist for objects
+      // created by JSON.parse() in Titanium. This is a Titanium bug, I believe.
       instructors.push(names[i]);
     }
   }
 
-  var numPlaceholders = instructors.length;
   var placeholders = [];
-  for (var i=0; i < numPlaceholders; i++) {
+  for (var j = 0, numPlaceholders = instructors.length; j < numPlaceholders; j++) {
     placeholders.push('?');
   }
 
@@ -82,7 +83,7 @@ function cleanSpecialChars(str) {
       .replace(/&amp;/g,"&")
       .replace(/&lt;/g,"<")
       .replace(/&gt;/g,">")
-      .replace(/&#039;/g, "'")
+      .replace(/&#039;/g, "'");
   }
 
   return '';

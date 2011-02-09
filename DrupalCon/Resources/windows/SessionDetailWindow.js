@@ -95,8 +95,8 @@
     row.add(textView);
     tvData.push(row);
 
-    for (var i in presenterData) {
-      tvData.push(renderPresenter(presenterData[i]));
+    for (var j in presenterData) {
+      tvData.push(renderPresenter(presenterData[j]));
     }
 
     tv.addEventListener('click', function(e) {

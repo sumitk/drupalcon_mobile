@@ -85,13 +85,9 @@
       layout: 'vertical'
     });
 
-    if (isAndroid()) {
-      var leftSpace = 30;
-    }
-    else {
-      var leftSpace = 40;
-    }
+    var leftSpace = (Ti.Platform.name == 'android') ? 30 : 40;
     var titleColor = '';
+
     switch (session.track) {
       case "":
         leftSpace = 10;

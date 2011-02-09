@@ -22,7 +22,7 @@ var DrupalCon = {
   DrupalCon.util.getPresenterName = function(name) {
     var list = DrupalCon.util.getPresenterList();
     return list[name] || '';
-  }
+  };
 
   // Clear the presenter list cache when we update data.
   Ti.addEventListener('drupal:entity:datastore:update_completed', function(e) {
