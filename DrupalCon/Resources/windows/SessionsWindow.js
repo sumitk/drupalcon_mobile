@@ -143,14 +143,6 @@
       height: 'auto'
     });
 
-//      sessionRow.add(Ti.UI.createLabel({
-//        text: session.track + " track",
-//        font: {fontSize:12, fontWeight:'bold'},
-//        left: 10,
-//        right: 10,
-//        height: 'auto'
-//      }));
-
     // Some sessions have multiple presenters
     var presLabel = Ti.UI.createLabel({
       text: session.instructors.map(DrupalCon.util.getPresenterName).join(', '),
@@ -174,31 +166,10 @@
       right: 10,
       height: 'auto'
     });
-    if (isAndroid()) {
-      sessionRow.layout = 'auto';
-      roomLabel.top = 10;
-      roomLabel.height = 15;
-      roomLabel.width = 'auto';
-      roomLabel.bottom = 'auto';
-      sessionRow.add(roomLabel);
 
-      presLabel.top = 30;
-      presLabel.height = 15;
-      presLabel.width = 'auto';
-      presLabel.bottom = 'auto';
-      sessionRow.add(presLabel);
-
-      titleLabel.top = 50;
-      titleLabel.width = 'auto';
-      titleLabel.bottom = '10';
-      sessionRow.add(titleLabel);
-    }
-    else {
-      sessionRow.add(titleLabel);
-      sessionRow.add(presLabel);
-      sessionRow.add(roomLabel);
-    }
-          
+    sessionRow.add(titleLabel);
+    sessionRow.add(presLabel);
+    sessionRow.add(roomLabel);
 
     return sessionRow;
   }

@@ -51,14 +51,12 @@
 
   // tab group close event
   tabGroup.addEventListener('close', function(e) {
-    var messageWin = Drupal.createNoticeDialog('tab group close event');
-    messageWin.show(1000);
+
   });
 
   // tab group open event
   tabGroup.addEventListener('open', function(e) {
-    var messageWin = Drupal.createNoticeDialog('tab group open event');
-    messageWin.show(1000);
+
   });
 
   Ti.addEventListener('drupal:entity:datastore:update_completed', function(e) {
