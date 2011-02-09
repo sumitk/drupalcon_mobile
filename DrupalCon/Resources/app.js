@@ -6,6 +6,7 @@ Titanium.UI.setBackgroundColor('#000');
 
 // Include the Drupal connection libraries.
 Ti.include(
+  'lib/phpjs.js',
   'lib/misc.js',
   'lib/menu.js',
   'drupal/drupal.js',

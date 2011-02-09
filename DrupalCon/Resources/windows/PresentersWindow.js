@@ -39,13 +39,20 @@
 
     // I want our list of names to have the usernames mixed in, and they usually
     // start with lowercase, so we need to create a custom sortorder that ignores case.
+    /*
     function charOrdA(a, b) {
       a = a.toLowerCase();b = b.toLowerCase();
       if (a > b) { return 1; }
       if (a < b) { return -1; }
       return 0;
     }
-    var sortedNames = nameList.sort(charOrdA);
+    */
+    var sortedNames = nameList.sort(function(a, b) {
+      a = a.toLowerCase();b = b.toLowerCase();
+      if (a > b) { return 1; }
+      if (a < b) { return -1; }
+      return 0;
+    });
 
     // Now we can do something, like, oh I don't know, build the table :)
     var headerLetter = '';
@@ -144,9 +151,7 @@
         }
         
       }
-      
-      
-      
+
       // If there is a new last name first letter, insert a header in the table.
       // We also push a new index so we can create a right side index for iphone.
       if (headerLetter == '' || name.charAt(0).toUpperCase() != headerLetter) {
