@@ -170,13 +170,7 @@
 
     tv.addEventListener('click', function(e) {
       if (e.source.presenter != undefined){
-        if (e.source.presenter.full_name == undefined) {
-          var fullName = '';
-        }
-        else {
-          var fullName = e.source.presenter.full_name;
-        }
-
+        var fullName = e.source.presenter.full_name || '';
         var currentTab = (Ti.Platform.name == 'android') ? Titanium.UI.currentTab : sessionDetailWindow.tabGroup.activeTab;
         currentTab.open(DrupalCon.ui.createPresenterDetailWindow({
           title: fullName,
