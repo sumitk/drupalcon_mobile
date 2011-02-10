@@ -184,7 +184,7 @@ Drupal.NoticeDialog.prototype.show = function(time) {
  * @param str
  *   A string in YYYY-MM-DDTHH:MM:SS format. It must be exactly that format,
  *   including seconds.
- * @return Date
+ * @return {Date}
  */
 function parseISO8601(str) {
   // Parses "as is" without attempting timezone conversion
