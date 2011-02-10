@@ -18,12 +18,13 @@ var Twitter = {
     var webview = Ti.UI.createWebView({url:'http://mobile.twitter.com/drupalcon'});
     twitterWindow.add(webview);
 
+
+    twitterWindow.addEventListener('focus', function() {
+      var webview = Ti.UI.createWebView({url:'http://mobile.twitter.com/drupalcon'});
+      twitterWindow.add(webview);
+    });
     return twitterWindow;
 
-//    twitterWindow.addEventListener('focus', function() {
-//      var webview = Ti.UI.createWebView({url:'http://mobile.twitter.com/drupalcon'});
-//      twitterWindow.add(webview);
-//    });
 
 //    // Using the parsing method shown https://gist.github.com/819929
 //    var tweetWebJs = "document.body.addEventListener('touchmove', function(e) { e.preventDefault();}, false);";
