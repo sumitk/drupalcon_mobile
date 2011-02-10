@@ -11,8 +11,6 @@
     // var presenterData = settings.data;
     var presenterData = Drupal.entity.db('main', 'user').load(settings.uid);
 
-    var sessions = getRelatedSessions(presenterData.name);
-
     var presenterDetailWindow = Titanium.UI.createWindow({
       id: 'presenterDetailWindow',
       title: presenterData.name,
@@ -144,9 +142,46 @@
       tvData.push(bioRow);
     }
 
+    var sessionsTitle = Ti.UI.createLabel({
+      text:"Session(s)",
+      backgroundColor:'#fff',
+      textAlign:'left',
+      font:{fontSize:18, fontWeight:'bold'},
+      color:'#000',
+      top:20,
+      bottom: 10,
+      width:itemWidth,
+      height:'auto'
+    });
+
+    var sessionsTitleRow = Ti.UI.createTableViewRow({height: 'auto',className: 'row',borderColor: '#fff'});
+    sessionsTitleRow.add(sessionsTitle);
+    tvData.push(sessionsTitleRow);
+    
+    var sessions = getRelatedSessions(presenterData.name);
+    var sessionRow = [];
     for (var i in sessions) {
-      
-      dpm(sessions[i].title);
+      sessionRow = Ti.UI.createTableViewRow({
+        hasChild:true,
+        height:40,
+        sessionTitle:cleanSpecialChars(sessions[i].title),
+        nid:sessions[i].nid,
+        title:cleanSpecialChars(sessions[i].title)
+      });
+
+      // create table view event listener
+      sessionRow.addEventListener('click', function(e) {
+        if (uiEnabled) {
+          var currentTab = (Ti.Platform.name == 'android') ? currentTab = Titanium.UI.currentTab : presenterDetailWindow.tabGroup.activeTab;
+          currentTab.open(DrupalCon.ui.createSessionDetailWindow({
+            title: e.rowData.sessionTitle,
+            nid: e.rowData.nid,
+            tabGroup: Titanium.UI.currentTab
+          }), {animated:true});
+        }
+      });
+      tvData.push(sessionRow);
+
     }
 
     tv.setData(tvData);
