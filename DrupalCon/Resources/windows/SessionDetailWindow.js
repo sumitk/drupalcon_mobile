@@ -95,28 +95,7 @@
     row.add(textView);
     tvData.push(row);
 
-    for (var j in presenterData) {
-      tvData.push(renderPresenter(presenterData[j]));
-    }
-
-    tv.addEventListener('click', function(e) {
-      if (e.source.presenter != undefined){
-        if (e.source.presenter.full_name == undefined) {
-          var fullName = '';
-        }
-        else {
-          var fullName = e.source.presenter.full_name;
-        }
-
-        var currentTab = (Ti.Platform.name == 'android') ? Titanium.UI.currentTab : sessionDetailWindow.tabGroup.activeTab;
-        currentTab.open(DrupalCon.ui.createPresenterDetailWindow({
-          title: fullName,
-          uid: e.source.presenter.uid,
-          tabGroup: Titanium.UI.currentTab
-        }), {animated:true});
-      }
-    });
-
+    
     var row3 = Ti.UI.createTableViewRow({height: 'auto',className: 'row',borderColor: '#fff'});
 
     var textViewBottom = Ti.UI.createView({
@@ -148,11 +127,49 @@
       color:'#000',
       top:10,
       width:itemWidth,
-      height:'auto'
+      height:'auto',
+      bottom: 20
     });
     textViewBottom.add(audience);
     row3.add(textViewBottom);
     tvData.push(row3);
+
+    var presentersTitle = Ti.UI.createLabel({
+      text:"Presenter(s)",
+      backgroundColor:'#fff',
+      textAlign:'left',
+      font:{fontSize:18, fontWeight:'bold'},
+      color:'#000',
+      top:20,
+      width:itemWidth,
+      height:'auto'
+    });
+    var presentersTitleRow = Ti.UI.createTableViewRow({height: 'auto',className: 'row',borderColor: '#fff'});
+    presentersTitleRow.add(presentersTitle);
+    tvData.push(presentersTitleRow);
+
+    for (var j in presenterData) {
+      tvData.push(renderPresenter(presenterData[j]));
+    }
+
+    tv.addEventListener('click', function(e) {
+      if (e.source.presenter != undefined){
+        if (e.source.presenter.full_name == undefined) {
+          var fullName = '';
+        }
+        else {
+          var fullName = e.source.presenter.full_name;
+        }
+
+        var currentTab = (Ti.Platform.name == 'android') ? Titanium.UI.currentTab : sessionDetailWindow.tabGroup.activeTab;
+        currentTab.open(DrupalCon.ui.createPresenterDetailWindow({
+          title: fullName,
+          uid: e.source.presenter.uid,
+          tabGroup: Titanium.UI.currentTab
+        }), {animated:true});
+      }
+    });
+
     
     tv.setData(tvData);
     sessionDetailWindow.add(tv);
