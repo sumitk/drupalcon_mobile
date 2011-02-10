@@ -242,6 +242,7 @@ Drupal.entity.Datastore.prototype.loadByField = function(field, values, order) {
       rows.next();
     }
   }
+  rows.close();
 
   return entities;
 };
