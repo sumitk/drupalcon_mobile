@@ -57,7 +57,11 @@ function cleanTime(time) {
   var mins = shortTime.substr(2,5);
   var hour = parseFloat(shortTime.slice(0,2));
   var ampm = 'AM';
-  if (hour > 12) {
+  // Assume that 12 means noon, not midnight.
+  if (hour == 12) {
+    ampm = 'PM';
+  }
+  else if (hour >= 12) {
     hour -= 12;
     ampm = 'PM';
   }
