@@ -144,6 +144,11 @@
       tvData.push(bioRow);
     }
 
+    for (var i in sessions) {
+      
+      dpm(sessions[i].title);
+    }
+
     tv.setData(tvData);
     presenterDetailWindow.add(tv);
     return presenterDetailWindow;

@@ -59,10 +59,11 @@
       var presenterName = Ti.UI.createLabel({
         text: presenterData[i].full_name,
         backgroundColor: '#fff',
-        font: {fontSize: 18, fontWeight: 'bold'},
+        font: {fontSize: 14, fontWeight: 'normal'},
         textAlign: 'left',
         color: '#000',
         height: 'auto',
+        top: 10,
         width: itemWidth
       });
       textView.add(presenterName);
@@ -71,21 +72,23 @@
     var room = Ti.UI.createLabel({
       text: sessionData.room.map(cleanSpecialChars).join(', '),
       backgroundColor: '#fff',
+      font: {fontSize: 13, fontWeight: 'bold'},
       textAlign: 'left',
       color: '#000',
-      top: 10,
+      top: 12,
       width: itemWidth,
-      height: 'auto'
+      height: 'auto',
     });
     textView.add(room);
 
     var startDate = parseISO8601(sessionData.start_date + ':00');
     var datetime = Ti.UI.createLabel({
-      text: cleanDate(startDate) + '\n' + cleanTime(sessionData.start_date),
+      text: cleanDate(startDate) + ', ' + cleanTime(sessionData.start_date),
       backgroundColor: '#fff',
+      font: {fontSize: 14, fontWeight: 'normal'},
       textAlign: 'left',
       color: '#000',
-      top: 20,
+      top: 0,
       bottom: 10,
       width: itemWidth,
       height: 'auto'
@@ -96,6 +99,7 @@
       text: sessionData.body.replace('\n','\n\n'),
       backgroundColor: '#fff',
       textAlign: 'left',
+      font: {fontSize: 14, fontWeight: 'normal'},
       color: '#000',
       top: 20,
       bottom: 10,
