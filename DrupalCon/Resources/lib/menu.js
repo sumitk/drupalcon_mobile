@@ -29,7 +29,7 @@ var menu = {
         menu.data[index++] = flexSpace;
       }
       var button = Ti.UI.createButton({
-        systemButton: Ti.UI.iPhone.SystemButton.INFO_DARK
+        systemButton: Ti.UI.iPhone.SystemButton.REFRESH
       });
       win.rightNavButton = button;
       button.addEventListener('click', function(e) {

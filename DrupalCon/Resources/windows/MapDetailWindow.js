@@ -22,11 +22,12 @@
       contentHeight:'auto',
       top:0,
       showVerticalScrollIndicator:true,
-      showHorizontalScrollIndicator:true
+      showHorizontalScrollIndicator:true,
+      backgroundColor:'#031a28'
     });
     var view = Ti.UI.createView({
       backgroundImage:mapImageFileName,
-      borderRadius:10,
+      borderRadius:0,
       width:480,
       height:240,
       top:0
@@ -46,16 +47,16 @@
         dpm('center: ' + scrollView.center);
         t = t.scale(theZoomScale);
         view.width = 1000;
-        view.height = 750;
+        view.height = 525;
         scrollView.contentWidth = 1000;
-        scrollView.contentHeight = 750;
+        scrollView.contentHeight = 525;
         scaled1 = true;
       }
       else {
-        view.width = 480;
-        view.height = 240;
-        scrollView.contentWidth = 480;
-        scrollView.contentHeight = 240;
+        view.width = 500;
+        view.height = 250;
+        scrollView.contentWidth = 500;
+        scrollView.contentHeight = 250;
         scaled1 = false;
       }
 

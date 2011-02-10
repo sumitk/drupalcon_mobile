@@ -23,8 +23,10 @@
 			<orientation>Ti.UI.LANDSCAPE_LEFT</orientation>
 			<orientation>Ti.UI.LANDSCAPE_RIGHT</orientation>
 		</orientations>
+    <icon>default_app_logo.png</icon>
 	</iphone>
 	<android xmlns:android="http://schemas.android.com/apk/res/android">
+    <icon>default_app_logo.png</icon>
 	</android>
 	<modules>
 	</modules>
