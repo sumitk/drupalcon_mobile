@@ -81,7 +81,7 @@
 
 
     var body = Ti.UI.createLabel({
-      text:sessionData.body,
+      text:sessionData.body.replace('\n','\n\n'),
       backgroundColor: '#fff',
       textAlign: 'left',
       color: '#000',
@@ -100,12 +100,21 @@
     }
 
     tv.addEventListener('click', function(e) {
-      var currentTab = (Ti.Platform.name == 'android') ? Titanium.UI.currentTab : sessionDetailWindow.tabGroup.activeTab;
-      currentTab.open(DrupalCon.ui.createPresenterDetailWindow({
-        title: e.source.presenter.full_name,
-        uid: e.source.presenter.uid,
-        tabGroup: Titanium.UI.currentTab
-      }), {animated:true});
+      if (e.source.presenter != undefined){
+        if (e.source.presenter.full_name == undefined) {
+          var fullName = '';
+        }
+        else {
+          var fullName = e.source.presenter.full_name;
+        }
+
+        var currentTab = (Ti.Platform.name == 'android') ? Titanium.UI.currentTab : sessionDetailWindow.tabGroup.activeTab;
+        currentTab.open(DrupalCon.ui.createPresenterDetailWindow({
+          title: fullName,
+          uid: e.source.presenter.uid,
+          tabGroup: Titanium.UI.currentTab
+        }), {animated:true});
+      }
     });
 
     var row3 = Ti.UI.createTableViewRow({height: 'auto',className: 'row',borderColor: '#fff'});
@@ -133,7 +142,7 @@
     textViewBottom.add(audienceTitle);
 
     var audience = Ti.UI.createLabel({
-      text:sessionData.audience,
+      text:sessionData.audience.replace('\n','\n\n'),
       backgroundColor:'#fff',
       textAlign:'left',
       color:'#000',
@@ -167,7 +176,6 @@
       font: {fontSize:18, fontWeight:'bold'},
       left: 85,
       top: 10,
-      right: 15,
       height: 'auto'
     });
     var presenterName2 = Ti.UI.createLabel({
@@ -175,10 +183,9 @@
       text: presenter.name,
       font:{fontSize:14, fontWeight:'normal'},
       left: 85,
-      color: "#999",
-      top: 10,
-      right: 15,
-      height: 'auto'
+      top: 5,
+      height: 'auto',
+      color: "#666"
     });
 
     presRow.add(presenterFullName2);

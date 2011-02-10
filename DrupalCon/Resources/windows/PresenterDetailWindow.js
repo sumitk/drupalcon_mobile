@@ -22,7 +22,6 @@
 
     var itemWidth = (Ti.Platform.name == 'android') ? (Ti.UI.currentWindow.width - 40) : (presenterDetailWindow.width - 40);
 
-    dpm(presenterData);
     var tvData = [];
     var blueBg = '#CAE2F4';
     var	platformWidth = Ti.Platform.displayCaps.platformWidth;
@@ -57,41 +56,45 @@
 //    });
 //    headerRow.add(avatar);
     
-    var fullName = Ti.UI.createLabel({
-      text: presenterData.full_name,
-      font: {fontSize: 20, fontWeight: 'bold'},
-      textAlign: 'left',
-      color: '#000',
-      height: 'auto',
-      left: 120,
-      top: 15,
-      ellipsize:true,
-      width: itemWidth - 120
-    });
-    headerRow.add(fullName);
+    if (presenterData.full_name != undefined) {
+      var fullName = Ti.UI.createLabel({
+        text: presenterData.full_name,
+        font: {fontSize: 20, fontWeight: 'bold'},
+        textAlign: 'left',
+        color: '#000',
+        height: 'auto',
+        left: 120,
+        top: 15,
+        ellipsize:true,
+        width: itemWidth - 120
+      });
+      headerRow.add(fullName);
+    }
 
     var name = Ti.UI.createLabel({
       text: (presenterData.full_name !== presenterData.name) ? presenterData.name : '',
       font: {fontSize: 14, fontWeight: 'bold'},
       textAlign: 'left',
-      color: '#999',
+      color: '#666',
       height: 'auto',
       left: 120,
       width: itemWidth
     });
     headerRow.add(name);
 
-    var company = Ti.UI.createLabel({
-      text:presenterData.company,
-      font:{fontSize: 14, fontWeight: 'bold'},
-      textAlign: 'left',
-      color: '#999',
-      height: 'auto',
-      left: 120,
-      width: itemWidth - 120
-    });
-    headerRow.add(company);
-    tvData.push(headerRow);
+    if (presenterData.company != undefined) {
+      var company = Ti.UI.createLabel({
+        text:presenterData.company,
+        font:{fontSize: 14, fontWeight: 'bold'},
+        textAlign: 'left',
+        color: '#999',
+        height: 'auto',
+        left: 120,
+        width: itemWidth - 120
+      });
+      headerRow.add(company);
+      tvData.push(headerRow);
+    }
 
     if (presenterData.twitter != undefined){
       var twitter = Ti.UI.createLabel({
@@ -122,21 +125,22 @@
 //    if (presenterData.data.facebook != undefined){
 //
 //    }
-
-    var bio = Ti.UI.createLabel({
-      text:presenterData.bio,
-      backgroundColor:'#fff',
-      textAlign:'left',
-      color:'#000',
-      height:'auto',
-      width:'auto',
-      left:10,
-      right:10,
-      top:10,
-      bottom:10
-    });
-    bioRow.add(bio);
-    tvData.push(bioRow);
+    if (presenterData.bio != undefined) {
+      var bio = Ti.UI.createLabel({
+        text:presenterData.bio.replace('\n','\n\n'),
+        backgroundColor:'#fff',
+        textAlign:'left',
+        color:'#000',
+        height:'auto',
+        width:'auto',
+        left:10,
+        right:10,
+        top:10,
+        bottom:10
+      });
+      bioRow.add(bio);
+      tvData.push(bioRow);
+    }
 
     tv.setData(tvData);
     presenterDetailWindow.add(tv);
