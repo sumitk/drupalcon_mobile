@@ -199,7 +199,7 @@
     });
     var presenterFullName2 = Ti.UI.createLabel({
       presenter: presenter,
-      text: presenter.full_name,
+      text: cleanSpecialChars(presenter.full_name),
       font: {fontSize:18, fontWeight:'bold'},
       left: 85,
       top: 10,
