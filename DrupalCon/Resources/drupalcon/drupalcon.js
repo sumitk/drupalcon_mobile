@@ -15,6 +15,7 @@ var DrupalCon = {
           presenterList[rows.fieldByName('name')] = rows.fieldByName('full_name');
           rows.next();
         }
+        rows.close();
       }
       return presenterList;
   };
