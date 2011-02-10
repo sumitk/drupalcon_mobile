@@ -93,8 +93,10 @@
         width: itemWidth - 120
       });
       headerRow.add(company);
-      tvData.push(headerRow);
     }
+    
+    tvData.push(headerRow);
+
 
     if (presenterData.twitter != undefined){
       var twitter = Ti.UI.createLabel({
