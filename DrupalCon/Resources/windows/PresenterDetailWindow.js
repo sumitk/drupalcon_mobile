@@ -127,7 +127,7 @@
 //    }
     if (presenterData.bio != undefined) {
       var bio = Ti.UI.createLabel({
-        text:presenterData.bio.replace('\n','\n\n'),
+        text: cleanSpecialChars(presenterData.bio.replace('\n','\n\n')),
         backgroundColor:'#fff',
         textAlign:'left',
         color:'#000',
