@@ -79,9 +79,21 @@
     });
     textView.add(room);
 
+    var startDate = parseISO8601(sessionData.start_date + ':00');
+    var datetime = Ti.UI.createLabel({
+      text: cleanDate(startDate) + '\n' + cleanTime(sessionData.start_date),
+      backgroundColor: '#fff',
+      textAlign: 'left',
+      color: '#000',
+      top: 20,
+      bottom: 10,
+      width: itemWidth,
+      height: 'auto'
+    });
+    textView.add(datetime);
 
     var body = Ti.UI.createLabel({
-      text:sessionData.body.replace('\n','\n\n'),
+      text: sessionData.body.replace('\n','\n\n'),
       backgroundColor: '#fff',
       textAlign: 'left',
       color: '#000',

@@ -160,3 +160,73 @@ function prettyDate(time) {
   day_diff < 7 && day_diff + " days ago" ||
   day_diff < 31 && Math.ceil( day_diff / 7 ) + " week" + ((Math.ceil( day_diff / 7 )) == 1 ? "" : "s") + " ago";
 }
+
+function dayToName(day) {
+  switch (day) {
+    case 0:
+      return L('Sunday');
+    case 1:
+      return L('Monday');
+    case 2:
+      return L('Tuesday');
+    case 3:
+      return L('Wednesday');
+    case 4:
+      return L('Thursday');
+    case 5:
+      return L('Friday');
+    case 6:
+      return L('Saturday');
+  }
+}
+
+function monthToName(month) {
+  switch (month) {
+    case 1:
+      return L('January');
+    case 2:
+      return L('February');
+    case 3:
+      return L('March');
+    case 4:
+      return L('April');
+    case 5:
+      return L('May');
+    case 6:
+      return L('June');
+    case 7:
+      return L('July');
+    case 8:
+      return L('August');
+    case 9:
+      return L('September');
+    case 10:
+      return L('October');
+    case 11:
+      return L('November');
+    case 12:
+      return L('December');
+  }
+}
+
+/**
+ * Format a date string.
+ *
+ * @param {Date} date
+ *   A Date() object to format.
+ */
+function cleanDate(date) {
+  var label;
+  switch (date.getDate()) {
+    case 1:
+      label = 'st';
+      break;
+    case 2:
+      label = 'nd';
+      break;
+    default:
+      label = 'th';
+  }
+
+  return dayToName(date.getDay()) + ', ' + monthToName(date.getMonth()) + ' ' +  date.getDate() + label;
+}
