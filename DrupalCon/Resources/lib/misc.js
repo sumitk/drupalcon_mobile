@@ -68,6 +68,34 @@ function dpm(vars) {
   Ti.API.info(vars);
 }
 
+
+// Using the parsing method shown https://gist.github.com/819929
+/**
+ * Define our parser class. It takes in some text, and then you can call "linkifyURLs", or one of the other methods,
+ * and then call "getHTML" to get the fully parsed text back as HTML!
+ * @param text that you want parsed
+ */
+function Parser(text) {
+
+  var html = text;
+
+  var urlRegex = /((ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?)/gi;
+  var hashTagRegex = /#([^ ]+)/gi;
+
+  this.linkifyURLs = function() {
+    html = html.replace(urlRegex, '<a href="$1">$1</a>');
+  };
+  this.linkifyHashTags = function() {
+    html = html.replace(hashTagRegex, '<a href="http://mobile.twitter.com/#!/search?q=%23$1">#$1</a>');
+  };
+
+  this.getHTML = function() {
+    return html;
+  };
+
+}
+
+
 /*
  * Clean up some of the special characters we are running into.
  */

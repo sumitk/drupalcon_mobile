@@ -17,22 +17,26 @@ var Twitter = {
     // new twitter.com when we already have twitter.com?
     var webview = Ti.UI.createWebView({url:'http://mobile.twitter.com/drupalcon'});
     twitterWindow.add(webview);
-  
+
+    return twitterWindow;
+
 //    twitterWindow.addEventListener('focus', function() {
 //      var webview = Ti.UI.createWebView({url:'http://mobile.twitter.com/drupalcon'});
 //      twitterWindow.add(webview);
 //    });
 
-    
-    return twitterWindow;
-
+//    // Using the parsing method shown https://gist.github.com/819929
+//    var tweetWebJs = "document.body.addEventListener('touchmove', function(e) { e.preventDefault();}, false);";
+//    var baseHTMLStart = '<html><head></head><body>',
+//        baseHTMLEnd = '<script type="text/javascript">' + tweetWebJs + '</script></body></html>';
+//
 //    // set up a twitter screen name.
 //    var twitter_name = 'drupalcon';
 //    twitterWindow.title = '@' + twitter_name;
 //    var tweetCount = 50;
 //
 //    // set this to true if you are only tracking one user
-//    var single = true;
+//    var single = false;
 //
 //    var net = Titanium.Network;
 //    var up = net.online;
@@ -76,7 +80,7 @@ var Twitter = {
 //            // No need to load every single avatar if we are only looking at one user.
 //            // Perhaps there is no need to load avatar at all?
 //            if (single) {
-//              //var avatar = tweets[0].user.profile_image_url;
+//              // var avatar = tweets[0].user.profile_image_url;
 //              avatarWidth = 0;
 //              leftMargin = 5;
 //              rowHeight = 'auto';
@@ -149,8 +153,12 @@ var Twitter = {
 //            // Add the date to the view
 //            post_view.add(date_label);
 //
-//            var tweet_text = Ti.UI.createLabel({
-//              text:tweet,
+//
+//            var parser = new Parser(tweet);
+//            parser.linkifyURLs();
+//            parser.linkifyHashTags();
+//            var tweet_text = Ti.UI.createWebView({
+//              html:baseHTMLStart + parser.getHTML() + baseHTMLEnd,
 //              left:leftMargin,
 //              top:3,
 //              bottom:2,
@@ -162,6 +170,8 @@ var Twitter = {
 //                fontSize:14
 //              }
 //            });
+//
+//
 //            // Add the tweet to the view
 //            post_view.add(tweet_text);
 //            // Add the vertical layout view to the row
