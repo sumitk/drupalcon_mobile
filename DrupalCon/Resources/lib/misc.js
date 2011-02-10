@@ -164,48 +164,48 @@ function prettyDate(time) {
 function dayToName(day) {
   switch (day) {
     case 0:
-      return L('Sunday');
+      return 'Sunday';
     case 1:
-      return L('Monday');
+      return 'Monday';
     case 2:
-      return L('Tuesday');
+      return 'Tuesday';
     case 3:
-      return L('Wednesday');
+      return 'Wednesday';
     case 4:
-      return L('Thursday');
+      return 'Thursday';
     case 5:
-      return L('Friday');
+      return 'Friday';
     case 6:
-      return L('Saturday');
+      return 'Saturday';
   }
 }
 
 function monthToName(month) {
   switch (month) {
     case 1:
-      return L('January');
+      return 'January';
     case 2:
-      return L('February');
+      return 'February';
     case 3:
-      return L('March');
+      return 'March';
     case 4:
-      return L('April');
+      return 'April';
     case 5:
-      return L('May');
+      return 'May';
     case 6:
-      return L('June');
+      return 'June';
     case 7:
-      return L('July');
+      return 'July';
     case 8:
-      return L('August');
+      return 'August';
     case 9:
-      return L('September');
+      return 'September';
     case 10:
-      return L('October');
+      return 'October';
     case 11:
-      return L('November');
+      return 'November';
     case 12:
-      return L('December');
+      return 'December';
   }
 }
 
