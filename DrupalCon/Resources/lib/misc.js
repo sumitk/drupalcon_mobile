@@ -35,6 +35,7 @@ function getPresenterData(names) {
       }
       rows.next();
     }
+    rows.close();
   }
 
   return nameList;
