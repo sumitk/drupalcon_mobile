@@ -79,18 +79,23 @@ function dpm(vars) {
  * and then call "getHTML" to get the fully parsed text back as HTML!
  * @param text that you want parsed
  */
-function Parser(text) {
+function twitterParser(text) {
 
   var html = text;
 
   var urlRegex = /((ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?)/gi;
   var hashTagRegex = /#([^ ]+)/gi;
+  var atTagRegex = /\@([a-z]+)/ig;
 
   this.linkifyURLs = function() {
     html = html.replace(urlRegex, '<a href="$1">$1</a>');
   };
   this.linkifyHashTags = function() {
-    html = html.replace(hashTagRegex, '<a href="http://mobile.twitter.com/#!/search?q=%23$1">#$1</a>');
+    html = html.replace(hashTagRegex, '<a href="http://twitter.com/#!/search?q=%23$1">#$1</a>');
+  };
+  this.linkifyAtTags = function() {
+    dpm(atTagRegex);
+    html = html.replace(atTagRegex, '<a href="http://mobile.twitter.com/$1">@$1</a>');
   };
 
   this.getHTML = function() {
