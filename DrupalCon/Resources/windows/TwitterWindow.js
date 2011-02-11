@@ -13,17 +13,59 @@ var Twitter = {
       tabGroup: tabGroup
     });
 
-    // Trying out something a little different.  Why are we trying to create a
-    // new twitter.com when we already have twitter.com?
-    var webview = Ti.UI.createWebView({url:'http://mobile.twitter.com/drupalcon'});
-    twitterWindow.add(webview);
+    function getTweets() {
+      Ti.API.info("Getting twitter feed...");
+      // The notification below seems to fire a loop that kills my laptop
+      // so no notifications for this page.
+      // Drupal.createNoticeDialog('Grabbing News Feed.').show(3000);
+      
+      var HTTPClient = Ti.Network.createHTTPClient();
 
+      HTTPClient.onload = function() {
+        var twitterPage = this.responseText;
+        Ti.API.info("Twitter DB Downloaded.");
+        twitterPage = twitterPage.replace(
+          "timeline-user-friend'",
+          "timeline-user-friend' style='display:none;'")
+        .replace(
+          "timeline-header-friend'",
+          "timeline-header-friend' style='display:none;'")
+        .replace(
+          "timeline-friend timeline'",
+          "timeline-friend timeline' style='margin:0 0 0 0;'")
+        .replace(
+          "search_footer'",
+          "search_footer' style='display:none;'")
+        .replace(
+          "class='footer'",
+          "class='footer' style='display:none;'")
+        .replace(
+          "begin-warning'",
+          "begin-warning' style='display:none;'")
+        .replace(
+          'logo"',
+          'logo" style="display:none;"')
+        .replace(
+          "list-more'",
+          "list-more' style='display:none;'");
+
+        var webview = Ti.UI.createWebView({html: twitterPage});
+        twitterWindow.add(webview);
+
+      };
+
+      HTTPClient.open("GET", 'http://mobile.twitter.com/drupalcon');
+      HTTPClient.send();
+    }
 
     twitterWindow.addEventListener('focus', function() {
-      var webview = Ti.UI.createWebView({url:'http://mobile.twitter.com/drupalcon'});
-      twitterWindow.add(webview);
+      getTweets();
     });
     return twitterWindow;
+
+    // Trying out something a little different.  Why are we trying to create a
+    // new twitter.com when we already have twitter.com?
+    
 
 
 //    // Using the parsing method shown https://gist.github.com/819929
