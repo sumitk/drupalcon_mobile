@@ -84,12 +84,12 @@ function twitterParser(text) {
   var html = text;
 
   var urlRegex = /((ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?)/gi;
-  var hashTagRegex = /\#([^ ]+)/gi;
+  var hashTagRegex = /#([^ ]+)/gi;
   var atTagRegex = /\@([a-z]+)/ig;
 
   this.linkifyURLs = function() {
-    html = html.replace(urlRegex, '<a onclick="Ti.App.fireEvent(\'openURL\', { url: \'$1\' });">$1</a>');
-    dpm(html);
+    html = html.replace(urlRegex, '<a href="$1">$1</a>');
+    // html = html.replace(urlRegex, '<a onclick="Ti.App.fireEvent(\'openURL\', { url: \'$1\' });">$1</a>');
   };
   this.linkifyHashTags = function() {
     html = html.replace(hashTagRegex, '<a href="http://twitter.com/#!/search?q=%23$1">#$1</a>');
