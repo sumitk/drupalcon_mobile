@@ -76,6 +76,9 @@ Ti.include(
 
 Ti.include('windows/main.js');
 
+Ti.App.addEventListener('openURL', function(e){
+  Ti.Platform.openURL(e.url);
+});
 
 /*
 // Download tests, for now.  These must get moved eventually.
