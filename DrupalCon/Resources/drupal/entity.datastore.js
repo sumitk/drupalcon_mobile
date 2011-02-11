@@ -154,7 +154,11 @@ Drupal.entity.Datastore.prototype.exists = function(id) {
   // return null rather than show a useful error.  So we have
   // to check the return, always. Fail.  We'll assume that a
   // null return (error) indicates that the record is not there.
-  return rows && rows.rowCount;
+  var ret = rows && rows.rowCount;
+  if (rows) {
+    rows.close();
+  }
+  return ret;
 };
 
 /**
@@ -241,8 +245,8 @@ Drupal.entity.Datastore.prototype.loadByField = function(field, values, order) {
       entities.push(entity);
       rows.next();
     }
+    rows.close();
   }
-  rows.close();
 
   return entities;
 };

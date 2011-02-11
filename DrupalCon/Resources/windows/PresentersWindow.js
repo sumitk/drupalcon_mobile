@@ -193,6 +193,7 @@
         }
         rows.next();
       }
+      rows.close();
     }
 
     return nameList;
