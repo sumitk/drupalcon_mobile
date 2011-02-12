@@ -191,7 +191,7 @@ var Twitter = {
 
 
           tableview.addEventListener('click', function(e) {
-            Ti.API.info(tweets[e.index].text);
+            //Ti.API.info(tweets[e.index].text);
           });
         }
         catch(e) {

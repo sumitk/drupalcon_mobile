@@ -44,7 +44,7 @@
       var t = Titanium.UI.create2DMatrix();
 
       if (!scaled1) {
-        dpm('center: ' + scrollView.center);
+        //dpm('center: ' + scrollView.center);
         t = t.scale(theZoomScale);
         view.width = 1000;
         view.height = 525;

@@ -51,7 +51,7 @@ var Ti;
   button.addEventListener('click',function(e) {
     var pass = password.value ? password.value : 'no password';
     var user = username.value ? username.value : 'no username';
-    Ti.API.info(user + ':' + pass);
+    //Ti.API.info(user + ':' + pass);
 
     Titanium.App.Properties.setString("siteUsername",user);
     Titanium.App.Properties.setString("sitePassword",pass);

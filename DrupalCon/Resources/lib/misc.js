@@ -96,7 +96,7 @@ function twitterParser(text) {
     html = html.replace(hashTagRegex, '<a href="http://twitter.com/#!/search?q=%23$1">#$1</a>');
   };
   this.linkifyAtTags = function() {
-    dpm(atTagRegex);
+    //dpm(atTagRegex);
     html = html.replace(atTagRegex, '<a href="http://mobile.twitter.com/$1">@$1</a>');
   };
 
