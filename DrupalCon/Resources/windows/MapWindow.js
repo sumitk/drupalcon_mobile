@@ -49,7 +49,7 @@
           title: e.rowData.title,
           mapName: e.rowData.title,
           image: e.rowData.image,
-          tabGroup: Titanium.UI.currentTab
+          tabGroup: currentTab
         }), {animated:true});
       }
     });

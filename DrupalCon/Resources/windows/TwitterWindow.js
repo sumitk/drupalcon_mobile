@@ -183,7 +183,7 @@ var Twitter = {
               text: tweets[e.index].text,
               name: tweets[e.index].user.screen_name,
               date: e.rowData.date,
-              tabGroup: Titanium.UI.currentTab
+              tabGroup: currentTab
             }), {animated:true});
           });
 

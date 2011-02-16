@@ -157,7 +157,7 @@
           title: e.rowData.name,
           uid: e.rowData.uid,
           name: e.rowData.name,
-          tabGroup: Titanium.UI.currentTab
+          tabGroup: currentTab
         }), {animated:true});
       }
     });

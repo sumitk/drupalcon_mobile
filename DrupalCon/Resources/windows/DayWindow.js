@@ -42,7 +42,7 @@
           title: e.rowData.title,
           start_date: e.rowData.start_date,
           end_date: e.rowData.end_date,
-          tabGroup: Titanium.UI.currentTab
+          tabGroup: currentTab
         }), {animated:true});
       }
     });

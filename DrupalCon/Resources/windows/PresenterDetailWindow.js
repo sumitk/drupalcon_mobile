@@ -187,7 +187,7 @@
         currentTab.open(DrupalCon.ui.createSessionDetailWindow({
           title: e.rowData.sessionTitle,
           nid: e.rowData.nid,
-          tabGroup: Titanium.UI.currentTab
+          tabGroup: currentTab
         }), {animated:true});
 
       });

@@ -191,7 +191,7 @@
         currentTab.open(DrupalCon.ui.createPresenterDetailWindow({
           title: fullName,
           uid: e.source.presenter.uid,
-          tabGroup: Titanium.UI.currentTab
+          tabGroup: currentTab
         }), {animated:true});
       }
     });
