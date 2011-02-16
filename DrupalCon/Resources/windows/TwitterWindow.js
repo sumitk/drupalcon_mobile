@@ -116,7 +116,6 @@ var Twitter = {
               width:80,
               top:0,
               height:16,
-              left:0,
               textAlign:'left',
               color:'#444444',
               font:{
