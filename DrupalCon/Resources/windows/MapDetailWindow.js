@@ -17,6 +17,10 @@
       tabGroup: settings.tabGroup
     });
 
+    mapDetailWindow.addEventListener('focus', function() {
+      Drupal.createNoticeDialog('Double-Tap to Zoom.').show(3000);
+    });
+
     var scrollView = Titanium.UI.createScrollView({
       contentWidth:'auto',
       contentHeight:'auto',
@@ -74,7 +78,6 @@
 
     scrollView.add(view);
     mapDetailWindow.add(scrollView);
-    Drupal.createNoticeDialog('Double-Tap to Zoom.').show(3000);
 
     return mapDetailWindow;
   };
