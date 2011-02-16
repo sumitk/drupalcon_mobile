@@ -1,4 +1,3 @@
-
 (function() {
 
   DrupalCon.ui.createSessionDetailWindow = function(settings) {
@@ -25,91 +24,99 @@
     
     // Build the page:
     var tvData = [];
-    var tv = Ti.UI.createTableView({
-      minRowHeight: 50,
-      textAlign: 'left',
-      borderColor:"#fff"
-    });
-    var row = Ti.UI.createTableViewRow({height:'auto',className:"row",borderColor:"#fff", bottom: 10});
+    var blueBg = '#FFF';
 
-    var textView = Ti.UI.createView({
-      height: 'auto',
-      layout: 'vertical',
-      backgroundColor: '#fff',
+    // Structure
+    var tv = Ti.UI.createTableView({
       textAlign: 'left',
-      color: '#000',
-      left: 10,
-      top: 10,
-      right: 10,
-      bottom: 10
+      layout:'vertical'
     });
+    var headerRow = Ti.UI.createTableViewRow({
+      height:'auto',
+      backgroundColor: blueBg,
+      left:0,
+      top:-5,
+      bottom:10,
+      layout:'vertical'
+    });
+
+
+    var bodyRow = Ti.UI.createTableViewRow({hasChild:false,height:'auto'});
+
 
     var titleLabel = Ti.UI.createLabel({
       text: cleanSpecialChars(sessionData.title),
       font: {fontSize: 24, fontWeight: 'bold'},
-      backgroundColor: '#fff',
       textAlign: 'left',
       color: '#000',
-      height: 'auto',
-      width: itemWidth
+      height:'auto',
+      left: 10,
+      top: 'auto',
+      bottom: 10,
+      right: 10,
+      height: 'auto'
     });
-    textView.add(titleLabel);
+    headerRow.add(titleLabel);
 
-    for (var i = 0, numPresenters = presenterData.length; i < numPresenters; i++) {
-      var presenterName = Ti.UI.createLabel({
-        text: presenterData[i].full_name,
-        backgroundColor: '#fff',
-        font: {fontSize: 14, fontWeight: 'normal'},
-        textAlign: 'left',
-        color: '#000',
-        height: 'auto',
-        top: 10,
-        width: itemWidth
-      });
-      textView.add(presenterName);
-    }
+    // Some sessions have multiple presenters
+    var presenterName = Ti.UI.createLabel({
+      text: sessionData.instructors.map(DrupalCon.util.getPresenterName).join(', '),
+      font: {fontSize:12, fontWeight:'normal'},
+      color: '#000',
+      height:'auto',
+      left: 10,
+      top: 'auto',
+      bottom: 10,
+      right: 10,
+      height: 'auto'
+    });
+    
+    headerRow.add(presenterName);
 
     var room = Ti.UI.createLabel({
       text: sessionData.room.map(cleanSpecialChars).join(', '),
-      backgroundColor: '#fff',
       font: {fontSize: 13, fontWeight: 'bold'},
       textAlign: 'left',
       color: '#000',
-      top: 12,
-      width: itemWidth,
-      height: 'auto',
+      left: 10,
+      top: 'auto',
+      bottom: 10,
+      right: 10,
+      height: 'auto'
     });
-    textView.add(room);
+    headerRow.add(room);
 
     var startDate = parseISO8601(sessionData.start_date + ':00');
     var datetime = Ti.UI.createLabel({
       text: cleanDate(startDate) + ', ' + cleanTime(sessionData.start_date),
-      backgroundColor: '#fff',
       font: {fontSize: 14, fontWeight: 'normal'},
       textAlign: 'left',
       color: '#000',
-      top: 0,
+      height:'auto',
+      left: 10,
+      top: 'auto',
       bottom: 10,
-      width: itemWidth,
+      right: 10,
       height: 'auto'
     });
-    textView.add(datetime);
+    headerRow.add(datetime);
 
     var body = Ti.UI.createLabel({
-      text: sessionData.body.replace('\n','\n\n'),
-      backgroundColor: '#fff',
-      textAlign: 'left',
-      font: {fontSize: 14, fontWeight: 'normal'},
-      color: '#000',
-      top: 20,
+      text: cleanSpecialChars(sessionData.body.replace('\n','\n\n')),
+      backgroundColor:'#fff',
+      textAlign:'left',
+      color:'#000',
+      height:'auto',
+      left: 10,
+      top: 10,
       bottom: 10,
-      width: itemWidth,
+      right: 10,
       height: 'auto'
     });
-    textView.add(body);
+    bodyRow.add(body);
 
-    row.add(textView);
-    tvData.push(row);
+    tvData.push(headerRow)
+    tvData.push(bodyRow);
 
     
     var row3 = Ti.UI.createTableViewRow({height: 'auto',className: 'row',borderColor: '#fff'});
@@ -130,9 +137,11 @@
       textAlign:'left',
       font:{fontSize:18, fontWeight:'bold'},
       color:'#000',
-      top:20,
-      width:itemWidth,
-      height:'auto'
+      left: 0,
+      top: 20,
+      bottom: 10,
+      right: 10,
+      height: 'auto'
     });
     textViewBottom.add(audienceTitle);
 
@@ -141,11 +150,15 @@
       backgroundColor:'#fff',
       textAlign:'left',
       color:'#000',
-      top:10,
-      width:itemWidth,
       height:'auto',
-      bottom: 20
+      width:'auto',
+      left:0,
+      right:0,
+      top:10,
+      bottom:10
     });
+    
+    
     textViewBottom.add(audience);
     row3.add(textViewBottom);
     tvData.push(row3);
@@ -156,9 +169,11 @@
       textAlign:'left',
       font:{fontSize:18, fontWeight:'bold'},
       color:'#000',
-      top:20,
-      width:itemWidth,
-      height:'auto'
+      left: 10,
+      top: 20,
+      bottom: 10,
+      right: 10,
+      height: 'auto'
     });
     var presentersTitleRow = Ti.UI.createTableViewRow({height: 'auto',className: 'row',borderColor: '#fff'});
     presentersTitleRow.add(presentersTitle);
