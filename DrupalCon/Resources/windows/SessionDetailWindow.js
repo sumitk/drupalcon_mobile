@@ -32,17 +32,17 @@
       layout:'vertical'
     });
     var headerRow = Ti.UI.createTableViewRow({
-      height:'auto',
+      height: 'auto',
       backgroundColor: blueBg,
-      left:0,
-      top:-5,
-      bottom:10,
-      layout:'vertical'
+      left: 0,
+      top: -5,
+      bottom: 10,
+      layout: 'vertical',
+      className: 'headerRow'
     });
 
 
-    var bodyRow = Ti.UI.createTableViewRow({hasChild:false,height:'auto'});
-
+    var bodyRow = Ti.UI.createTableViewRow({hasChild: false, height: 'auto', className: 'bodyRow'});
 
     var titleLabel = Ti.UI.createLabel({
       text: cleanSpecialChars(sessionData.title),
@@ -119,7 +119,7 @@
     tvData.push(bodyRow);
 
     
-    var row3 = Ti.UI.createTableViewRow({height: 'auto',className: 'row',borderColor: '#fff'});
+    var audienceRow = Ti.UI.createTableViewRow({height: 'auto', className: 'audienceRow', borderColor: '#fff'});
 
     var textViewBottom = Ti.UI.createView({
       height: 'auto',
@@ -160,8 +160,8 @@
     
     
     textViewBottom.add(audience);
-    row3.add(textViewBottom);
-    tvData.push(row3);
+    audienceRow.add(textViewBottom);
+    tvData.push(audienceRow);
 
     var presentersTitle = Ti.UI.createLabel({
       text:"Presenter(s)",
@@ -175,7 +175,8 @@
       right: 10,
       height: 'auto'
     });
-    var presentersTitleRow = Ti.UI.createTableViewRow({height: 'auto',className: 'row',borderColor: '#fff'});
+
+    var presentersTitleRow = Ti.UI.createTableViewRow({height: 'auto', className: 'presentersTitle', borderColor: '#fff'});
     presentersTitleRow.add(presentersTitle);
     tvData.push(presentersTitleRow);
 
@@ -206,7 +207,7 @@
     var presRow = Ti.UI.createTableViewRow({
       presenter: presenter,
       height: 80,
-      className: "row",
+      className: 'presenterRow',
       borderColor: '#fff',
       hasChild: true,
       leftImage: 'images/userpict-medium.png',

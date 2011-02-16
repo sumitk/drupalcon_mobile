@@ -155,7 +155,7 @@
       height:'auto'
     });
 
-    var sessionsTitleRow = Ti.UI.createTableViewRow({height: 'auto',className: 'row',borderColor: '#fff'});
+    var sessionsTitleRow = Ti.UI.createTableViewRow({height: 'auto', className: 'sessionTitleRow', borderColor: '#fff'});
     sessionsTitleRow.add(sessionsTitle);
     tvData.push(sessionsTitleRow);
     
