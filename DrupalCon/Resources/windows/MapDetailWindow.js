@@ -18,7 +18,8 @@
     });
 
     mapDetailWindow.addEventListener('focus', function() {
-      Drupal.createNoticeDialog('Double-Tap to Zoom.').show(3000);
+      // We should be showing the "tap to zoom" message here, but for some reason
+      // it doesn't unshow from here. Eventually we may figure this out.
     });
 
     var scrollView = Titanium.UI.createScrollView({
@@ -78,6 +79,8 @@
 
     scrollView.add(view);
     mapDetailWindow.add(scrollView);
+
+    Drupal.createNoticeDialog('Double-Tap to Zoom.').show(3000);
 
     return mapDetailWindow;
   };
