@@ -34,6 +34,6 @@
     web.html = parsedPage;
 
     return twitterDetailWindow;
-  }
+  };
 
 })();
