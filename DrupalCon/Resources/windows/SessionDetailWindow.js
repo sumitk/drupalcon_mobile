@@ -38,7 +38,16 @@
       className: 'headerRow'
     });
 
-    var bodyRow = Ti.UI.createTableViewRow({hasChild: false, height: 'auto', className: 'bodyRow'});
+    var bodyRow = Ti.UI.createTableViewRow({
+      hasChild: false,
+      height: 'auto',
+      backgroundColor: blueBg,
+      left: 0,
+      top: -5,
+      bottom: 10,
+      layout: 'vertical',
+      className: 'bodyRow'
+    });
 
     if (sessionData.title) {
       var titleLabel = Ti.UI.createLabel({
@@ -54,16 +63,15 @@
       });
       headerRow.add(titleLabel);
     }
-
     // Some sessions have multiple presenters
-    if (sessionData.presenters) {
+    if (sessionData.instructors) {
       var presenterName = Ti.UI.createLabel({
         text: sessionData.instructors.map(DrupalCon.util.getPresenterName).join(', '),
         font: {fontSize:12, fontWeight:'normal'},
         color: '#000',
         left: 10,
         top: 'auto',
-        bottom: 10,
+        bottom: 5,
         right: 10,
         height: 'auto'
       });
@@ -123,9 +131,9 @@
         textAlign:'left',
         font:{fontSize:18, fontWeight:'bold'},
         color:'#000',
-        left: 0,
-        top: 'auto',
-        bottom: 10,
+        left: 10,
+        top: 10,
+        bottom: 'auto',
         right: 10,
         height: 'auto'
       });
@@ -137,7 +145,7 @@
         textAlign:'left',
         color:'#000',
         left: 10,
-        top: 'auto',
+        top: 5,
         bottom: 10,
         right: 10,
         height: 'auto'
@@ -152,9 +160,9 @@
         textAlign:'left',
         font:{fontSize:18, fontWeight:'bold'},
         color:'#000',
-        left: 0,
-        top: 'auto',
-        bottom: 10,
+        left: 10,
+        top: 10,
+        bottom: 'auto',
         right: 10,
         height: 'auto'
       });
@@ -166,7 +174,7 @@
         textAlign:'left',
         color:'#000',
         left: 10,
-        top: 'auto',
+        top: 5,
         bottom: 10,
         right: 10,
         height: 'auto'
@@ -240,7 +248,16 @@
         height: 'auto'
       });
 
-      var presentersTitleRow = Ti.UI.createTableViewRow({height: 'auto', className: 'presentersTitle', borderColor: '#fff'});
+      var presentersTitleRow = Ti.UI.createTableViewRow({
+        height: 'auto',
+        backgroundColor: blueBg,
+        left: 0,
+        top: -5,
+        bottom: 10,
+        layout: 'vertical',
+        className: 'presentersTitle',
+        borderColor: '#fff'
+      });
       presentersTitleRow.add(presentersTitle);
       tvData.push(presentersTitleRow);
 
@@ -259,9 +276,7 @@
           tabGroup: currentTab
         }), {animated:true});
       }
-    });
-
-    
+    });    
     tv.setData(tvData);
     sessionDetailWindow.add(tv);
 
