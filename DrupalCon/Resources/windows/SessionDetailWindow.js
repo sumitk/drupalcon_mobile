@@ -18,9 +18,6 @@
 
     // Build session data
     var sessionData = Drupal.entity.db('main', 'node').load(settings.nid);
-
-    // Get the presenter information.
-    var presenterData = Drupal.entity.db('main', 'user').loadByField('name', sessionData.instructors);
     
     // Build the page:
     var tvData = [];
@@ -41,143 +38,215 @@
       className: 'headerRow'
     });
 
-
     var bodyRow = Ti.UI.createTableViewRow({hasChild: false, height: 'auto', className: 'bodyRow'});
 
-    var titleLabel = Ti.UI.createLabel({
-      text: cleanSpecialChars(sessionData.title),
-      font: {fontSize: 24, fontWeight: 'bold'},
-      textAlign: 'left',
-      color: '#000',
-      left: 10,
-      top: 'auto',
-      bottom: 10,
-      right: 10,
-      height: 'auto'
-    });
-    headerRow.add(titleLabel);
+    if (sessionData.title) {
+      var titleLabel = Ti.UI.createLabel({
+        text: cleanSpecialChars(sessionData.title),
+        font: {fontSize: 24, fontWeight: 'bold'},
+        textAlign: 'left',
+        color: '#000',
+        left: 10,
+        top: 'auto',
+        bottom: 10,
+        right: 10,
+        height: 'auto'
+      });
+      headerRow.add(titleLabel);
+    }
 
     // Some sessions have multiple presenters
-    var presenterName = Ti.UI.createLabel({
-      text: sessionData.instructors.map(DrupalCon.util.getPresenterName).join(', '),
-      font: {fontSize:12, fontWeight:'normal'},
-      color: '#000',
-      left: 10,
-      top: 'auto',
-      bottom: 10,
-      right: 10,
-      height: 'auto'
-    });
-    
-    headerRow.add(presenterName);
+    if (sessionData.presenters) {
+      var presenterName = Ti.UI.createLabel({
+        text: sessionData.instructors.map(DrupalCon.util.getPresenterName).join(', '),
+        font: {fontSize:12, fontWeight:'normal'},
+        color: '#000',
+        left: 10,
+        top: 'auto',
+        bottom: 10,
+        right: 10,
+        height: 'auto'
+      });
+      headerRow.add(presenterName);
+    }
 
-    var room = Ti.UI.createLabel({
-      text: sessionData.room.map(cleanSpecialChars).join(', '),
-      font: {fontSize: 13, fontWeight: 'bold'},
-      textAlign: 'left',
-      color: '#000',
-      left: 10,
-      top: 'auto',
-      bottom: 10,
-      right: 10,
-      height: 'auto'
-    });
-    headerRow.add(room);
+    if (sessionData.room) {
+      var room = Ti.UI.createLabel({
+        text: sessionData.room.map(cleanSpecialChars).join(', '),
+        font: {fontSize: 13, fontWeight: 'bold'},
+        textAlign: 'left',
+        color: '#000',
+        left: 10,
+        top: 'auto',
+        bottom: 10,
+        right: 10,
+        height: 'auto'
+      });
+      headerRow.add(room);
+    }
 
-    var startDate = parseISO8601(sessionData.start_date + ':00');
-    var datetime = Ti.UI.createLabel({
-      text: cleanDate(startDate) + ', ' + cleanTime(sessionData.start_date),
-      font: {fontSize: 14, fontWeight: 'normal'},
-      textAlign: 'left',
-      color: '#000',
-      left: 10,
-      top: 'auto',
-      bottom: 10,
-      right: 10,
-      height: 'auto'
-    });
-    headerRow.add(datetime);
+    if (sessionData.start_date) {
+      var startDate = parseISO8601(sessionData.start_date + ':00');
+      var datetime = Ti.UI.createLabel({
+        text: cleanDate(startDate) + ', ' + cleanTime(sessionData.start_date),
+        font: {fontSize: 14, fontWeight: 'normal'},
+        textAlign: 'left',
+        color: '#000',
+        left: 10,
+        top: 'auto',
+        bottom: 10,
+        right: 10,
+        height: 'auto'
+      });
+      headerRow.add(datetime);
+    }
 
-    var body = Ti.UI.createLabel({
-      text: cleanSpecialChars(sessionData.body.replace('\n','\n\n')),
-      backgroundColor:'#fff',
-      textAlign:'left',
-      color:'#000',
-      left: 10,
-      top: 10,
-      bottom: 10,
-      right: 10,
-      height: 'auto'
-    });
-    bodyRow.add(body);
+    if (sessionData.body) {
+      var body = Ti.UI.createLabel({
+        text: cleanSpecialChars(sessionData.body.replace('\n','\n\n')),
+        backgroundColor:'#fff',
+        textAlign:'left',
+        color:'#000',
+        left: 10,
+        top: 10,
+        bottom: 10,
+        right: 10,
+        height: 'auto'
+      });
+      bodyRow.add(body);
+    }
+
+    if (sessionData.core_problem) {
+      var problemTitle = Ti.UI.createLabel({
+        text:"Problem:",
+        backgroundColor:'#fff',
+        textAlign:'left',
+        font:{fontSize:18, fontWeight:'bold'},
+        color:'#000',
+        left: 0,
+        top: 'auto',
+        bottom: 10,
+        right: 10,
+        height: 'auto'
+      });
+      bodyRow.add(problemTitle);
+
+      var coreProblem = Ti.UI.createLabel({
+        text: cleanSpecialChars(sessionData.core_problem.replace('\n','\n\n')),
+        backgroundColor:'#fff',
+        textAlign:'left',
+        color:'#000',
+        left: 10,
+        top: 'auto',
+        bottom: 10,
+        right: 10,
+        height: 'auto'
+      });
+      bodyRow.add(coreProblem);
+    }
+
+    if (sessionData.core_solution) {
+      var solutionTitle = Ti.UI.createLabel({
+        text:"Solution:",
+        backgroundColor:'#fff',
+        textAlign:'left',
+        font:{fontSize:18, fontWeight:'bold'},
+        color:'#000',
+        left: 0,
+        top: 'auto',
+        bottom: 10,
+        right: 10,
+        height: 'auto'
+      });
+      bodyRow.add(solutionTitle);
+
+      var coreSolution = Ti.UI.createLabel({
+        text: cleanSpecialChars(sessionData.core_solution.replace('\n','\n\n')),
+        backgroundColor:'#fff',
+        textAlign:'left',
+        color:'#000',
+        left: 10,
+        top: 'auto',
+        bottom: 10,
+        right: 10,
+        height: 'auto'
+      });
+      bodyRow.add(coreSolution);
+    }
 
     tvData.push(headerRow)
     tvData.push(bodyRow);
 
-    
-    var audienceRow = Ti.UI.createTableViewRow({height: 'auto', className: 'audienceRow', borderColor: '#fff'});
 
-    var textViewBottom = Ti.UI.createView({
-      height: 'auto',
-      layout: 'vertical',
-      backgroundColor: '#fff',
-      textAlign: 'left',
-      color: '#000',
-      left: 10,
-      right: 10
-    });
+    if (sessionData.audience) {
+      var audienceRow = Ti.UI.createTableViewRow({height: 'auto', className: 'audienceRow', borderColor: '#fff'});
 
-    var audienceTitle = Ti.UI.createLabel({
-      text:"Intended Audience",
-      backgroundColor:'#fff',
-      textAlign:'left',
-      font:{fontSize:18, fontWeight:'bold'},
-      color:'#000',
-      left: 0,
-      top: 20,
-      bottom: 10,
-      right: 10,
-      height: 'auto'
-    });
-    textViewBottom.add(audienceTitle);
+      var textViewBottom = Ti.UI.createView({
+        height: 'auto',
+        layout: 'vertical',
+        backgroundColor: '#fff',
+        textAlign: 'left',
+        color: '#000',
+        left: 10,
+        right: 10
+      });
 
-    var audience = Ti.UI.createLabel({
-      text:sessionData.audience.replace('\n','\n\n'),
-      backgroundColor:'#fff',
-      textAlign:'left',
-      color:'#000',
-      height:'auto',
-      width:'auto',
-      left:0,
-      right:0,
-      top:10,
-      bottom:10
-    });
-    
-    
-    textViewBottom.add(audience);
-    audienceRow.add(textViewBottom);
-    tvData.push(audienceRow);
+      var audienceTitle = Ti.UI.createLabel({
+        text:"Intended Audience",
+        backgroundColor:'#fff',
+        textAlign:'left',
+        font:{fontSize:18, fontWeight:'bold'},
+        color:'#000',
+        left: 0,
+        top: 20,
+        bottom: 10,
+        right: 10,
+        height: 'auto'
+      });
+      textViewBottom.add(audienceTitle);
 
-    var presentersTitle = Ti.UI.createLabel({
-      text:"Presenter(s)",
-      backgroundColor:'#fff',
-      textAlign:'left',
-      font:{fontSize:18, fontWeight:'bold'},
-      color:'#000',
-      left: 10,
-      top: 20,
-      bottom: 10,
-      right: 10,
-      height: 'auto'
-    });
+      var audience = Ti.UI.createLabel({
+        text:sessionData.audience.replace('\n','\n\n'),
+        backgroundColor:'#fff',
+        textAlign:'left',
+        color:'#000',
+        height:'auto',
+        width:'auto',
+        left:0,
+        right:0,
+        top:10,
+        bottom:10
+      });
 
-    var presentersTitleRow = Ti.UI.createTableViewRow({height: 'auto', className: 'presentersTitle', borderColor: '#fff'});
-    presentersTitleRow.add(presentersTitle);
-    tvData.push(presentersTitleRow);
+      textViewBottom.add(audience);
+      audienceRow.add(textViewBottom);
+      tvData.push(audienceRow);
+    }
 
-    for (var j in presenterData) {
-      tvData.push(renderPresenter(presenterData[j]));
+
+    if (sessionData.instructors && sessionData.instructors.length) {
+      // Get the presenter information.
+      var presenterData = Drupal.entity.db('main', 'user').loadByField('name', sessionData.instructors);
+      var presentersTitle = Ti.UI.createLabel({
+        text:"Presenter(s)",
+        backgroundColor:'#fff',
+        textAlign:'left',
+        font:{fontSize:18, fontWeight:'bold'},
+        color:'#000',
+        left: 10,
+        top: 20,
+        bottom: 10,
+        right: 10,
+        height: 'auto'
+      });
+
+      var presentersTitleRow = Ti.UI.createTableViewRow({height: 'auto', className: 'presentersTitle', borderColor: '#fff'});
+      presentersTitleRow.add(presentersTitle);
+      tvData.push(presentersTitleRow);
+
+      for (var j in presenterData) {
+        tvData.push(renderPresenter(presenterData[j]));
+      }
     }
 
     tv.addEventListener('click', function(e) {
