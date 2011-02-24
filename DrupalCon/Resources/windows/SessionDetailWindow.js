@@ -174,7 +174,7 @@
       bodyRow.add(coreSolution);
     }
 
-    tvData.push(headerRow)
+    tvData.push(headerRow);
     tvData.push(bodyRow);
 
 
