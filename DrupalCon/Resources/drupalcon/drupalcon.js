@@ -38,8 +38,8 @@ var DrupalCon = {
     var sessionTitle = cleanSpecialChars(session.title);
 
     var sessionRow = Ti.UI.createTableViewRow({
-      hasChild: true,
-      selectedColor: '#fff',
+      hasChild:true,
+      selectedColor: '#669999',
       backgroundColor: '#fff',
       color: '#000',
       start_date: session.start_date,
@@ -144,8 +144,8 @@ var DrupalCon = {
     var sessionTitle = cleanSpecialChars(session.title);
 
     var sessionRow = Ti.UI.createTableViewRow({
-      hasChild: true,
-      selectedColor: '#fff',
+      hasChild:true,
+      selectedColor: '#669999',
       backgroundColor: '#fff',
       color: '#000',
       start_date: session.start_date,
@@ -214,8 +214,8 @@ var DrupalCon = {
     var sessionTitle = cleanSpecialChars(session.title);
 
     var sessionRow = Ti.UI.createTableViewRow({
-      hasChild: true,
-      selectedColor: '#fff',
+      hasChild:true,
+      selectedColor: '#669999',
       backgroundColor: '#fff',
       color: '#000',
       start_date: session.start_date,
@@ -288,6 +288,8 @@ var DrupalCon = {
 
     var sessionRow = Ti.UI.createTableViewRow({
       hasChild: false,
+      hasDetail: false,
+      touchEnabled: false,
       selectedColor: '#fff',
       backgroundColor: '#fff',
       color: '#000',
