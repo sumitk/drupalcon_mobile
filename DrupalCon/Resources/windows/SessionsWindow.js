@@ -23,7 +23,7 @@
     var data = [];
 
     var conn = Drupal.db.getConnection('main');
-    var rows = conn.query("SELECT nid, title, changed, start_date, end_date FROM node WHERE start_date >= ? AND end_date <= ? ORDER BY start_date, nid", [settings.start_date, settings.end_date]);
+    var rows = conn.query("SELECT nid FROM node WHERE start_date >= ? AND end_date <= ? ORDER BY start_date, nid", [settings.start_date, settings.end_date]);
 
     var nids = [];
     while(rows.isValidRow()) {
