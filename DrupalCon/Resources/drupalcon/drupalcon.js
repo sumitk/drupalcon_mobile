@@ -177,8 +177,7 @@ var DrupalCon = {
       height: 'auto'
     });
 
-    // Some sessions have multiple presenters
-    Ti.API.info(session.instructors);
+    // Some sessions have multiple presenters.
     var presLabel = Ti.UI.createLabel({
       text: session.instructors.map(DrupalCon.util.getPresenterName).join(', '),
       font: {fontSize:12, fontWeight:'normal'},
