@@ -287,7 +287,7 @@ var DrupalCon = {
     var sessionTitle = cleanSpecialChars(session.title);
 
     var sessionRow = Ti.UI.createTableViewRow({
-      hasChild: true,
+      hasChild: false,
       selectedColor: '#fff',
       backgroundColor: '#fff',
       color: '#000',
