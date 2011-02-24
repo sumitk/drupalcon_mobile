@@ -74,7 +74,7 @@ Drupal.entity.sites.main.types.node.schema = {
     // On sessions, force the instructor and room fields to be collections.
     // That they may not be if single-value is a bug in the views_datasource
     // module.
-    if (entity.type == 'session') {
+    if (typeof entity.instructors !== undefined) {
       var instructors = [];
       if (typeof entity.instructors === 'string') {
         instructors.push(entity.instructors);
