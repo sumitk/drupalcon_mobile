@@ -83,36 +83,11 @@
 //    Drupal.createNoticeDialog('Double-Tap to Zoom.').show(3000);
 
   if (isAndroid()) {
-    image = Ti.UI.createImageView({
-      image: mapImageFileName,
-      width: 2000,
-      height: 1500
-    });
-
-    function resizeImage(image, maxWidth) {
-      var tmp = image.toImage();
-      var wid = tmp.width;
-      var ht = tmp.height;
-      var reduction;
-      if(wid > ht) {
-        reduction = maxWidth / wid;
-        wid = maxWidth;
-        ht = Math.round(ht * reduction);
-      } else {
-        reduction = maxWidth / ht;
-        ht = maxWidth;
-        wid = Math.round(wid * reduction);
-      }
-      image = Ti.UI.createImageView({
-        image: tmp,
-        width: wid,
-        height: ht
-      });
-      return image;
-    }
-
-    image.addEventListener('doubletap', resizeImage(mapImageFileName, 2000));
-    mapDetailWindow.add(image);
+    var baseHTML = '<html><head>' +
+      '  <meta name="viewport" content="target-densitydpi=device-dpi, user-scalable=yes, width=device-width, initial-scale = 1.0, minimum-scale = 1.0, maximum-scale = 4.0" />' +
+      '</head><body class="maps"><div class="map">' +
+      '<div><img src="' + mapImageFileName + '" /></div>' +
+      '</body></html>';
   }
   else {
     var baseHTML = '<html><head></head><body class="maps">' +
@@ -121,11 +96,11 @@
       '<div class="map">' +
       '<div><img src="' + mapImageFileName + '" /></div>' +
       '</body></html>';
-
-    var web = Ti.UI.createWebView({scalesPageToFit:true});
-    mapDetailWindow.add(web);
-    web.html = baseHTML;
   }
+  var web = Ti.UI.createWebView({scalesPageToFit:true});
+  mapDetailWindow.add(web);
+  web.html = baseHTML;
+
     
 
     return mapDetailWindow;
