@@ -14,9 +14,9 @@
       backgroundColor: '#FFF',
       tabGroup: settings.tabGroup
     });
-    var baseHTMLStart = '<html><head><link rel="stylesheet" type="text/css" href="windows/tweetWebView.css" /></head><body>' +
+    var baseHTMLStart = '<html><head><link rel="stylesheet" type="text/css" href="windows/tweetWebView.css" />' +
       '<meta name="viewport" content="user-scalable=yes, width=device-width, initial-scale = 1.0, minimum-scale = 1.0, maximum-scale = 10.0" /> <meta name="apple-mobile-web-app-capable" content="yes" />' +
-      '<div class="created-at">' + settings.date + '</div>',
+      '</head><body class="tweets"><div class="created-at">' + settings.date + '</div>',
       baseHTMLEnd = '<script type="text/javascript" src="windows/tweetWebView.js"></script></body></html>';
 
     var tweet = settings.text;
