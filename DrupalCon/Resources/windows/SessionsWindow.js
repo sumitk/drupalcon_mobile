@@ -54,8 +54,13 @@
       uiEnabled = true;
     });
 
-    // create table view event listener
+    // Create table view event listener.
     tableview.addEventListener('click', function(e) {
+      // We don't want schedule_items to be clickable, because there's no data
+      // to show for them anyway.
+      if (e.rowData.itemType === 'schedule_item') {
+        return;
+      }
       if (uiEnabled) {
         uiEnabled = false;
         var currentTab = (Ti.Platform.name == 'android') ? currentTab = Titanium.UI.currentTab : sessionsWindow.tabGroup.activeTab;

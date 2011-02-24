@@ -46,6 +46,7 @@ var DrupalCon = {
       end_date: session.end_date,
       nid: session.nid,
       sessionTitle: sessionTitle,
+      itemType: session.type,
       height: 'auto',
       layout: 'vertical'
     });
@@ -151,6 +152,7 @@ var DrupalCon = {
       end_date: session.end_date,
       nid: session.nid,
       sessionTitle: sessionTitle,
+      itemType: session.type,
       height: 'auto',
       layout: 'vertical'
     });
@@ -220,6 +222,7 @@ var DrupalCon = {
       end_date: session.end_date,
       nid: session.nid,
       sessionTitle: sessionTitle,
+      itemType: session.type,
       height: 'auto',
       layout: 'vertical'
     });
@@ -292,6 +295,7 @@ var DrupalCon = {
       end_date: session.end_date,
       nid: session.nid,
       sessionTitle: sessionTitle,
+      itemType: session.type,
       height: 'auto',
       layout: 'vertical'
     });
