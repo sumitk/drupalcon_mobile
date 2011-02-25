@@ -49,6 +49,28 @@
       className: 'bodyRow'
     });
 
+    var feedbackRow = Ti.UI.createTableViewRow({
+      height: 'auto',
+      backgroundColor: blueBg,
+      title: 'Provide Feedback',
+      left: 0,
+      hasChild: true,
+      top: -5,
+      bottom: 10,
+      layout: 'vertical',
+      className: 'feedbackRow'
+    });
+
+    feedbackRow.addEventListener('click', function(e) {
+      var currentTab = (Ti.Platform.name == 'android') ? currentTab = Titanium.UI.currentTab : sessionDetailWindow.tabGroup.activeTab;
+      currentTab.open(DrupalCon.ui.createFeedbackWindow({
+        title: settings.title,
+        address:'http://chicago2011.drupal.org/node/add/eval/'+settings.nid,
+        //address: 'http://google.com',
+        tabGroup: currentTab
+      }), {animated:true});
+    });
+
     if (sessionData.title) {
       var titleLabel = Ti.UI.createLabel({
         text: cleanSpecialChars(sessionData.title),
@@ -184,6 +206,7 @@
 
     tvData.push(headerRow);
     tvData.push(bodyRow);
+    tvData.push(feedbackRow);
 
 
     if (sessionData.audience) {
