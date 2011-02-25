@@ -49,17 +49,25 @@
       className: 'bodyRow'
     });
 
-    var feedbackRow = Ti.UI.createTableViewRow({
-      height: 'auto',
-      backgroundColor: blueBg,
-      title: 'Provide Feedback',
-      left: 0,
-      hasChild: true,
-      top: -5,
+    var feedbackTitle = Ti.UI.createLabel({
+      text:"Provide Feedback",
+      backgroundColor:'#fff',
+      textAlign:'left',
+      font:{fontSize:18, fontWeight:'bold'},
+      color:'#000',
+      left: 10,
+      top: 10,
       bottom: 10,
-      layout: 'vertical',
+      right: 10,
+      height: 'auto'
+    });
+
+    var feedbackRow = Ti.UI.createTableViewRow({
+      hasChild: true,
+      layout:'vertical',
       className: 'feedbackRow'
     });
+    feedbackRow.add(feedbackTitle);
 
     feedbackRow.addEventListener('click', function(e) {
       var currentTab = (Ti.Platform.name == 'android') ? currentTab = Titanium.UI.currentTab : sessionDetailWindow.tabGroup.activeTab;

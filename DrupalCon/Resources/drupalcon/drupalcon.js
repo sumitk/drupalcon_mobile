@@ -146,7 +146,7 @@ var DrupalCon = {
     var sessionRow = Ti.UI.createTableViewRow({
       hasChild:true,
       selectedColor: '#669999',
-      backgroundColor: '#fff',
+      backgroundColor: '#fefefe',
       color: '#000',
       start_date: session.start_date,
       end_date: session.end_date,
@@ -158,10 +158,7 @@ var DrupalCon = {
     });
 
     var leftSpace = (Ti.Platform.name == 'android') ? 30 : 40;
-    var titleColor = '';
-
-    leftSpace = 10;
-    titleColor = '#d32101';
+    var titleColor = '#333';
 
     // If there is a new session time, insert a header in the table.
     if (lastTime == '' || session.start_date != lastTime) {
@@ -216,7 +213,7 @@ var DrupalCon = {
     var sessionRow = Ti.UI.createTableViewRow({
       hasChild:true,
       selectedColor: '#669999',
-      backgroundColor: '#fff',
+      backgroundColor: '#fefefe',
       color: '#000',
       start_date: session.start_date,
       end_date: session.end_date,
@@ -228,10 +225,7 @@ var DrupalCon = {
     });
 
     var leftSpace = (Ti.Platform.name == 'android') ? 30 : 40;
-    var titleColor = '';
-
-    leftSpace = 10;
-    titleColor = '#d32101';
+    var titleColor = '#333';
 
     // If there is a new session time, insert a header in the table.
     if (lastTime == '' || session.start_date != lastTime) {
@@ -291,7 +285,7 @@ var DrupalCon = {
       hasDetail: false,
       touchEnabled: false,
       selectedColor: '#fff',
-      backgroundColor: '#fff',
+      backgroundColor: '#efefef',
       color: '#000',
       start_date: session.start_date,
       end_date: session.end_date,
@@ -303,10 +297,7 @@ var DrupalCon = {
     });
 
     var leftSpace = (Ti.Platform.name == 'android') ? 30 : 40;
-    var titleColor = '';
-
-    leftSpace = 10;
-    titleColor = '#d32101';
+    var titleColor = '#333';
 
     // If there is a new session time, insert a header in the table.
     if (lastTime == '' || session.start_date != lastTime) {
@@ -325,33 +316,7 @@ var DrupalCon = {
       height: 'auto'
     });
 
-//    // Some sessions have multiple presenters
-//    var presLabel = Ti.UI.createLabel({
-//      text: session.instructors.map(DrupalCon.util.getPresenterName).join(', '),
-//      font: {fontSize:12, fontWeight:'normal'},
-//      color: '#000',
-//      left: leftSpace,
-//      top: 'auto',
-//      bottom: 5,
-//      right: 10,
-//      height: 'auto'
-//    });
-
-    // Some things, like keynote, have multiple rooms
-//    var roomLabel = Ti.UI.createLabel({
-//      text: session.room.map(cleanSpecialChars).join(', '),
-//      font: {fontSize:12, fontWeight:'bold'},
-//      color: '#333',
-//      left: leftSpace,
-//      top: 'auto',
-//      bottom: 10,
-//      right: 10,
-//      height: 'auto'
-//    });
-
     sessionRow.add(titleLabel);
-//    sessionRow.add(presLabel);
-//    sessionRow.add(roomLabel);
 
     return sessionRow;
   };
