@@ -206,8 +206,6 @@
 
     tvData.push(headerRow);
     tvData.push(bodyRow);
-    tvData.push(feedbackRow);
-
 
     if (sessionData.audience) {
       var audienceRow = Ti.UI.createTableViewRow({height: 'auto', className: 'audienceRow', borderColor: '#fff'});
@@ -254,6 +252,7 @@
       tvData.push(audienceRow);
     }
 
+    tvData.push(feedbackRow);
 
     if (sessionData.instructors && sessionData.instructors.length) {
       // Get the presenter information.
