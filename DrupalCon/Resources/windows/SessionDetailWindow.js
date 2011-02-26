@@ -49,36 +49,6 @@
       className: 'bodyRow'
     });
 
-    var feedbackTitle = Ti.UI.createLabel({
-      text:"Provide Feedback",
-      backgroundColor:'#fff',
-      textAlign:'left',
-      font:{fontSize:18, fontWeight:'bold'},
-      color:'#000',
-      left: 10,
-      top: 10,
-      bottom: 10,
-      right: 10,
-      height: 'auto'
-    });
-
-    var feedbackRow = Ti.UI.createTableViewRow({
-      hasChild: true,
-      layout:'vertical',
-      className: 'feedbackRow'
-    });
-    feedbackRow.add(feedbackTitle);
-
-    feedbackRow.addEventListener('click', function(e) {
-      var currentTab = (Ti.Platform.name == 'android') ? currentTab = Titanium.UI.currentTab : sessionDetailWindow.tabGroup.activeTab;
-      currentTab.open(DrupalCon.ui.createFeedbackWindow({
-        title: settings.title,
-        address:'http://chicago2011.drupal.org/node/add/eval/'+settings.nid,
-        //address: 'http://google.com',
-        tabGroup: currentTab
-      }), {animated:true});
-    });
-
     if (sessionData.title) {
       var titleLabel = Ti.UI.createLabel({
         text: cleanSpecialChars(sessionData.title),
@@ -213,6 +183,41 @@
     }
 
     tvData.push(headerRow);
+
+    if (sessionData.type === 'session') {
+      var feedbackTitle = Ti.UI.createLabel({
+        text:"Provide Feedback",
+        backgroundColor:'#fff',
+        textAlign:'left',
+        font:{fontSize:18, fontWeight:'bold'},
+        color:'#000',
+        left: 10,
+        top: 10,
+        bottom: 10,
+        right: 10,
+        height: 'auto'
+      });
+
+      var feedbackRow = Ti.UI.createTableViewRow({
+        hasChild: true,
+        layout:'vertical',
+        className: 'feedbackRow'
+      });
+      feedbackRow.add(feedbackTitle);
+
+      feedbackRow.addEventListener('click', function(e) {
+        var currentTab = (Ti.Platform.name == 'android') ? currentTab = Titanium.UI.currentTab : sessionDetailWindow.tabGroup.activeTab;
+        currentTab.open(DrupalCon.ui.createFeedbackWindow({
+          title: settings.title,
+          address: 'http://chicago2011.drupal.org/node/add/eval/' + settings.nid,
+          //address: 'http://google.com',
+          tabGroup: currentTab
+        }), {animated:true});
+      });
+
+      tvData.push(feedbackRow);
+    }
+
     tvData.push(bodyRow);
 
     if (sessionData.audience) {
@@ -260,7 +265,6 @@
       tvData.push(audienceRow);
     }
 
-    tvData.push(feedbackRow);
 
     if (sessionData.instructors && sessionData.instructors.length) {
       // Get the presenter information.
