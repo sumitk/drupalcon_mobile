@@ -269,31 +269,6 @@
     if (sessionData.instructors && sessionData.instructors.length) {
       // Get the presenter information.
       var presenterData = Drupal.entity.db('main', 'user').loadByField('name', sessionData.instructors);
-      var presentersTitle = Ti.UI.createLabel({
-        text:"Presenter(s)",
-        backgroundColor:'#fff',
-        textAlign:'left',
-        font:{fontSize:18, fontWeight:'bold'},
-        color:'#000',
-        left: 10,
-        top: 20,
-        bottom: 10,
-        right: 10,
-        height: 'auto'
-      });
-
-      var presentersTitleRow = Ti.UI.createTableViewRow({
-        height: 'auto',
-        backgroundColor: blueBg,
-        left: 0,
-        top: -5,
-        bottom: 10,
-        layout: 'vertical',
-        className: 'presentersTitle',
-        borderColor: '#fff'
-      });
-      presentersTitleRow.add(presentersTitle);
-      tvData.push(presentersTitleRow);
 
       for (var j in presenterData) {
         tvData.push(renderPresenter(presenterData[j]));
