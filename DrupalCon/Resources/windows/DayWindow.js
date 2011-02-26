@@ -16,7 +16,7 @@
 
     var dayWindow = Titanium.UI.createWindow({
       id: 'win1',
-      title: 'Sessions',
+      title: 'Schedule',
       backgroundColor: '#fff',
       tabGroup: tabGroup
     });

@@ -7,7 +7,7 @@
 
   tabGroup.addTab(Titanium.UI.createTab({
     icon: (isAndroid()) ? 'images/tabs/schedule_android.png' : 'images/tabs/schedule.png',
-    title: 'Sessions',
+    title: 'Schedule',
     window: DrupalCon.ui.createDayWindow(tabGroup)
   }));
 

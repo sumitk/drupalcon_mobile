@@ -15,7 +15,7 @@
 
     var sessionsWindow = Titanium.UI.createWindow({
       id: 'sessionsWindow',
-      title: 'Sessions',
+      title: 'Schedule',
       backgroundColor: '#FFF',
       tabGroup: settings.tabGroup
     });
