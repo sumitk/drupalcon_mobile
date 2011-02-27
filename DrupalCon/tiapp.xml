@@ -3,10 +3,10 @@
 <id>com.patrickteglia.drupalcon</id>
 <name>DrupalCon</name>
 <version>1.0</version>
-<publisher>pteglia</publisher>
-<url>http://palantir.com</url>
+<publisher>Palantir.net</publisher>
+<url>http://www.palantir.net/</url>
 <description>No description provided</description>
-<copyright>2010 by pteglia</copyright>
+<copyright>2010 Palantir.net</copyright>
 <icon>default_app_logo.png</icon>
     <persistent-wifi>false</persistent-wifi>
     <prerendered-icon>false</prerendered-icon>
