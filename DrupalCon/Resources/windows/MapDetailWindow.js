@@ -19,6 +19,44 @@
       tabGroup: settings.tabGroup
     });
 
+    if(settings.info) {
+      // Add a menu or button for a booth list
+      if (isAndroid()){
+        // Android has a menu
+        var buttons = [];
+        buttons.push({
+          title: "Exhibitors",
+          clickevent: function () {
+            var currentTab = (Ti.Platform.name == 'android') ? currentTab = Titanium.UI.currentTab : mapDetailWindow.tabGroup.activeTab;
+            currentTab.open(DrupalCon.ui.createExhibitorsWindow({
+              title: 'Exhibitors',
+              tabGroup: currentTab
+            }), {animated:true});
+          }
+        });
+        menu.init({
+          win: mapDetailWindow,
+          buttons: buttons
+        });
+      }
+      else {
+        // iOS should only have the button.
+        var button = Ti.UI.createButton({
+          systemButton: Ti.UI.iPhone.SystemButton.INFO_LIGHT
+        });
+        var win = mapDetailWindow;
+        win.rightNavButton = button;
+        button.addEventListener('click', function() {
+          var currentTab = (Ti.Platform.name == 'android') ? currentTab = Titanium.UI.currentTab : mapDetailWindow.tabGroup.activeTab;
+          currentTab.open(DrupalCon.ui.createExhibitorsWindow({
+            title: 'Exhibitors',
+            tabGroup: currentTab
+          }), {animated:true});
+
+        });
+      }
+    }
+
   //  I am so tired that I don't know why I am doing math like below.
   //  This undoubtedly needs work.
   var ht = mapDetailWindow.toImage().height;

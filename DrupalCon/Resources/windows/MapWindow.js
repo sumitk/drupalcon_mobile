@@ -13,10 +13,10 @@
 
     // create table view data object
     var data = [
-      {title: 'Level One - Exhibit Hall', color:'#000', hasChild:true, backgroundSelectedColor:'#0779BE', image:'images/maps/level1.png'},
+      {title: 'Level One - Exhibit Hall', color:'#000', info:true, hasChild:true, backgroundSelectedColor:'#0779BE', image:'images/maps/level1.png'},
       {title: 'Level Two - Meeting Rooms', color:'#000',  hasChild:true, backgroundSelectedColor:'#0779BE', image:'images/maps/level2.png'},
       {title: 'Level Three - Lobby', color:'#000',  hasChild:true, backgroundSelectedColor:'#0779BE', image:'images/maps/level3.png'},
-      {title: 'Level Four - Ballroom', color:'#000',  hasChild:true, backgroundSelectedColor:'#0779BE', image:'images/maps/level4.png'}
+      {title: 'Level Four - Ballroom', color:'#000', hasChild:true, backgroundSelectedColor:'#0779BE', image:'images/maps/level4.png'}
     ];
 
     // create table view
@@ -49,6 +49,7 @@
           title: e.rowData.title,
           mapName: e.rowData.title,
           image: e.rowData.image,
+          info: e.rowData.info,
           tabGroup: currentTab
         }), {animated:true});
       }

@@ -69,6 +69,7 @@ Ti.include(
   'windows/TwitterDetailWindow.js',
   'windows/StarredWindow.js',
   'windows/FeedbackWindow.js',
+  'windows/ExhibitorsWindow.js',
   'windows/PresentersWindow.js',
   'windows/SessionsWindow.js',
   'windows/SessionDetailWindow.js',
