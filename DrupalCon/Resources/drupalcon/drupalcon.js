@@ -280,7 +280,7 @@ var DrupalCon = {
   DrupalCon.renderers.schedule_item = function(session) {
     var sessionTitle = cleanSpecialChars(session.title);
 
-    var sessionRowOptions = {
+    var sessionRow = Ti.UI.createTableViewRow({
       hasChild: true,
       hasDetail: true,
       selectedColor: '#fff',
@@ -293,24 +293,7 @@ var DrupalCon = {
       itemType: session.type,
       height: 'auto',
       layout: 'vertical'
-    };
-
-    Ti.API.info('Title: ' + sessionTitle);
-
-    Ti.API.info(session.body);
-    if (! session.body) {
-      Ti.API.info('Hiding the item page.');
-      sessionRowOptions.hasChild = false;
-      sessionRowOptions.hasDetail = false;
-      sessionRowOptions.backgroundColor = '#efefef';
-      // Titanium is ignoring this one, but we'll include it anyway
-      // for completeness.
-      sessionRowOptions.touchEnabled = false;
-    }
-
-    Ti.API.info('Has Child: ' + sessionRowOptions.hasChild);
-
-    var sessionRow = Ti.UI.createTableViewRow(sessionRowOptions);
+    });
 
     var leftSpace = (Ti.Platform.name == 'android') ? 30 : 40;
     var titleColor = '#333';
