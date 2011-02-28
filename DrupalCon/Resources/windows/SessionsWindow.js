@@ -61,10 +61,10 @@
           title : 'Track Legend'
         });
         m1.addEventListener('click', function(e) {
-          var modal = Ti.UI.createWindow({ modal:true });
-          var wv = Ti.UI.createWebView({url: 'pages/legend.html', title: 'Track Legend'});
-          modal.add(wv);
-          wv.open({animated:true});
+          var legendWin = Ti.UI.createWindow({ modal:true });
+          var wv = Ti.UI.createWebView({url: '../pages/legend.html', title: 'Track Legend'});
+          legendWin.add(wv);
+          legendWin.open();
         });
       };
     }
