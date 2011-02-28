@@ -147,6 +147,7 @@ var DrupalCon = {
       selectedColor: '#669999',
       backgroundColor: '#fefefe',
       color: '#3176bd',
+      leftImage:'images/coreconv.png',
       start_date: session.start_date,
       end_date: session.end_date,
       nid: session.nid,
@@ -213,7 +214,7 @@ var DrupalCon = {
       hasChild:true,
       selectedColor: '#669999',
       backgroundColor: '#fefefe',
-      color: '#000',
+      color: '#ab7d66',
       start_date: session.start_date,
       end_date: session.end_date,
       nid: session.nid,
@@ -222,6 +223,8 @@ var DrupalCon = {
       height: 'auto',
       layout: 'vertical'
     });
+    sessionRow.leftImage = 'images/daystage.png';
+    dpm(session);
 
     var leftSpace = (Ti.Platform.name == 'android') ? 30 : 40;
     var titleColor = '#333';
