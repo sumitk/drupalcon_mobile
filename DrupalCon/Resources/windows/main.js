@@ -38,7 +38,7 @@
   }));
 
   tabGroup.addTab(Titanium.UI.createTab({
-      icon: (isAndroid()) ? 'images/tabs/bofs_android.png' : 'images/tabs/about.png',
+      icon: (isAndroid()) ? 'images/tabs/about_android.png' : 'images/tabs/about.png',
       title: 'About',
       window: DrupalCon.ui.createAboutWindow(tabGroup)
   }));
