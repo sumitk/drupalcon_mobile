@@ -10,7 +10,7 @@
 
     // var presenterData = settings.data;
     var presenterData = Drupal.entity.db('main', 'user').load(settings.uid);
-dpm(presenterData);
+
     var presenterDetailWindow = Titanium.UI.createWindow({
       id: 'presenterDetailWindow',
       title: presenterData.name,
