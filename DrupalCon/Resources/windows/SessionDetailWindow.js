@@ -299,32 +299,46 @@
   };
 
   function renderPresenter(presenter) {
+
+    var userPict = 'http://chicago2011.drupal.org/sites/default/files/pictures/picture-'+presenter.uid+'.jpg';
+    var av = Ti.UI.createImageView({
+      image:userPict,
+      left:0,
+      top:0,
+      height:80,
+      width:80,
+      defaultImage:'images/userpict-large.png',
+      backgroundColor: '#000'
+    });
+
     var presRow = Ti.UI.createTableViewRow({
       presenter: presenter,
       height: 80,
       className: 'presenterRow',
       borderColor: '#fff',
       hasChild: true,
-      backgroundColor: '#a8d7f0',
-      leftImage: 'images/userpict-medium.png',
+      backgroundColor: '#C4E2EF',
       layout:'vertical'
     });
+    presRow.add(av);
     var presenterFullName2 = Ti.UI.createLabel({
       presenter: presenter,
       text: cleanSpecialChars(presenter.full_name),
       font: {fontSize:18, fontWeight:'bold'},
       left: 90,
-      top: 10,
-      height: 'auto'
+      top: -70,
+      height: 'auto',
+      color: '#000'
     });
+    dpm(presenter.full_name);
     var presenterName2 = Ti.UI.createLabel({
       presenter: presenter,
       text: presenter.name,
       font:{fontSize:14, fontWeight:'normal'},
       left: 90,
-      top: 5,
+      top: (presenter.full_name != null) ? 5 : 0,
       height: 'auto',
-      color: "#1f719d"
+      color: "#04679C"
     });
 
     presRow.add(presenterFullName2);

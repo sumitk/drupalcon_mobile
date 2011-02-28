@@ -10,7 +10,7 @@
 
     // var presenterData = settings.data;
     var presenterData = Drupal.entity.db('main', 'user').load(settings.uid);
-
+dpm(presenterData);
     var presenterDetailWindow = Titanium.UI.createWindow({
       id: 'presenterDetailWindow',
       title: presenterData.name,
@@ -21,7 +21,7 @@
     var itemWidth = (Ti.Platform.name == 'android') ? (Ti.UI.currentWindow.width - 40) : (presenterDetailWindow.width - 40);
 
     var tvData = [];
-    var blueBg = '#CAE2F4';
+    var blueBg = '#C4E2EF';
     var	platformWidth = Ti.Platform.displayCaps.platformWidth;
     var platformHeight = Ti.Platform.displayCaps.platformHeight;
 
@@ -30,30 +30,33 @@
       textAlign: 'left',
       layout:'vertical'
     });
+
+    var userPict = 'http://chicago2011.drupal.org/sites/default/files/pictures/picture-'+presenterData.uid+'.jpg';
+    var av = Ti.UI.createImageView({
+      image:userPict,
+      left:0,
+      top:0,
+      height:110,
+      width:110,
+      defaultImage:'images/userpict-large.png',
+      backgroundColor: '#000'
+    });
     var headerRow = Ti.UI.createTableViewRow({
       height:110,
       backgroundColor:blueBg,
       left:0,
       top:-5,
       bottom:0,
-      layout:'vertical',
-      leftImage:'images/userpict-large.png'
+      layout:'vertical'
     });
     var twitterRow = Ti.UI.createTableViewRow({hasChild:true,height:41});
     var linkedinRow = Ti.UI.createTableViewRow({hasChild:true,height:41});
     var facebookRow = Ti.UI.createTableViewRow({hasChild:true,height:41});
     var bioRow = Ti.UI.createTableViewRow({hasChild:false,height:'auto'});
 
-    // Content
-//    var avatar = Ti.UI.createImageView({
-//      height: 110,
-//      width: 110,
-//      image:'images/userpictdefault6-bigger.png',
-//      top: 0,
-//      left: 0
-//    });
-//    headerRow.add(avatar);
-    
+    // Add the avatar image to the view
+    headerRow.add(av);
+
     if (presenterData.full_name != undefined) {
       var fullName = Ti.UI.createLabel({
         text: cleanSpecialChars(presenterData.full_name),
@@ -62,7 +65,7 @@
         color: '#000',
         height: 'auto',
         left: 120,
-        top: 15,
+        top: -95,
         ellipsize:true,
         width: itemWidth - 120
       });
@@ -73,10 +76,11 @@
       text: (presenterData.full_name !== presenterData.name) ? cleanSpecialChars(presenterData.name) : '',
       font: {fontSize: 14, fontWeight: 'bold'},
       textAlign: 'left',
-      color: '#666',
+      color: '#04679C',
       height: 'auto',
       left: 120,
-      width: itemWidth
+      width: itemWidth,
+      top: (presenterData.full_name != undefined) ? 2 : -95
     });
     headerRow.add(name);
 
@@ -92,7 +96,7 @@
       });
       headerRow.add(company);
     }
-    
+
     tvData.push(headerRow);
 
 
@@ -158,7 +162,7 @@
 //    var sessionsTitleRow = Ti.UI.createTableViewRow({height: 'auto', className: 'sessionTitleRow', borderColor: '#fff'});
 //    sessionsTitleRow.add(sessionsTitle);
 //    tvData.push(sessionsTitleRow);
-    
+
     var sessions = getRelatedSessions(presenterData.name);
     var sessionRow = [];
     for (var i in sessions) {

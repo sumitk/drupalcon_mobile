@@ -111,7 +111,7 @@ var DrupalCon = {
 
     // Some sessions have multiple presenters
     var presLabel = Ti.UI.createLabel({
-      text: session.instructors.map(DrupalCon.util.getPresenterName).join(', '),
+      text: cleanSpecialChars(session.instructors.map(DrupalCon.util.getPresenterName).join(', ')),
       font: {fontSize:14, fontWeight:'normal'},
       color: '#000',
       left: leftSpace,
