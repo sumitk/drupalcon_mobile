@@ -72,7 +72,7 @@ var DrupalCon = {
         break;
       case "Implementation and Config":
         sessionRow.leftImage = 'images/config.png';
-        titleColor = '#f7c030';
+        titleColor = '#f0b539';
         break;
       case "Drupal Community":
         sessionRow.leftImage = 'images/community.png';
@@ -146,7 +146,7 @@ var DrupalCon = {
       hasChild:true,
       selectedColor: '#669999',
       backgroundColor: '#fefefe',
-      color: '#3176bd',
+      color: '#000',
       leftImage:'images/coreconv.png',
       start_date: session.start_date,
       end_date: session.end_date,
@@ -158,7 +158,7 @@ var DrupalCon = {
     });
 
     var leftSpace = (Ti.Platform.name == 'android') ? 30 : 40;
-    var titleColor = '#333';
+    var titleColor = '#3176bd';
 
     // If there is a new session time, insert a header in the table.
     if (lastTime == '' || session.start_date != lastTime) {
@@ -214,7 +214,8 @@ var DrupalCon = {
       hasChild:true,
       selectedColor: '#669999',
       backgroundColor: '#fefefe',
-      color: '#ab7d66',
+      color: '#000',
+      leftImage: 'images/daystage.png',
       start_date: session.start_date,
       end_date: session.end_date,
       nid: session.nid,
@@ -223,11 +224,13 @@ var DrupalCon = {
       height: 'auto',
       layout: 'vertical'
     });
-    sessionRow.leftImage = 'images/daystage.png';
-    dpm(session);
+    var titleColor = '#ab7d66';
 
+    if (session.start_date.substr(8,2) == '10') {
+      sessionRow.leftImage = 'images/dmb.png';
+      titleColor = '#269477';
+    }
     var leftSpace = (Ti.Platform.name == 'android') ? 30 : 40;
-    var titleColor = '#333';
 
     // If there is a new session time, insert a header in the table.
     if (lastTime == '' || session.start_date != lastTime) {

@@ -3,7 +3,9 @@
 (function() {
 
   // create tab group
-  var tabGroup = Titanium.UI.createTabGroup({id:'tabGroup1'});
+  var tabGroup = Titanium.UI.createTabGroup({
+    id:'tabGroup1',
+  });
 
   tabGroup.addTab(Titanium.UI.createTab({
     icon: (isAndroid()) ? 'images/tabs/schedule_android.png' : 'images/tabs/schedule.png',
@@ -23,17 +25,9 @@
       window: DrupalCon.ui.createTwitterWindow(tabGroup)
   }));
 
-  
-// Implement starred later
-//  tabGroup.addTab(Titanium.UI.createTab({
-//      icon: 'images/tabs/star.png',
-//      title: 'Starred',
-//      window: DrupalCon.ui.createStarredWindow(tabGroup)
-//  }));
-
   tabGroup.addTab(Titanium.UI.createTab({
       icon: (isAndroid()) ? 'images/tabs/bofs_android.png' : 'images/tabs/bofs.png',
-      title: 'Presenters',
+      title: 'Speakers',
       window: DrupalCon.ui.createPresentersWindow(tabGroup)
   }));
 

@@ -94,9 +94,10 @@
         win.rightNavButton = button;
         button.addEventListener('click', function() {
           var currentTab = (Ti.Platform.name == 'android') ? currentTab = Titanium.UI.currentTab : mapDetailWindow.tabGroup.activeTab;
-          currentTab.open(DrupalCon.ui.createExhibitorsWindow({
-            title: 'Exhibitors',
-            tabGroup: currentTab
+            currentTab.open(DrupalCon.ui.createHtmlWindow({
+              title: 'Exhibitors',
+              url: 'pages/exhibitors.html',
+              tabGroup: currentTab
           }), {animated:true});
 
         });
