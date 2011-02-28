@@ -6,7 +6,7 @@
       nid: '',
       tabGroup: undefined
     });
-
+    var commonPadding = 15;
     var sessionDetailWindow = Titanium.UI.createWindow({
       id: 'sessionDetailWindow',
       title: settings.title,
@@ -35,7 +35,9 @@
       top: -5,
       bottom: 10,
       layout: 'vertical',
-      className: 'headerRow'
+      className: 'headerRow',
+      backgroundImage:'images/sessionbckgd@2x.png',
+      backgroundPosition:'bottom left'
     });
 
     var bodyRow = Ti.UI.createTableViewRow({
@@ -52,13 +54,13 @@
     if (sessionData.title) {
       var titleLabel = Ti.UI.createLabel({
         text: cleanSpecialChars(sessionData.title),
-        font: {fontSize: 24, fontWeight: 'bold'},
+        font: {fontSize: 28, fontWeight: 'bold'},
         textAlign: 'left',
         color: '#000',
-        left: 10,
-        top: 'auto',
-        bottom: 10,
-        right: 10,
+        left: commonPadding,
+        top: 18,
+        bottom: 7,
+        right: commonPadding,
         height: 'auto'
       });
       headerRow.add(titleLabel);
@@ -67,15 +69,31 @@
     if (sessionData.instructors) {
       var presenterName = Ti.UI.createLabel({
         text: sessionData.instructors.map(DrupalCon.util.getPresenterName).join(', '),
-        font: {fontSize:12, fontWeight:'normal'},
+        font: {fontSize:18, fontWeight:'normal'},
         color: '#000',
-        left: 10,
+        left: commonPadding,
         top: 'auto',
         bottom: 5,
-        right: 10,
+        right: commonPadding,
         height: 'auto'
       });
       headerRow.add(presenterName);
+    }
+
+    if (sessionData.start_date) {
+      var startDate = parseISO8601(sessionData.start_date + ':00');
+      var datetime = Ti.UI.createLabel({
+        text: cleanDate(startDate) + ', ' + cleanTime(sessionData.start_date),
+        font: {fontSize: 18, fontWeight: 'normal'},
+        textAlign: 'left',
+        color: '#000',
+        left: commonPadding,
+        top: 'auto',
+        bottom: 5,
+        right: commonPadding,
+        height: 'auto'
+      });
+      headerRow.add(datetime);
     }
 
     // Don't show a room for Lunch and Break, since what's on the web site is
@@ -85,32 +103,16 @@
     if (sessionData.room && sessionData.title !== 'Lunch' && sessionData.title !== 'Break') {
       var room = Ti.UI.createLabel({
         text: sessionData.room.map(cleanSpecialChars).join(', '),
-        font: {fontSize: 13, fontWeight: 'bold'},
+        font: {fontSize: 18, fontWeight: 'normal'},
         textAlign: 'left',
         color: '#000',
-        left: 10,
+        left: commonPadding,
         top: 'auto',
-        bottom: 10,
-        right: 10,
+        bottom: 12,
+        right: commonPadding,
         height: 'auto'
       });
       headerRow.add(room);
-    }
-
-    if (sessionData.start_date) {
-      var startDate = parseISO8601(sessionData.start_date + ':00');
-      var datetime = Ti.UI.createLabel({
-        text: cleanDate(startDate) + ', ' + cleanTime(sessionData.start_date),
-        font: {fontSize: 14, fontWeight: 'normal'},
-        textAlign: 'left',
-        color: '#000',
-        left: 10,
-        top: 'auto',
-        bottom: 10,
-        right: 10,
-        height: 'auto'
-      });
-      headerRow.add(datetime);
     }
 
     if (sessionData.body) {
@@ -119,10 +121,10 @@
         backgroundColor:'#fff',
         textAlign:'left',
         color:'#000',
-        left: 10,
-        top: 10,
-        bottom: 10,
-        right: 10,
+        left: commonPadding,
+        top: 15,
+        bottom: 15,
+        right: commonPadding,
         height: 'auto'
       });
       bodyRow.add(body);
@@ -135,10 +137,10 @@
         textAlign:'left',
         font:{fontSize:18, fontWeight:'bold'},
         color:'#000',
-        left: 10,
+        left: commonPadding,
         top: 10,
         bottom: 'auto',
-        right: 10,
+        right: commonPadding,
         height: 'auto'
       });
       bodyRow.add(problemTitle);
@@ -148,10 +150,10 @@
         backgroundColor:'#fff',
         textAlign:'left',
         color:'#000',
-        left: 10,
+        left: commonPadding,
         top: 5,
         bottom: 10,
-        right: 10,
+        right: commonPadding,
         height: 'auto'
       });
       bodyRow.add(coreProblem);
@@ -164,10 +166,10 @@
         textAlign:'left',
         font:{fontSize:18, fontWeight:'bold'},
         color:'#000',
-        left: 10,
+        left: commonPadding,
         top: 10,
         bottom: 'auto',
-        right: 10,
+        right: commonPadding,
         height: 'auto'
       });
       bodyRow.add(solutionTitle);
@@ -177,10 +179,10 @@
         backgroundColor:'#fff',
         textAlign:'left',
         color:'#000',
-        left: 10,
+        left: commonPadding,
         top: 5,
         bottom: 10,
-        right: 10,
+        right: commonPadding,
         height: 'auto'
       });
       bodyRow.add(coreSolution);
@@ -190,22 +192,23 @@
 
     if (sessionData.type === 'session') {
       var feedbackTitle = Ti.UI.createLabel({
-        text:"Provide Feedback",
-        backgroundColor:'#fff',
+        text:"Rate this session",
+        backgroundColor:'#3782a8',
         textAlign:'left',
         font:{fontSize:18, fontWeight:'bold'},
-        color:'#000',
-        left: 10,
+        color:'#fff',
+        left: commonPadding,
         top: 10,
         bottom: 10,
-        right: 10,
+        right: commonPadding,
         height: 'auto'
       });
 
       var feedbackRow = Ti.UI.createTableViewRow({
         hasChild: true,
         layout:'vertical',
-        className: 'feedbackRow'
+        className: 'feedbackRow',
+        backgroundColor:'#3782A9'
       });
       feedbackRow.add(feedbackTitle);
 
@@ -233,8 +236,8 @@
         backgroundColor: '#fff',
         textAlign: 'left',
         color: '#000',
-        left: 10,
-        right: 10
+        left: commonPadding,
+        right: commonPadding
       });
 
       var audienceTitle = Ti.UI.createLabel({
@@ -245,8 +248,8 @@
         color:'#000',
         left: 0,
         top: 20,
-        bottom: 10,
-        right: 10,
+        bottom: 0,
+        right: commonPadding,
         height: 'auto'
       });
       textViewBottom.add(audienceTitle);
@@ -261,7 +264,7 @@
         left:0,
         right:0,
         top:10,
-        bottom:10
+        bottom:15
       });
 
       textViewBottom.add(audience);
@@ -303,6 +306,7 @@
       className: 'presenterRow',
       borderColor: '#fff',
       hasChild: true,
+      backgroundColor: '#a8d7f0',
       leftImage: 'images/userpict-medium.png',
       layout:'vertical'
     });
@@ -310,7 +314,7 @@
       presenter: presenter,
       text: cleanSpecialChars(presenter.full_name),
       font: {fontSize:18, fontWeight:'bold'},
-      left: 85,
+      left: 90,
       top: 10,
       height: 'auto'
     });
@@ -318,10 +322,10 @@
       presenter: presenter,
       text: presenter.name,
       font:{fontSize:14, fontWeight:'normal'},
-      left: 85,
+      left: 90,
       top: 5,
       height: 'auto',
-      color: "#666"
+      color: "#1f719d"
     });
 
     presRow.add(presenterFullName2);

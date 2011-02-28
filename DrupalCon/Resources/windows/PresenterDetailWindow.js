@@ -39,9 +39,9 @@
       layout:'vertical',
       leftImage:'images/userpict-large.png'
     });
-    var twitterRow = Ti.UI.createTableViewRow({hasChild:true,height:40});
-    var linkedinRow = Ti.UI.createTableViewRow({hasChild:true,height:40});
-    var facebookRow = Ti.UI.createTableViewRow({hasChild:true,height:40});
+    var twitterRow = Ti.UI.createTableViewRow({hasChild:true,height:41});
+    var linkedinRow = Ti.UI.createTableViewRow({hasChild:true,height:41});
+    var facebookRow = Ti.UI.createTableViewRow({hasChild:true,height:41});
     var bioRow = Ti.UI.createTableViewRow({hasChild:false,height:'auto'});
 
     // Content
@@ -102,8 +102,8 @@
         twitter: presenterData.twitter,
         color: '#000',
         font: {fontSize: 14, fontWeight: 'bold'},
-        left: 15,
-        right: 15,
+        left: 10,
+        right: 10,
         height: 'auto'
       });
 
@@ -142,43 +142,45 @@
       tvData.push(bioRow);
     }
 
-    var sessionsTitle = Ti.UI.createLabel({
-      text:"Session(s)",
-      backgroundColor:'#fff',
-      textAlign:'left',
-      font:{fontSize:18, fontWeight:'bold'},
-      color:'#000',
-      top:20,
-      left: 10,
-      bottom: 10,
-      width:itemWidth,
-      height:'auto'
-    });
-
-    var sessionsTitleRow = Ti.UI.createTableViewRow({height: 'auto', className: 'sessionTitleRow', borderColor: '#fff'});
-    sessionsTitleRow.add(sessionsTitle);
-    tvData.push(sessionsTitleRow);
+//    var sessionsTitle = Ti.UI.createLabel({
+//      text:"Session(s)",
+//      backgroundColor:'#fff',
+//      textAlign:'left',
+//      font:{fontSize:18, fontWeight:'bold'},
+//      color:'#000',
+//      top:20,
+//      left: 10,
+//      bottom: 10,
+//      width:itemWidth,
+//      height:'auto'
+//    });
+//
+//    var sessionsTitleRow = Ti.UI.createTableViewRow({height: 'auto', className: 'sessionTitleRow', borderColor: '#fff'});
+//    sessionsTitleRow.add(sessionsTitle);
+//    tvData.push(sessionsTitleRow);
     
     var sessions = getRelatedSessions(presenterData.name);
     var sessionRow = [];
     for (var i in sessions) {
       sessionRow = Ti.UI.createTableViewRow({
         hasChild:true,
-        minHeight:40,
+        minHeight:41,
         sessionTitle:cleanSpecialChars(sessions[i].title),
         nid:sessions[i].nid,
-        height: 'auto'
+        height: 'auto',
+        backgroundColor: '#dc5531'
       });
 
       var titleLabel = Ti.UI.createLabel({
         text: cleanSpecialChars(sessions[i].title),
         font: {fontSize:14, fontWeight:'normal'},
-        color: '#333',
         left: 10,
         top: 10,
         right: 10,
         bottom: 10,
-        height: 'auto'
+        height: 'auto',
+        color: '#fff',
+        font:{fontWeight:'bold'}
       });
       sessionRow.add(titleLabel);
       // create table view event listener
