@@ -53,7 +53,6 @@ var DrupalCon = {
 
     var leftSpace = (Ti.Platform.name == 'android') ? 30 : 40;
     var titleColor = '';
-
     switch (session.track) {
       case "":
         leftSpace = 10;
@@ -147,7 +146,7 @@ var DrupalCon = {
       hasChild:true,
       selectedColor: '#669999',
       backgroundColor: '#fefefe',
-      color: '#000',
+      color: '#3176bd',
       start_date: session.start_date,
       end_date: session.end_date,
       nid: session.nid,
