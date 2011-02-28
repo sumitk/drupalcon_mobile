@@ -5,8 +5,9 @@ var DrupalCon = {
   renderers: {}
 };
 
-(function() {
 
+(function() {
+  var verticalPadding = 2;
   var presenterList = {};
 
   DrupalCon.util.getPresenterList = function() {
@@ -111,11 +112,11 @@ var DrupalCon = {
     // Some sessions have multiple presenters
     var presLabel = Ti.UI.createLabel({
       text: session.instructors.map(DrupalCon.util.getPresenterName).join(', '),
-      font: {fontSize:12, fontWeight:'normal'},
+      font: {fontSize:14, fontWeight:'normal'},
       color: '#000',
       left: leftSpace,
-      top: 'auto',
-      bottom: 5,
+      top: 4,
+      bottom: 0,
       right: 10,
       height: 'auto'
     });
@@ -123,10 +124,10 @@ var DrupalCon = {
     // Some things, like keynote, have multiple rooms
     var roomLabel = Ti.UI.createLabel({
       text: session.room.map(cleanSpecialChars).join(', '),
-      font: {fontSize:12, fontWeight:'bold'},
+      font: {fontSize:14, fontWeight:'normal'},
       color: '#333',
       left: leftSpace,
-      top: 'auto',
+      top: 2,
       bottom: 10,
       right: 10,
       height: 'auto'
@@ -168,10 +169,11 @@ var DrupalCon = {
 
     var titleLabel = Ti.UI.createLabel({
       text: sessionTitle,
-      font: {fontSize:16, fontWeight:'bold'},
+      font: {fontSize:16, fontWeight:'normal'},
       color: titleColor,
       left: leftSpace,
       top: 10,
+      bottom: 2,
       right: 10,
       height: 'auto'
     });
@@ -179,11 +181,11 @@ var DrupalCon = {
     // Some sessions have multiple presenters.
     var presLabel = Ti.UI.createLabel({
       text: session.instructors.map(DrupalCon.util.getPresenterName).join(', '),
-      font: {fontSize:12, fontWeight:'normal'},
+      font: {fontSize:14, fontWeight:'normal'},
       color: '#000',
       left: leftSpace,
-      top: 'auto',
-      bottom: 5,
+      top: 2,
+      bottom: 0,
       right: 10,
       height: 'auto'
     });
@@ -191,10 +193,10 @@ var DrupalCon = {
     // Some things, like keynote, have multiple rooms
     var roomLabel = Ti.UI.createLabel({
       text: session.room.map(cleanSpecialChars).join(', '),
-      font: {fontSize:12, fontWeight:'bold'},
+      font: {fontSize:14, fontWeight:'normal'},
       color: '#333',
       left: leftSpace,
-      top: 'auto',
+      top: 2,
       bottom: 10,
       right: 10,
       height: 'auto'
@@ -244,6 +246,7 @@ var DrupalCon = {
       color: titleColor,
       left: leftSpace,
       top: 10,
+      bottom: 2,
       right: 10,
       height: 'auto'
     });
@@ -253,11 +256,11 @@ var DrupalCon = {
     if (session.instructors) {
       var presLabel = Ti.UI.createLabel({
         text: session.instructors.map(DrupalCon.util.getPresenterName).join(', '),
-        font: {fontSize:12, fontWeight:'normal'},
+        font: {fontSize:14, fontWeight:'normal'},
         color: '#000',
         left: leftSpace,
-        top: 'auto',
-        bottom: 5,
+        top: 2,
+        bottom: 0,
         right: 10,
         height: 'auto'
       });
@@ -266,10 +269,10 @@ var DrupalCon = {
     // Some things, like keynote, have multiple rooms
     var roomLabel = Ti.UI.createLabel({
       text: session.room.map(cleanSpecialChars).join(', '),
-      font: {fontSize:12, fontWeight:'bold'},
+      font: {fontSize:14, fontWeight:'normal'},
       color: '#333',
       left: leftSpace,
-      top: 'auto',
+      top: 2,
       bottom: 10,
       right: 10,
       height: 'auto'

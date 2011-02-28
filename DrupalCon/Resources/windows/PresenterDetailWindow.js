@@ -164,7 +164,6 @@
     for (var i in sessions) {
       sessionRow = Ti.UI.createTableViewRow({
         hasChild:true,
-        minHeight:41,
         sessionTitle:cleanSpecialChars(sessions[i].title),
         nid:sessions[i].nid,
         height: 'auto',

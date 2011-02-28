@@ -68,7 +68,7 @@
     // Some sessions have multiple presenters
     if (sessionData.instructors) {
       var presenterName = Ti.UI.createLabel({
-        text: sessionData.instructors.map(DrupalCon.util.getPresenterName).join(', '),
+        text: cleanSpecialChars(sessionData.instructors.map(DrupalCon.util.getPresenterName).join(', ')),
         font: {fontSize:18, fontWeight:'normal'},
         color: '#000',
         left: commonPadding,
@@ -198,15 +198,14 @@
         font:{fontSize:18, fontWeight:'bold'},
         color:'#fff',
         left: commonPadding,
-        top: 10,
-        bottom: 10,
         right: commonPadding,
-        height: 'auto'
+        height: 50
       });
 
       var feedbackRow = Ti.UI.createTableViewRow({
         hasChild: true,
         layout:'vertical',
+        height: 50,
         className: 'feedbackRow',
         backgroundColor:'#3782A9'
       });
