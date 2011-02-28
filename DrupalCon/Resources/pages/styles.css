@@ -1,0 +1,28 @@
+body {
+  color: #000;
+  font-family: arial, helvetica, sans-serif;
+  font-size: 14px;
+  background: #fff;
+}
+
+div {
+  text-align:left;
+  color: #000;
+  font-family: arial, helvetica, sans-serif;
+  font-size: 12px;
+  padding: 10px;
+  border-bottom: 1px solid #666;
+}
+span.sponsor {
+  font-style: italic;
+}
+body { background-color:#fff; }
+h1 {
+  font-size: 1.6em;
+}
+h2 {
+  font-size: 1.4em;
+}
+h3 {
+  font-size: 1.2em;
+}
