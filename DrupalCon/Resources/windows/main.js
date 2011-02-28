@@ -37,6 +37,12 @@
       window: DrupalCon.ui.createPresentersWindow(tabGroup)
   }));
 
+  tabGroup.addTab(Titanium.UI.createTab({
+      icon: (isAndroid()) ? 'images/tabs/bofs_android.png' : 'images/tabs/about.png',
+      title: 'About',
+      window: DrupalCon.ui.createAboutWindow(tabGroup)
+  }));
+
   tabGroup.addEventListener('open',function() {
     // set background color back to white after tab group transition
     Titanium.UI.setBackgroundColor('#fff');

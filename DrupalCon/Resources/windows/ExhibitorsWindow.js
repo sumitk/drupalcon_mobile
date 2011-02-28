@@ -16,9 +16,8 @@
       tabGroup: settings.tabGroup
     });
 
-
-  var web = Ti.UI.createWebView({url:'windows/exhibitors.html'});
-  exhibitorsWindow.add(web);
+    var web = Ti.UI.createWebView({url: 'windows/exhibitors.html'});
+    exhibitorsWindow.add(web);
 
     return exhibitorsWindow;
   };
