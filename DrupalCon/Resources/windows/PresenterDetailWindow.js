@@ -32,6 +32,17 @@ dpm(presenterData);
     });
 
     var userPict = 'http://chicago2011.drupal.org/sites/default/files/pictures/picture-'+presenterData.uid+'.jpg';
+    //if (isAndroid()) {
+      var dir = Ti.Filesystem.applicationDataDirectory;
+      var f = Ti.Filesystem.getFile(dir,'av-'+presenterData.uid+'.png');
+      if (f.exists()) {
+        userPict = f.nativePath;
+      }
+      else {
+        userPict = 'images/userpict-large.png';
+      }
+      
+    //}
     var av = Ti.UI.createImageView({
       image:userPict,
       left:0,
