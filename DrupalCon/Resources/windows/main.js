@@ -74,7 +74,6 @@
         var buttons = [];
         buttons.push({
           title: "Update",
-          buttonType: REFRESH,
           clickevent: function () {
             Ti.fireEvent('drupalcon:update_data');
           }
