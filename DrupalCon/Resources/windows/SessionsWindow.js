@@ -50,6 +50,42 @@
       layout:'vertical'
     });
 
+    // Add a menu or button for a track legend
+    if (isAndroid()){
+      // Android has a menu
+      var buttons = [];
+      sessionsWindow.activity.onCreateOptionsMenu = function(e) {
+        var menu = e.menu;
+
+        var m1 = menu.add({
+          title : 'Track Legend'
+        });
+        m1.addEventListener('click', function(e) {
+          var modal = Ti.UI.createWindow({ modal:true });
+          var wv = Ti.UI.createWebView({url: 'pages/legend.html', title: 'Track Legend'});
+          modal.add(wv);
+          wv.open({animated:true});
+        });
+      };
+    }
+    else {
+      // iOS should only have the button.
+      var button = Ti.UI.createButton({
+        systemButton: Ti.UI.iPhone.SystemButton.INFO_LIGHT
+      });
+      var win = sessionsWindow;
+      win.rightNavButton = button;
+      button.addEventListener('click', function() {
+        var currentTab = (Ti.Platform.name == 'android') ? currentTab = Titanium.UI.currentTab : sessionsWindow.tabGroup.activeTab;
+          currentTab.open(DrupalCon.ui.createHtmlWindow({
+            title: 'Track Legend',
+            url: 'pages/legend.html',
+            tabGroup: currentTab
+        }), {animated:true});
+
+      });
+    }
+
     sessionsWindow.addEventListener('focus', function() {
       uiEnabled = true;
     });

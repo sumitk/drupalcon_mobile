@@ -183,9 +183,9 @@
     if (rows) {
       while (rows.isValidRow()) {
         var uid = rows.fieldByName('uid');
-        if(isAndroid()) {
+        //if(isAndroid()) {
           populateAvatar(uid);
-        }
+        //}
         //dpm(rows.fieldByName('full_name'));
         var full = rows.fieldByName('full_name');
         if (full) {
