@@ -73,7 +73,8 @@ Ti.include(
   'windows/PresentersWindow.js',
   'windows/SessionsWindow.js',
   'windows/SessionDetailWindow.js',
-  'windows/PresenterDetailWindow.js'
+  'windows/PresenterDetailWindow.js',
+  'windows/AboutWindow.js'
 );
 
 Ti.include('windows/main.js');
