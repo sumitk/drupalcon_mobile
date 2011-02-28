@@ -62,8 +62,9 @@
           });
           m1.addEventListener('click', function(e) {
             var currentTab = (Ti.Platform.name == 'android') ? currentTab = Titanium.UI.currentTab : mapDetailWindow.tabGroup.activeTab;
-            currentTab.open(DrupalCon.ui.createExhibitorsWindow({
+            currentTab.open(DrupalCon.ui.createHtmlWindow({
               title: 'Exhibitors',
+              url: 'pages/exhibitors.html',
               tabGroup: currentTab
             }), {animated:true});
           });
