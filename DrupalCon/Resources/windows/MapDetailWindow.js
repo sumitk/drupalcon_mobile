@@ -24,20 +24,20 @@
       if (isAndroid()){
         // Android has a menu
         var buttons = [];
-        buttons.push({
-          title: "Exhibitors",
-          clickevent: function () {
+
+        mapDetailWindow.activity.onCreateOptionsMenu = function(e) {
+          var menu = e.menu;
+          var m1 = menu.add({
+            title : 'Exhibitors'
+          });
+          m1.addEventListener('click', function(e) {
             var currentTab = (Ti.Platform.name == 'android') ? currentTab = Titanium.UI.currentTab : mapDetailWindow.tabGroup.activeTab;
             currentTab.open(DrupalCon.ui.createExhibitorsWindow({
               title: 'Exhibitors',
               tabGroup: currentTab
             }), {animated:true});
-          }
-        });
-        menu.init({
-          win: mapDetailWindow,
-          buttons: buttons
-        });
+          });
+        };
       }
       else {
         // iOS should only have the button.
