@@ -61,12 +61,8 @@
 
   // Add a menu to all pages except news (which would be confusing).
   tabGroup.addEventListener('focus', function(e) {
-    dpm(e.index);
-    if (!e.index) {
-      alert("YAY, tab 0!");
-    }
-    dpm( tabGroup.tabs[e.index].window);
-    if (e.index == 0.0 || e.index == 3.0 || e.index == 0 || e.index == 3){
+    //dpm(e.index);
+    if (e.index != 1 && e.index !=2){
       if (isAndroid()){
         // Android has a menu
         var buttons = [];

@@ -54,13 +54,11 @@
       uiEnabled = true;
     });
 
-    var currentTab = (Ti.Platform.name == 'android') ? currentTab = Titanium.UI.currentTab : sessionsWindow.tabGroup.activeTab;
-
     // Create table view event listener.
     tableview.addEventListener('click', function(e) {
       if (uiEnabled) {
         uiEnabled = false;
-        //var currentTab = (Ti.Platform.name == 'android') ? currentTab = Titanium.UI.currentTab : sessionsWindow.tabGroup.activeTab;
+        var currentTab = (Ti.Platform.name == 'android') ? currentTab = Titanium.UI.currentTab : sessionsWindow.tabGroup.activeTab;
         currentTab.open(DrupalCon.ui.createSessionDetailWindow({
           title: e.rowData.sessionTitle,
           nid: e.rowData.nid,
@@ -68,20 +66,6 @@
         }), {animated:true});
       }
     });
-
-
-    if (Ti.Platform.name == 'android') {
-      sessionsWindow.activity.onCreateOptionsMenu = function(e) {
-        var menu = e.menu;
-
-        var m1 = menu.add({
-          title : 'Update'
-        });
-        m1.addEventListener('click', function(e) {
-          Ti.fireEvent('drupalcon:update_data');
-        });
-      };
-    }
 
     // add table view to the window
     sessionsWindow.add(tableview);
