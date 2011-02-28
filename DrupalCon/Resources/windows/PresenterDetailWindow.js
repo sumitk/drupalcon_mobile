@@ -56,7 +56,7 @@
     
     if (presenterData.full_name != undefined) {
       var fullName = Ti.UI.createLabel({
-        text: presenterData.full_name,
+        text: cleanSpecialChars(presenterData.full_name),
         font: {fontSize: 20, fontWeight: 'bold'},
         textAlign: 'left',
         color: '#000',
@@ -70,7 +70,7 @@
     }
 
     var name = Ti.UI.createLabel({
-      text: (presenterData.full_name !== presenterData.name) ? presenterData.name : '',
+      text: (presenterData.full_name !== presenterData.name) ? cleanSpecialChars(presenterData.name) : '',
       font: {fontSize: 14, fontWeight: 'bold'},
       textAlign: 'left',
       color: '#666',
@@ -98,10 +98,10 @@
 
     if (presenterData.twitter != undefined){
       var twitter = Ti.UI.createLabel({
-        text:"twitter: " + presenterData.name,
-        twitter:presenterData.twitter,
-        color:'#000',
-        font:{fontSize: 14, fontWeight: 'bold'},
+        text: "twitter: " + presenterData.name,
+        twitter: presenterData.twitter,
+        color: '#000',
+        font: {fontSize: 14, fontWeight: 'bold'},
         left: 15,
         right: 15,
         height: 'auto'
