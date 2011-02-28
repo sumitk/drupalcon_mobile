@@ -13,10 +13,10 @@
 
     // create table view data object
     var data = [
-      {title: 'Level One - Exhibit Hall',info:true, hasChild:true, backgroundSelectedColor:'#0779BE', color: '#000', image:'images/maps/level1.png'},
-      {title: 'Level Two - Meeting Rooms', hasChild:true, backgroundSelectedColor:'#0779BE', color: '#000', image:'images/maps/level2.png'},
-      {title: 'Level Three - Lobby', hasChild:true, backgroundSelectedColor:'#0779BE', color: '#000', image:'images/maps/level3.png'},
-      {title: 'Level Four - Ballroom', hasChild:true, backgroundSelectedColor:'#0779BE', color: '#000', image:'images/maps/level4.png'}
+      {title: 'Level 1 - Exhibit Hall',info:true, hasChild:true, backgroundSelectedColor:'#0779BE', color: '#000', image:'images/maps/level1.png'},
+      {title: 'Level 2 - Meeting Rooms', hasChild:true, backgroundSelectedColor:'#0779BE', color: '#000', image:'images/maps/level2.png'},
+      {title: 'Level 3 - Lobby', hasChild:true, backgroundSelectedColor:'#0779BE', color: '#000', image:'images/maps/level3.png'},
+      {title: 'Level 4 - Ballroom', hasChild:true, backgroundSelectedColor:'#0779BE', color: '#000', image:'images/maps/level4.png'}
     ];
 
     // create table view
