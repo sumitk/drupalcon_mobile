@@ -1,22 +1,9 @@
 body {
   color: #000;
-  font-family: arial, helvetica, sans-serif;
+  font-family: Helvetica, Arial, sans-serif;
   font-size: 14px;
   background: #fff;
 }
-
-div {
-  text-align:left;
-  color: #000;
-  font-family: arial, helvetica, sans-serif;
-  font-size: 12px;
-  padding: 10px;
-  border-bottom: 1px solid #666;
-}
-span.sponsor {
-  font-style: italic;
-}
-body { background-color:#fff; }
 h1 {
   font-size: 1.6em;
 }
@@ -25,4 +12,96 @@ h2 {
 }
 h3 {
   font-size: 1.2em;
+}
+p {
+  text-align:left;
+  color: #000;      
+  font-size: 12px;
+  padding: 0 10px;
+  margin-right:10px;
+}
+span {
+  padding: 0;
+  margin: 0;
+}
+span.sponsor {
+  font-style: italic;
+}
+
+/* About page 
+-------------------------------- */
+
+
+/* Monday page 
+-------------------------------- */
+
+
+/* Tuesday page 
+-------------------------------- */
+
+
+/* Legend page 
+-------------------------------- */
+.legend .clear { 
+  display: block; height: 2px; 
+}
+.legend div {
+  text-align:left;
+  color: #000;
+  font-size: 12px;
+  padding: 10px;
+  border-bottom: 1px solid #666;
+}
+.legend h2 {
+  padding: 15px 10px 0px;
+  margin: -12px 0 -5px 28px;
+  font-size: 16px;
+}
+.legend img {
+  height: 21px;
+  width: 21px;
+  float: left;
+  padding-left: 10px;
+}
+.coreconv {
+  color: #3176bd; 
+}
+.daystage { 
+  color: #ab7d66; 
+}
+.dmb { 
+  color: #269477; 
+}
+.coder { 
+  color: #e76828; 
+}
+.config { 
+  color: #f0b539; 
+}
+.community { 
+  color: #7fbfea; 
+}
+.theming { 
+  color: #e5393e; 
+}
+.business { 
+  color: #85a951; 
+}
+.uxdesign { 
+  color: #dd3793; 
+}
+
+/* Exhbitors page
+-------------------------------- */
+.exhibitors div { 
+  text-align:left;
+  color: #000;
+  font-family: arial, helvetica, sans-serif;
+  font-size: 12px;
+  padding: 10px;
+  margin-right:10px;
+  border-bottom: 1px solid #bbb;
+}
+.exhibitors span { 
+  float: right; 
 }
