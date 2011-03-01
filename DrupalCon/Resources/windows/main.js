@@ -4,7 +4,7 @@
 
   // create tab group
   var tabGroup = Titanium.UI.createTabGroup({
-    id:'tabGroup1',
+    id:'tabGroup1'
   });
 
   tabGroup.addTab(Titanium.UI.createTab({
