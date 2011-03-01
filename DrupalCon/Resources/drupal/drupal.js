@@ -174,7 +174,6 @@ Drupal.getObjectProperties = function(o) {
     // Needed to avoid 'this' confusion in the callback. Blech.
     var win = this.messageWindow;
     setTimeout(function() {
-      Ti.API.info('Window.close about to be called for: ' + win.debugText);
       win.close({opacity:0,duration:2000});
     }, time);
   };
