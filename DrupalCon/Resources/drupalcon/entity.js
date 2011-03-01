@@ -158,7 +158,18 @@ Drupal.entity.sites.main.types.user.schema = {
     else {
       values.full_name = entity.name;
     }
-
+    
+    dpm(entity.picture);
+    var dir = Ti.Filesystem.applicationDataDirectory;
+    var f = Ti.Filesystem.getFile(dir,entity.picture);
+    if(!f.exists()) {
+      var xhr = Titanium.Network.createHTTPClient();
+      xhr.onload = function() {
+        f.write(this.responseData);
+      };
+      xhr.open('GET', entity.picture);
+      xhr.send();
+    }
   },
 
   /**
