@@ -108,6 +108,30 @@ body.about {
 /* Monday page 
 -------------------------------- */
 
+body.day {
+  padding: 0;
+  margin: 0;
+}
+dt {
+  background: url('timebreak-gradient.png') top center repeat-x;
+  height: 23px;
+  color: #fff;
+  padding: 2px 0 0 10px;
+  font-size: 16px;
+  text-shadow: 0 1px 1px #444;
+  font-weight: bold;
+}
+dd {
+  margin: 5px 10px;
+}
+.day h2 {
+  margin-top: 13px;
+  font-size: 18px;
+}
+.day p.first {
+  margin-top: 0.5em;
+}
+
 
 /* Tuesday page 
 -------------------------------- */
