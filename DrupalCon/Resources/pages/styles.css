@@ -50,6 +50,22 @@ p {
   line-height: 1.4em;
   margin: 1em 0;
 }
+a {
+  color: #095c8e;
+}
+ul {
+  font-size: 13px;
+  line-height: 1.4em;
+  margin: 0;
+  padding: 0 0 0 1.5em;
+}
+li {
+  padding: 0;
+}
+dd {
+  margin: 0;
+  padding: 0;
+}
 span {
   padding: 0;
   margin: 0;
@@ -63,21 +79,22 @@ span.sponsor {
 body.about {
   background: url('tower.png') no-repeat top right;
   padding-top: 310px;
-  margin: 0 20px 10px;
-  
+  margin: 0 20px 10px;  
 }
 .about h1,
 .about h2 {
   color: #dc5531;
   text-align: left;
-  font-size: 1.27em;
+  font-size: 1.4em;
   font-weight: normal;
   letter-spacing: 0.1px;
+  margin-right:10px;
 }
 .about section {
   border-bottom: 1px solid #FFA28B;
   margin-bottom: 20px;
   padding-bottom: 5px;
+  margin-right:10px;
 }
 .about section.last {
   border-bottom:none;
@@ -95,6 +112,44 @@ body.about {
 /* Tuesday page 
 -------------------------------- */
 
+
+/* Registration page 
+-------------------------------- */
+body.registration {
+  padding: 0;
+  margin: 0;
+}
+.registration p,
+.registration ul {
+  margin-left:15px;
+  margin-right: 15px;
+}
+.registration h2 {
+  color: #C0EAFB;
+  text-align: center;
+  padding: 0.3em 0 0.2em;
+  background: url('gear.png') top center;
+  font-size: 180%;
+}
+
+/* BoFs page 
+-------------------------------- */
+body.bofs {
+  padding: 0;
+  margin: 0;
+}
+.bofs p,
+.bofs ul {
+  margin-left:15px;
+  margin-right: 15px;
+}
+.bofs h2 {
+  color: #C0EAFB;
+  text-align: center;
+  padding: 0.3em 0 0.2em;
+  background: url('gear.png') top center;
+  font-size: 180%;
+}
 
 /* Legend page 
 -------------------------------- */
