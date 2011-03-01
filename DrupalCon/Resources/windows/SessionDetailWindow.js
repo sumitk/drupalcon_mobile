@@ -298,12 +298,7 @@
 
   function renderPresenter(presenter) {
 
-    var userPict = 'images/userpict-large.png';
-    var adir = Ti.Filesystem.resourcesDirectory;
-    var f = Ti.Filesystem.getFile(adir,'/images/avatars/picture-'+presenter.uid+'.jpg');
-    if (f.exists()) {
-      userPict = 'images/avatars/picture-'+presenter.uid+'.jpg';
-    }
+    var userPict = avatarPath(presenter.uid);
 
     var av = Ti.UI.createImageView({
       image:userPict,

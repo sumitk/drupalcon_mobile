@@ -29,13 +29,8 @@
       layout:'vertical'
     });
 
-    var userPict = 'images/userpict-large.png';
-    var adir = Ti.Filesystem.resourcesDirectory;
-    var f = Ti.Filesystem.getFile(adir,'/images/avatars/picture-'+presenterData.uid+'.jpg');
-    dpm(adir + " " + f);
-    if (f.exists()) {
-      userPict = 'images/avatars/picture-'+presenterData.uid+'.jpg';
-    }
+    var userPict = avatarPath(presenterData.uid);
+    dpm(userPict);
     
     var av = Ti.UI.createImageView({
       image:userPict,
