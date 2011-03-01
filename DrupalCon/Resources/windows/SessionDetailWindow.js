@@ -14,8 +14,6 @@
       tabGroup: settings.tabGroup
     });
 
-    var itemWidth = (Ti.Platform.name == 'android') ? (Ti.UI.currentWindow.width - 40) : (sessionDetailWindow.width - 40);
-
     // Build session data
     var sessionData = Drupal.entity.db('main', 'node').load(settings.nid);
     
