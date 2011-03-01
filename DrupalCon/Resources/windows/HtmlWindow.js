@@ -18,7 +18,8 @@
     });
     
     htmlWindow.add(Ti.UI.createWebView({
-      url: settings.url
+      url: settings.url,
+      scalesPageToFit: true
     }));
 
     return htmlWindow;
