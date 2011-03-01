@@ -98,7 +98,12 @@
     // actually completely wrong. It's hacked in for the site display, but
     // wrong for the mobile app.  We do want to show rooms for the keynotes,
     // however, which is why we can't jus exclude schedule_items.
-    if (sessionData.room && sessionData.title !== 'Lunch' && sessionData.title !== 'Break') {
+    var skipRoom;
+    if (sessionData.title === 'Lunch' || sessionData.title === 'Break' || sessionData.title.indexOf('Party') !== -1) {
+      skipRoom = true;
+    }
+
+    if (sessionData.room && !skipRoom) {
       var room = Ti.UI.createLabel({
         text: sessionData.room.map(cleanSpecialChars).join(', '),
         font: {fontSize: 18, fontWeight: 'normal'},
