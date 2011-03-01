@@ -62,19 +62,30 @@ span.sponsor {
 -------------------------------- */
 body.about {
   background: url('tower.png') no-repeat top right;
-  padding-top: 290px;
-  margin: 0 12px 10px;
+  padding-top: 310px;
+  margin: 0 20px 10px;
   
 }
 .about h1,
 .about h2 {
   color: #dc5531;
   text-align: left;
-  font-size: 1.4em;
+  font-size: 1.27em;
+  font-weight: normal;
+  letter-spacing: 0.1px;
 }
-.about section.main {
-  border-bottom: 1px solid #dc5531;
+.about section {
+  border-bottom: 1px solid #FFA28B;
   margin-bottom: 20px;
+  padding-bottom: 5px;
+}
+.about section.last {
+  border-bottom:none;
+  margin-bottom: 20px;
+  padding-bottom: 0;
+}
+.about p {
+  margin: 0.6em 0;
 }
 
 /* Monday page 
