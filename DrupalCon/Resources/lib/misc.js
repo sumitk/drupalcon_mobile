@@ -31,17 +31,22 @@ function avatarPath(uid) {
   // images/avatars directory
   var adir = Ti.Filesystem.resourcesDirectory;
   var af = Ti.Filesystem.getFile(adir,'images/avatars/picture-'+uid+'.jpg');
+  var result = '';
   if(f.exists()) {
-    dpm("used f: " + dir)
-    return dir+'/picture-'+uid+'.jpg';
+    result = dir+'/picture-'+uid+'.jpg';
   }
   else if (af.exists()) {
-    dpm("used af: " + adir)
-    return adir + '/images/avatars/picture-'+uid+'.jpg';
+    if (isAndroid()) {
+      result = 'images/avatars/picture-'+uid+'.jpg';
+    }
+    else {
+      result = adir + '/images/avatars/picture-'+uid+'.jpg';
+    }
   }
   else {
-    return 'images/userpict-large.png';
+    result = 'images/userpict-large.png';
   }
+  return result;
 }
 /* 
  * Build presenter data blob
