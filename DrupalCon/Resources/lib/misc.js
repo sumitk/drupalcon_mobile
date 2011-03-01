@@ -24,7 +24,25 @@ function getAvatars(picture,uid) {
   }
 }
 
-
+function avatarPath(uid) {
+  var dir = Ti.Filesystem.applicationDataDirectory;
+  // Local app data directory
+  var f = Ti.Filesystem.getFile(dir,'picture-'+uid+'.jpg');
+  // images/avatars directory
+  var adir = Ti.Filesystem.resourcesDirectory;
+  var af = Ti.Filesystem.getFile(adir,'images/avatars/picture-'+uid+'.jpg');
+  if(f.exists()) {
+    dpm("used f: " + dir)
+    return dir+'/picture-'+uid+'.jpg';
+  }
+  else if (af.exists()) {
+    dpm("used af: " + adir)
+    return adir + '/images/avatars/picture-'+uid+'.jpg';
+  }
+  else {
+    return 'images/userpict-large.png';
+  }
+}
 /* 
  * Build presenter data blob
  */

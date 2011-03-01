@@ -18,8 +18,6 @@
       tabGroup: settings.tabGroup
     });
 
-    var itemWidth = (Ti.Platform.name == 'android') ? (Ti.UI.currentWindow.width - 40) : (presenterDetailWindow.width - 40);
-
     var tvData = [];
     var blueBg = '#C4E2EF';
     var	platformWidth = Ti.Platform.displayCaps.platformWidth;
@@ -31,13 +29,8 @@
       layout:'vertical'
     });
 
-    var userPict = 'images/userpict-large.png';
-    var adir = Ti.Filesystem.resourcesDirectory;
-    var f = Ti.Filesystem.getFile(adir,'/images/avatars/picture-'+presenterData.uid+'.jpg');
-    dpm(adir + " " + f);
-    if (f.exists()) {
-      userPict = 'images/avatars/picture-'+presenterData.uid+'.jpg';
-    }
+    var userPict = avatarPath(presenterData.uid);
+    dpm(userPict);
     
     var av = Ti.UI.createImageView({
       image:userPict,
@@ -73,8 +66,7 @@
         height: 'auto',
         left: 120,
         top: -95,
-        ellipsize:true,
-        width: itemWidth - 120
+        ellipsize:true
       });
       headerRow.add(fullName);
     }
@@ -86,7 +78,6 @@
       color: '#04679C',
       height: 'auto',
       left: 120,
-      width: itemWidth,
       top: (presenterData.full_name != undefined) ? 2 : -95
     });
     headerRow.add(name);
@@ -98,8 +89,7 @@
         textAlign: 'left',
         color: '#999',
         height: 'auto',
-        left: 120,
-        width: itemWidth - 120
+        left: 120
       });
       headerRow.add(company);
     }
