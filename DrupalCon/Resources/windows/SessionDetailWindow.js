@@ -88,7 +88,7 @@
         left: commonPadding,
         top: 'auto',
         bottom: 5,
-        right: commonPadding,
+        right: 'auto',
         height: 'auto'
       });
       headerRow.add(datetime);
