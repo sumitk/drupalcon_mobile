@@ -6,7 +6,6 @@ h1, h2, h3, h4, h5, h6, p {
   padding:0;
   border:0;
   outline:0;
-  font-size:100%;
   vertical-align:baseline;
   background:transparent;
 }                  
@@ -23,7 +22,7 @@ footer, header, hgroup, menu, nav, section {
 body {
   color: #000;
   font-family: Helvetica, Arial, sans-serif;
-  font-size: 14px;
+  font-size: 16px;
   background: #fff;
   margin: 10px 8px 8px;
 
@@ -46,7 +45,6 @@ h3 {
 p {
   text-align:left;
   color: #000;      
-  font-size: 13px;
   line-height: 1.4em;
   margin: 1em 0;
 }
@@ -54,7 +52,7 @@ a {
   color: #095c8e;
 }
 ul {
-  font-size: 13px;
+  font-size: 15px;
   line-height: 1.4em;
   margin: 0;
   padding: 0 0 0 1.5em;
@@ -107,6 +105,30 @@ body.about {
 
 /* Monday page 
 -------------------------------- */
+
+body.day {
+  padding: 0;
+  margin: 0;
+}
+dt {
+  background: url('timebreak-gradient.png') top center repeat-x;
+  height: 23px;
+  color: #fff;
+  padding: 2px 0 0 10px;
+  font-size: 16px;
+  text-shadow: 0 1px 1px #444;
+  font-weight: bold;
+}
+dd {
+  margin: 5px 10px;
+}
+.day h2 {
+  margin-top: 13px;
+  font-size: 18px;
+}
+.day p.first {
+  margin-top: 0.5em;
+}
 
 
 /* Tuesday page 
