@@ -300,18 +300,13 @@
 
   function renderPresenter(presenter) {
 
-    var userPict = 'http://chicago2011.drupal.org/sites/default/files/pictures/picture-'+presenter.uid+'.jpg';
-    if (isAndroid()) {
-      var dir = Ti.Filesystem.applicationDataDirectory;
-      var f = Ti.Filesystem.getFile(dir,'av-'+presenter.uid+'.png');
-      if (f.exists()) {
-        userPict = f.nativePath;
-      }
-      else {
-        userPict = 'images/userpict-large.png';
-      }
-
+    var userPict = 'images/userpict-large.png';
+    var adir = Ti.Filesystem.resourcesDirectory;
+    var f = Ti.Filesystem.getFile(adir,'/images/avatars/picture-'+presenter.uid+'.jpg');
+    if (f.exists()) {
+      userPict = 'images/avatars/picture-'+presenter.uid+'.jpg';
     }
+
     var av = Ti.UI.createImageView({
       image:userPict,
       left:0,

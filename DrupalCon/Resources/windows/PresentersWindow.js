@@ -183,9 +183,6 @@
     if (rows) {
       while (rows.isValidRow()) {
         var uid = rows.fieldByName('uid');
-        if(isAndroid()) {
-          populateAvatar(uid);
-        }
         //dpm(rows.fieldByName('full_name'));
         var full = rows.fieldByName('full_name');
         if (full) {
@@ -203,25 +200,6 @@
     }
 
     return nameList;
-  }
-
-  function populateAvatar(uid) {
-    // Storing avatars for later use but checking to make sure we didn't
-    // already store it.
-    var net = Titanium.Network;
-    var up = net.online;
-    if (up) {
-      var dir = Ti.Filesystem.applicationDataDirectory;
-      var f = Ti.Filesystem.getFile(dir,'av-'+uid+'.png');
-      if(!f.exists()) {
-        var xhr = Titanium.Network.createHTTPClient();
-        xhr.onload = function() {
-          f.write(this.responseData);
-        };
-        xhr.open('GET', 'http://chicago2011.drupal.org/sites/default/files/pictures/picture-'+uid+'.jpg');
-        xhr.send();
-      }
-    }
   }
   
 })();
