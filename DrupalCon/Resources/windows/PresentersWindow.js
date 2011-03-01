@@ -6,7 +6,7 @@
   DrupalCon.ui.createPresentersWindow = function(tabGroup) {
     var PresentersWindow = Titanium.UI.createWindow({
       id: 'presentersWindow',
-      title: 'Presenters',
+      title: 'Speakers',
       backgroundColor: '#FFF',
       tabGroup: tabGroup
     });
